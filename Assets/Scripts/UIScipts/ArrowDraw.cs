@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections.Generic;
 
 public class ArrowDraw : MonoBehaviour
 {
@@ -174,7 +173,7 @@ public class ArrowDraw : MonoBehaviour
                 }
             }
             Debug.Log(bearing);
-            temp.arrowHead = Instantiate(arrowHead, new Vector3(x2, arrowHeight, y2), Quaternion.Euler(90, bearing, 0));
+            temp.arrowHead = Instantiate(arrowHead, new Vector3(x2, arrowHeight + 0.01f, y2), Quaternion.Euler(90, bearing, 0));
             temp.arrowHead.transform.SetParent(temp.arrowGameObject.transform);
 
             drawnArrows.Add(temp);
