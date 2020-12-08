@@ -21,7 +21,7 @@ public class BoardHandlerScript : MonoBehaviour
     public void ShowIndicators(bool show, List<(int x, int y)> spaces){
         if (show){
             foreach ((int x, int y) space in spaces){
-                Instantiate(indicator, new Vector3(space.x, 1.5f, space.y), new Quaternion(0, 0, 0, 0), GameObject.Find("MoveIndicators").transform);
+                Instantiate(indicator, new Vector3(space.x, 1.5f, space.y), Quaternion.Euler(90,0,0), GameObject.Find("MoveIndicators").transform);
             }
         }
         else{
