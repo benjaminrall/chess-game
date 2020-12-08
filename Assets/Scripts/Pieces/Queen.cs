@@ -8,6 +8,7 @@ public class Queen : Piece
 
     public override bool checkIsValidMove(int attemptedX, int attemptedY)
     {
+        /*
         if (!(0 <= attemptedX && attemptedX <= 7 && 0 <= attemptedY && attemptedY <= 7))    // check if in bounds of board
         {
             return false;
@@ -47,7 +48,16 @@ public class Queen : Piece
         else
         {
             return false;
+        }*/
+        foreach ((int x, int y) space in availableSpaces){
+            if (attemptedX == space.x && attemptedY == space.y){
+                if (PieceAt(attemptedX, attemptedY)){
+                    TakePieceAt(attemptedX, attemptedY, colour);
+                }
+                return true;
+            }
         }
+        return false;
     }
 
     public override void FindAvailableSpaces(){
