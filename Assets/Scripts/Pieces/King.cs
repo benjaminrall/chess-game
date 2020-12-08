@@ -16,7 +16,7 @@ public class King : Piece
         (Math.Abs(attemptedX - pieceX) + Math.Abs(attemptedY - pieceY) == 2))
         {
             if (PieceAt(attemptedX, attemptedY, colour)){
-                TakePieceAt(attemptedX, attemptedY);
+                TakePieceAt(attemptedX, attemptedY, colour);
                 return true;
             }
             if (PieceAt(attemptedX, attemptedY)){

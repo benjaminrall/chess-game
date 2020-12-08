@@ -121,7 +121,6 @@ public class ArrowDraw : MonoBehaviour
             float dx = (x2 - x1);
             float dy = (y2 - y1);
 
-            Debug.Log(dx + "  " + dy);
             if (dx > 0 && dy > 0) // Upper Right
             {
                 dx = Mathf.Abs(dx);
@@ -172,7 +171,6 @@ public class ArrowDraw : MonoBehaviour
                     bearing = 270;
                 }
             }
-            Debug.Log(bearing);
             temp.arrowHead = Instantiate(arrowHead, new Vector3(x2, arrowHeight + 0.01f, y2), Quaternion.Euler(90, bearing, 0));
             temp.arrowHead.transform.SetParent(temp.arrowGameObject.transform);
 

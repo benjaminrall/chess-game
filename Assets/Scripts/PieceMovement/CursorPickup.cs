@@ -27,7 +27,7 @@ public class CursorPickup : MonoBehaviour
             GO = null;
         }
 
-        if (Input.GetMouseButtonDown(0) && GO != null && GO.GetComponent<Piece>().colour == BHS.turn){ // Pickup piece boolean
+        if (Input.GetMouseButtonDown(0) && GO != null && GO.GetComponent<Piece>().colour == BHS.turn && !GO.GetComponent<Piece>().dead){ // Pickup piece boolean
             HoldingPiece = true;
             HeldPieceGO = GO;
 

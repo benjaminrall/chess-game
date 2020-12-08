@@ -50,7 +50,7 @@ public class Pawn : Piece
             (attemptedX - pieceX == directions[1].x && attemptedY - pieceY == directions[1].y) || 
             (attemptedX - pieceX == directions[2].x && attemptedY - pieceY == directions[2].y)){
             if (PieceAt(attemptedX, attemptedY, colour)){
-                TakePieceAt(attemptedX, attemptedY);
+                TakePieceAt(attemptedX, attemptedY, colour);
                 if (!hasMoved){
                     hasMoved = true;
                 }

@@ -11,6 +11,10 @@ public class Piece : MonoBehaviour
     public int pieceY;
     [HideInInspector]
     public List<(int x, int y)> availableSpaces = new List<(int x, int y)>();
+    [HideInInspector]
+    public bool dead = false;
+    [HideInInspector]
+    public int killedByColour;
     
     private Transform pieces;
     private BoardHandlerScript BHS;
@@ -56,12 +60,12 @@ public class Piece : MonoBehaviour
         }
     }
 
-    public void TakePieceAt(int x, int y){
+    public void TakePieceAt(int x, int y, int c){
         foreach(Transform child in pieces)
         {
             if (child.gameObject.GetComponent<Piece>().pieceX == x && child.gameObject.GetComponent<Piece>().pieceY == y)
             {
-                Destroy(child.gameObject);
+                child.gameObject.GetComponent<Piece>().Kill(c);
             }
         }
     }
@@ -72,7 +76,7 @@ public class Piece : MonoBehaviour
                 return false;
             }
             else if (PieceAt(pieceX + (xm * i), pieceY + (ym * i), colour) && i == max){
-                TakePieceAt(pieceX + (xm * i), pieceY + (ym * i));
+                TakePieceAt(pieceX + (xm * i), pieceY + (ym * i), colour);
             }
             else if(PieceAt(pieceX + (xm * i), pieceY + (ym * i)) && i == max){
                 return false;
@@ -98,5 +102,12 @@ public class Piece : MonoBehaviour
 
     public virtual void FindAvailableSpaces(){
         availableSpaces = new List<(int x, int y)>();
+    }
+
+    public void Kill(int colour){
+        dead = true;
+        killedByColour = colour;
+        transform.parent = GameObject.Find("DeadPieces").transform;
+        gameObject.SetActive(false);
     }
 }

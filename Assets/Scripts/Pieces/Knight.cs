@@ -18,7 +18,7 @@ public class Knight : Piece
         }
         else if (!(attemptedY - pieceY == 0 || attemptedX - pieceX == 0) && Math.Abs(attemptedX - pieceX) + Math.Abs(attemptedY - pieceY) == 3){
             if (PieceAt(attemptedX, attemptedY, colour)){
-                TakePieceAt(attemptedX, attemptedY);
+                TakePieceAt(attemptedX, attemptedY, colour);
                 return true;
             }
             else if (PieceAt(attemptedX, attemptedY)){
