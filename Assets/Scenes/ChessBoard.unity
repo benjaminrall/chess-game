@@ -2116,8 +2116,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 97e0edc7082add745a94c9f31d6cc4e5, type: 2}
   - {fileID: 2100000, guid: 60d7602978d2a734ead3545ed72d1bbe, type: 2}
   players: 2
-  turn: 0
   indicator: {fileID: 8747429948607391212, guid: bad124ea1f959894894cd2d96daa625e, type: 3}
+  turn: 0
 --- !u!4 &1666744688
 Transform:
   m_ObjectHideFlags: 0
