@@ -15,6 +15,8 @@ public class Piece : MonoBehaviour
     public bool dead = false;
     [HideInInspector]
     public int killedByColour;
+    [HideInInspector]
+    public bool moving = false;
     
     private Transform pieces;
     private BoardHandlerScript BHS;
@@ -53,6 +55,9 @@ public class Piece : MonoBehaviour
             {
                 if (child.gameObject.GetComponent<Piece>().pieceX == x && child.gameObject.GetComponent<Piece>().pieceY == y && c != child.gameObject.GetComponent<Piece>().colour)
                 {
+                    if (child.gameObject.GetComponent<King>() != null){
+                        Debug.Log("Check " + child.gameObject.GetComponent<King>().colour);
+                    } 
                     return true;
                 }
             }

@@ -26,6 +26,7 @@ public class Pawn : Piece
     }
 
     public override bool checkIsValidMove(int attemptedX, int attemptedY){
+        /*
         if (!(0 <= attemptedX && attemptedX <= 7 && 0 <= attemptedY && attemptedY <= 7))    // check if in bounds of board
         {
             return false;
@@ -63,6 +64,19 @@ public class Pawn : Piece
         else{
             return false;
         }
+        */
+        foreach ((int x, int y) space in availableSpaces){
+            if (attemptedX == space.x && attemptedY == space.y){
+                if (PieceAt(attemptedX, attemptedY)){
+                    TakePieceAt(attemptedX, attemptedY, colour);
+                }
+                if (!hasMoved){
+                    hasMoved = true;
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     public override void FindAvailableSpaces(){
@@ -71,7 +85,7 @@ public class Pawn : Piece
             if (!PieceAt(pieceX + directions[0].x, pieceY + directions[0].y)){
                 availableSpaces.Add((pieceX + directions[0].x, pieceY + directions[0].y));
             }
-            if (!PieceAt(pieceX + (directions[0].x * 2), pieceY + (directions[0].y * 2)) && !hasMoved){
+            if (!PieceAt(pieceX + directions[0].x, pieceY + directions[0].y) && !PieceAt(pieceX + (directions[0].x * 2), pieceY + (directions[0].y * 2)) && !hasMoved){
                 availableSpaces.Add((pieceX + (directions[0].x * 2), pieceY + (directions[0].y * 2)));
             }
             if (PieceAt(pieceX + directions[1].x, pieceY + directions[1].y, colour)){
@@ -81,8 +95,5 @@ public class Pawn : Piece
                 availableSpaces.Add((pieceX + directions[2].x, pieceY + directions[2].y));
             }
         }
-        /*for (int i = 0; i < availableSpaces.Count; i++){
-            Debug.Log(availableSpaces[i].x.ToString() + " " + availableSpaces[i].y.ToString());
-        }*/
     }
 }

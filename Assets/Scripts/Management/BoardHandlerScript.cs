@@ -7,9 +7,20 @@ public class BoardHandlerScript : MonoBehaviour
 
     public Material[] pieceColours;
     public int players = 2;
+    public GameObject indicator;
+
     [HideInInspector]
     public int turn = 0;
-    public GameObject indicator;
+    [HideInInspector]
+    public (int colour, bool inCheck)[] checks;
+
+    private void Start() {
+        checks = new (int, bool)[players];
+        for (int i = 0; i < checks.Length; i++){
+            checks[i].colour = i;
+            checks[i].inCheck = false;
+        }
+    }
 
     public void UpdateAvailableSpaces(){
         foreach(Transform child in transform)
