@@ -754,7 +754,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.55
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1333,6 +1333,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1666744688}
     m_Modifications:
+    - target: {fileID: 7768476408043624405, guid: 5067061e0734487438776e47bf6b9027, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1538d04ca80fd6d4c8c4ec3478b0cf08, type: 3}
     - target: {fileID: 8367687130394382624, guid: 5067061e0734487438776e47bf6b9027, type: 3}
       propertyPath: m_Name
       value: BlackKing
@@ -1344,6 +1348,14 @@ PrefabInstance:
     - target: {fileID: 8367687130394382629, guid: 5067061e0734487438776e47bf6b9027, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367687130394382629, guid: 5067061e0734487438776e47bf6b9027, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367687130394382629, guid: 5067061e0734487438776e47bf6b9027, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8367687130394382629, guid: 5067061e0734487438776e47bf6b9027, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2230,6 +2242,14 @@ PrefabInstance:
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5736374402247160088, guid: edf1c18d075c4c246a329aaff8f89773, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5736374402247160088, guid: edf1c18d075c4c246a329aaff8f89773, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5736374402247160088, guid: edf1c18d075c4c246a329aaff8f89773, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
       objectReference: {fileID: 0}
@@ -2273,6 +2293,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: WhiteKing
       objectReference: {fileID: 0}
+    - target: {fileID: 5785824929595750376, guid: edf1c18d075c4c246a329aaff8f89773, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5785824929595750376, guid: edf1c18d075c4c246a329aaff8f89773, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5785824929595750376, guid: edf1c18d075c4c246a329aaff8f89773, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b1c62def4977e4548b4308927d223200, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edf1c18d075c4c246a329aaff8f89773, type: 3}
 --- !u!4 &1841467328 stripped
