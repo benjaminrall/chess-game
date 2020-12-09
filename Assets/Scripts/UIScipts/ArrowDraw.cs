@@ -40,6 +40,7 @@ public class ArrowDraw : MonoBehaviour
     void Update()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+
         currentX = Mathf.RoundToInt(mousePos.x);
         currentY = Mathf.RoundToInt(mousePos.z);
 
@@ -61,13 +62,16 @@ public class ArrowDraw : MonoBehaviour
 
     void EndDrawing()
     {
-        if (startX == currentX &&  startY == currentY)
+        if (startX <= 7 && startX >= 0 && startY <= 7 && startY >= 0 && currentX <= 7 && currentX >= 0 && currentY <= 7 && currentY >= 0)
         {
-            HighlightSquare(startX, startY);
-        }
-        else
-        {
-            DrawArrow(startX, startY, currentX, currentY);
+            if (startX == currentX && startY == currentY)
+            {
+                HighlightSquare(startX, startY);
+            }
+            else
+            {
+                DrawArrow(startX, startY, currentX, currentY);
+            }
         }
     }
 
