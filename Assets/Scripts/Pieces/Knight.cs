@@ -46,7 +46,7 @@ public class Knight : Piece
     public override void FindAvailableSpaces(){
         base.FindAvailableSpaces();
         foreach ((int x, int y) newPos in new (int, int)[8]{(1, 2), (2, 1), (2, -1), (1, -2), (-1, -2), (-2, -1), (-2, 1), (-1, 2)}){
-            if (pieceX + newPos.x >= 0 && pieceX + newPos.x <= 7 && pieceY + newPos.y >= 0 && pieceX + newPos.x <= 7){
+            if (pieceX + newPos.x >= 0 && pieceX + newPos.x <= 7 && pieceY + newPos.y >= 0 && pieceY + newPos.y <= 7){
                 if (PieceAt(pieceX + newPos.x, pieceY + newPos.y, colour)){
                     availableSpaces.Add((pieceX + newPos.x, pieceY + newPos.y));
                 }
