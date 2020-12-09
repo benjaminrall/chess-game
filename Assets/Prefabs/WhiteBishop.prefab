@@ -74,6 +74,9 @@ MonoBehaviour:
   colour: 0
   pieceX: 0
   pieceY: 0
+  dead: 0
+  killedByColour: 0
+  moving: 0
 --- !u!212 &5088275519086224500
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8367687130394382624}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 4, y: 1, z: 7}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -62,6 +62,9 @@ MonoBehaviour:
   colour: 1
   pieceX: 0
   pieceY: 0
+  dead: 0
+  killedByColour: 0
+  moving: 0
 --- !u!114 &8367687130394382625
 MonoBehaviour:
   m_ObjectHideFlags: 0
