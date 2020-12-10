@@ -14,6 +14,13 @@ public class PieceDrag : MonoBehaviour
     {
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
         piece = gameObject.GetComponent<Piece>();
+
+        if(gameObject.transform.childCount > 0)
+        {
+            gameObject.transform.Find("PrimaryColour").gameObject.GetComponent<Renderer>().material = BHS.piecePrimaryColours[GetComponent<Piece>().colour];
+            gameObject.transform.Find("SecondaryColour").gameObject.GetComponent<Renderer>().material = BHS.pieceSecondaryColours[GetComponent<Piece>().colour];
+            gameObject.transform.Find("TertiaryColour").gameObject.GetComponent<Renderer>().material = BHS.pieceTertiaryColours[GetComponent<Piece>().colour];
+        }
     }
 
     void Update()

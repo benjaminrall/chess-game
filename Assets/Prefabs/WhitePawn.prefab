@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7806673468376874754}
   - component: {fileID: 4654053360289821415}
   - component: {fileID: -7915163214893091947}
-  - component: {fileID: -7473777102969341050}
+  - component: {fileID: -4609489026360161032}
   m_Layer: 0
   m_Name: WhitePawn
   m_TagString: Untagged
@@ -78,7 +78,7 @@ MonoBehaviour:
   killedByColour: 0
   moving: 0
   direction: 1
---- !u!212 &-7473777102969341050
+--- !u!212 &-4609489026360161032
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +123,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.78, y: 1.02}
+  m_Size: {x: 0.8, y: 0.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

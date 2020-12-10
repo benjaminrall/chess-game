@@ -5,7 +5,9 @@ using UnityEngine;
 public class BoardHandlerScript : MonoBehaviour
 {
 
-    public Material[] pieceColours;
+    public Material[] piecePrimaryColours;
+    public Material[] pieceSecondaryColours;
+    public Material[] pieceTertiaryColours;
     public int players = 2;
     public GameObject indicator;
 
