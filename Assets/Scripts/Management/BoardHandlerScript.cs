@@ -31,11 +31,26 @@ public class BoardHandlerScript : MonoBehaviour
         }
     }
 
-    public void UpdateAvailableSpaces(){
-        foreach(Transform child in transform)
-        {
-            child.gameObject.GetComponent<Piece>().FindAvailableSpaces();
+    public void UpdateAvailableSpaces(bool temp = false, int nx = 0, int ny = 0){
+        if (!temp){
+            foreach(Transform child in transform)
+            {
+                child.gameObject.GetComponent<Piece>().FindAvailableSpaces();
+                child.gameObject.GetComponent<Piece>().SimulateMoves();
+            }
         }
+        else{
+            foreach(Transform child in transform)
+            {
+                if (child.gameObject.GetComponent<Piece>().pieceX == nx && child.gameObject.GetComponent<Piece>().pieceY == ny){
+                    child.gameObject.GetComponent<Piece>().tempAvailableSpaces = new List<(int x, int y)>();
+                }
+                else{
+                    child.gameObject.GetComponent<Piece>().FindTempSpaces();
+                }
+            }
+        }
+        UpdateChecks(temp);
     }
 
     public void ShowIndicators(bool show, List<(int x, int y)> spaces){
@@ -51,14 +66,35 @@ public class BoardHandlerScript : MonoBehaviour
         }
     }
 
-    public void UpdateChecks(){
+    public void UpdateChecks(bool temp){
         List<int> checkedColours = new List<int>();
-        foreach(Transform child in transform){
-            for (int i = 0; i < kings.Length; i++){
-                if (child.gameObject.GetComponent<Piece>().colour != i){
-                    foreach((int x, int y) availablePos in child.gameObject.GetComponent<Piece>().availableSpaces){
-                        if (kings[i].pieceX == availablePos.x && kings[i].pieceY == availablePos.y){
-                            checkedColours.Add(i);
+        kings = new King[players];
+        foreach (Transform child in transform){
+            if (child.gameObject.GetComponent<King>() != null){
+                kings[child.gameObject.GetComponent<King>().colour] = child.gameObject.GetComponent<King>();
+            }
+        }
+        if (!temp){
+            foreach(Transform child in transform){
+                for (int i = 0; i < kings.Length; i++){
+                    if (child.gameObject.GetComponent<Piece>().colour != i){
+                        foreach((int x, int y) availablePos in child.gameObject.GetComponent<Piece>().availableSpaces){
+                            if (kings[i].pieceX == availablePos.x && kings[i].pieceY == availablePos.y){
+                                checkedColours.Add(i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            foreach(Transform child in transform){
+                for (int i = 0; i < kings.Length; i++){
+                    if (child.gameObject.GetComponent<Piece>().colour != i){
+                        foreach((int x, int y) availablePos in child.gameObject.GetComponent<Piece>().tempAvailableSpaces){
+                            if (kings[i].pieceX == availablePos.x && kings[i].pieceY == availablePos.y){
+                                checkedColours.Add(i);
+                            }
                         }
                     }
                 }
@@ -75,6 +111,27 @@ public class BoardHandlerScript : MonoBehaviour
             }
             if (!foundCol){
                 checks[i] = false;
+            }
+        }
+    }
+
+    public void CheckForEnd(){
+        bool ended;
+        for (int i = 0; i < players; i++){
+            ended = true;
+            foreach(Transform child in transform){
+                if (child.gameObject.GetComponent<Piece>().colour == i){
+                    if(child.gameObject.GetComponent<Piece>().availableSpaces.Count > 0 && !child.gameObject.GetComponent<Piece>().dead){
+                        ended = false;
+                        break;
+                    }
+                }
+            }
+            if (ended && checks[i]){
+                Debug.Log(i + " checkmated");
+            }
+            else if (ended){
+                Debug.Log(i + " stalemated");
             }
         }
     }

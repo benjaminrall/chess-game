@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8204130353314376788}
-  - component: {fileID: 2133610459794206775}
   - component: {fileID: 3556858129290313170}
   - component: {fileID: 7936778309333176081}
   - component: {fileID: 200883933052447553}
+  - component: {fileID: -5737194143980879902}
   m_Layer: 0
   m_Name: BlackKnight
   m_TagString: Untagged
@@ -34,19 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!65 &2133610459794206775
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8103333699798105752}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3556858129290313170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,7 +63,6 @@ MonoBehaviour:
   pieceY: 0
   dead: 0
   killedByColour: 0
-  moving: 0
 --- !u!212 &200883933052447553
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -128,3 +114,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &-5737194143980879902
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8103333699798105752}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0699999, y: 1.0600002, z: 0.20000005}
+  m_Center: {x: 0, y: 0, z: 0}

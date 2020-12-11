@@ -29,5 +29,17 @@ public class Queen : Piece
         CheckSpaces(1, Math.Min(7 - pieceX, pieceY), 1, -1);
         CheckSpaces(1, Math.Min(pieceX, 7 - pieceY), -1, 1);
         CheckSpaces(1, Math.Min(pieceX, pieceY), -1, -1);
+    }
+
+    public override void FindTempSpaces(){
+        base.FindTempSpaces();
+        CheckSpaces(1, 7 - pieceY, 0, 1, true);
+        CheckSpaces(1, pieceY, 0, -1, true);
+        CheckSpaces(1, 7 - pieceX, 1, 0, true);
+        CheckSpaces(1, pieceX, -1, 0, true);
+        CheckSpaces(1, Math.Min(7 - pieceX, 7 - pieceY), 1, 1, true);
+        CheckSpaces(1, Math.Min(7 - pieceX, pieceY), 1, -1, true);
+        CheckSpaces(1, Math.Min(pieceX, 7 - pieceY), -1, 1, true);
+        CheckSpaces(1, Math.Min(pieceX, pieceY), -1, -1, true);
     }   
 }

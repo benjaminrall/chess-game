@@ -25,4 +25,12 @@ public class Bishop : Piece
         CheckSpaces(1, Math.Min(pieceX, 7 - pieceY), -1, 1);
         CheckSpaces(1, Math.Min(pieceX, pieceY), -1, -1);
     }
+
+    public override void FindTempSpaces(){
+        base.FindTempSpaces();
+        CheckSpaces(1, Math.Min(7 - pieceX, 7 - pieceY), 1, 1, true);
+        CheckSpaces(1, Math.Min(7 - pieceX, pieceY), 1, -1, true);
+        CheckSpaces(1, Math.Min(pieceX, 7 - pieceY), -1, 1, true);
+        CheckSpaces(1, Math.Min(pieceX, pieceY), -1, -1, true);
+    }
 }

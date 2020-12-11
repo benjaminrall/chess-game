@@ -12,15 +12,19 @@ public class Piece : MonoBehaviour
     [HideInInspector]
     public List<(int x, int y)> availableSpaces = new List<(int x, int y)>();
     [HideInInspector]
+    public List<(int x, int y)> tempAvailableSpaces = new List<(int x, int y)>();
+    [HideInInspector]
     public bool dead = false;
     [HideInInspector]
     public int killedByColour;
+
+    private bool real = true;
     
     private Transform pieces;
     private BoardHandlerScript BHS;
     
 
-    private void Awake() {
+    public virtual void Awake() {
         pieceX = Mathf.RoundToInt(transform.position.x);
         pieceY = Mathf.RoundToInt(transform.position.z);
     }
@@ -53,11 +57,9 @@ public class Piece : MonoBehaviour
         else{
             foreach(Transform child in pieces)
             {
-                if (child != null){
-                    if (child.gameObject.GetComponent<Piece>().pieceX == x && child.gameObject.GetComponent<Piece>().pieceY == y && c != child.gameObject.GetComponent<Piece>().colour)
-                    {
-                        return true;
-                    }
+                if (child.gameObject.GetComponent<Piece>().pieceX == x && child.gameObject.GetComponent<Piece>().pieceY == y && c != child.gameObject.GetComponent<Piece>().colour)
+                {
+                    return true;
                 }
             }
             return false;          
@@ -76,29 +78,79 @@ public class Piece : MonoBehaviour
     }
 
     protected void CheckSpaces(int min, int max, int xm, int ym, bool temp = false){
-        for (int i = min; i <= max; i++){
-            if (PieceAt(pieceX + (xm * i), pieceY + (ym * i), colour)){
-                availableSpaces.Add((pieceX + (xm * i), pieceY + (ym * i)));
-                return;
-            }
-            else if(PieceAt(pieceX + (xm * i), pieceY + (ym * i))){
-                return;
-            }
-            else{
-                availableSpaces.Add((pieceX + (xm * i), pieceY + (ym * i)));
-            }
-        }    
+        if (!temp){
+            for (int i = min; i <= max; i++){
+                if (PieceAt(pieceX + (xm * i), pieceY + (ym * i), colour)){
+                    availableSpaces.Add((pieceX + (xm * i), pieceY + (ym * i)));
+                    return;
+                }
+                else if(PieceAt(pieceX + (xm * i), pieceY + (ym * i))){
+                    return;
+                }
+                else{
+                    availableSpaces.Add((pieceX + (xm * i), pieceY + (ym * i)));
+                }
+            }    
+        }
+        else{
+            for (int i = min; i <= max; i++){
+                if (PieceAt(pieceX + (xm * i), pieceY + (ym * i), colour)){
+                    tempAvailableSpaces.Add((pieceX + (xm * i), pieceY + (ym * i)));
+                    return;
+                }
+                else if(PieceAt(pieceX + (xm * i), pieceY + (ym * i))){
+                    return;
+                }
+                else{
+                    tempAvailableSpaces.Add((pieceX + (xm * i), pieceY + (ym * i)));
+                }
+            }  
+        }
     }
 
     public virtual void FindAvailableSpaces(){
         availableSpaces = new List<(int x, int y)>();
     }
 
+    public virtual void FindTempSpaces(){
+        tempAvailableSpaces = new List<(int x, int y)>();
+    }
+
     public void Kill(int colour){
         dead = true;
         killedByColour = colour;
-        transform.parent = GameObject.Find("DeadPieces").transform;
-        //gameObject.SetActive(false);
+        transform.position = new Vector3(-2, 1, 0);
+        pieceX = -2;
+        pieceY = 0;
+        // gameObject.SetActive(false);
     }
 
+    public void SimulateMoves(){
+        // Debug.Log(gameObject.name + " simulated moves");
+        if (real){
+            List<(int x, int y)> newAvailableSpaces = new List<(int x, int y)>();
+            (int x, int y) oldPos = (pieceX, pieceY);
+            pieceX = -1;
+            pieceY = -1;
+            Piece tempObject;
+            foreach((int x, int y) space in availableSpaces){
+                tempObject = Instantiate(gameObject, pieces).GetComponent<Piece>();
+                BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
+                tempObject.real = false;
+                tempObject.pieceX = space.x;
+                tempObject.pieceY = space.y;
+                BHS.UpdateAvailableSpaces(true, tempObject.pieceX, tempObject.pieceY);
+                if (!BHS.checks[colour]){
+                    newAvailableSpaces.Add(space);
+                }
+                DestroyImmediate(tempObject.gameObject);
+            }
+            pieceX = oldPos.x;
+            pieceY  = oldPos.y;
+            availableSpaces = newAvailableSpaces;
+        }
+        else{
+            Destroy(gameObject);
+        }
+    }
 }

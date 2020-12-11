@@ -41,7 +41,8 @@ public class PieceDrag : MonoBehaviour
             transform.position = new Vector3(attemptedX, this.transform.position.y, attemptedY);
             BHS.turn = (BHS.turn + 1) % BHS.players;
             OriginalPos();
-            BHS.UpdateAvailableSpaces();
+            GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>().UpdateAvailableSpaces();
+            GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>().CheckForEnd();
         }
         else
         {
