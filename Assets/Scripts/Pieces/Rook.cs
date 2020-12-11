@@ -5,12 +5,23 @@ using UnityEngine;
 
 public class Rook : Piece
 {
+    [HideInInspector]
+    public bool hasMoved;
+
+    public override void Start() {
+        hasMoved = false;
+        base.Start();
+    }
+
     public override bool checkIsValidMove(int attemptedX, int attemptedY)
     {
         foreach ((int x, int y) space in availableSpaces){
             if (attemptedX == space.x && attemptedY == space.y){
                 if (PieceAt(attemptedX, attemptedY)){
                     TakePieceAt(attemptedX, attemptedY, colour);
+                }
+                if (!hasMoved){
+                    hasMoved = true;
                 }
                 return true;
             }

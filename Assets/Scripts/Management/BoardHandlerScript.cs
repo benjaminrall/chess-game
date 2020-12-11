@@ -135,4 +135,13 @@ public class BoardHandlerScript : MonoBehaviour
             }
         }
     }
+
+    public GameObject GetPieceAt(int x, int y){
+        foreach(Transform child in transform){
+            if (child.gameObject.GetComponent<Piece>().pieceX == x && child.gameObject.GetComponent<Piece>().pieceY == y){
+                return child.gameObject;
+            }
+        }
+        return gameObject;
+    }
 }
