@@ -21,7 +21,7 @@ public class Piece : MonoBehaviour
     private bool real = true;
     
     private Transform pieces;
-    protected BoardHandlerScript BHS;
+    private BoardHandlerScript BHS;
     
 
     public virtual void Awake() {
@@ -128,10 +128,6 @@ public class Piece : MonoBehaviour
     public void SimulateMoves(){
         // Debug.Log(gameObject.name + " simulated moves");
         if (real){
-            bool inCheck = false;
-            if (BHS.checks[colour]){
-                inCheck = true;
-            }
             List<(int x, int y)> newAvailableSpaces = new List<(int x, int y)>();
             (int x, int y) oldPos = (pieceX, pieceY);
             pieceX = -1;
@@ -152,25 +148,6 @@ public class Piece : MonoBehaviour
             pieceX = oldPos.x;
             pieceY  = oldPos.y;
             availableSpaces = newAvailableSpaces;
-            if (gameObject.GetComponent<King>()){
-                King k = gameObject.GetComponent<King>();
-                if (!k.hasMoved){
-                    if (!availableSpaces.Contains((k.pieceX + k.castleDirections.x, k.pieceY + k.castleDirections.y)) 
-                    && availableSpaces.Contains((k.pieceX + (k.castleDirections.x * 2), k.pieceY + (k.castleDirections.y * 2)))){
-                        availableSpaces.Remove((k.pieceX + (k.castleDirections.x * 2), k.pieceY + (k.castleDirections.y * 2)));
-                    }
-                    if (!availableSpaces.Contains((k.pieceX - k.castleDirections.x, k.pieceY - k.castleDirections.y)) 
-                    && availableSpaces.Contains((k.pieceX - (k.castleDirections.x * 2), k.pieceY - (k.castleDirections.y * 2)))){
-                        availableSpaces.Remove((k.pieceX - (k.castleDirections.x * 2), k.pieceY - (k.castleDirections.y * 2)));
-                    }
-                    if (inCheck && availableSpaces.Contains((k.pieceX - (k.castleDirections.x * 2), k.pieceY - (k.castleDirections.y * 2)))){
-                        availableSpaces.Remove((k.pieceX - (k.castleDirections.x * 2), k.pieceY - (k.castleDirections.y * 2)));
-                    }
-                    if (inCheck && availableSpaces.Contains((k.pieceX + (k.castleDirections.x * 2), k.pieceY + (k.castleDirections.y * 2)))){
-                        availableSpaces.Remove((k.pieceX + (k.castleDirections.x * 2), k.pieceY + (k.castleDirections.y * 2)));
-                    }
-                }
-            }
         }
         else{
             Destroy(gameObject);
