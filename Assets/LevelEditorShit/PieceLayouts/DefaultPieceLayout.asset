@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbbdca1e0f9201d41875a7005a394006, type: 3}
+  m_Name: DefaultPieceLayout
+  m_EditorClassIdentifier: 
+  LayoutsPieces1:
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 0, y: 1}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 1, y: 1}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 2, y: 1}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 3, y: 1}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 4, y: 1}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 5, y: 1}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 6, y: 1}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 7, y: 1}
+  - Piece: {fileID: 613312115112896298, guid: f1512ca115f14c1479d06f45503ccdb3, type: 3}
+    Location: {x: 0, y: 0}
+  - Piece: {fileID: 3953258588492159643, guid: fae15bac7b626564d90d8fd2304e5c51, type: 3}
+    Location: {x: 1, y: 0}
+  - Piece: {fileID: 4530054451612204216, guid: f065afdf94edb6944a7674ed3e835306, type: 3}
+    Location: {x: 2, y: 0}
+  - Piece: {fileID: 4371017406762007509, guid: 79b0572dc9f4fdc47834853e2a0f354b, type: 3}
+    Location: {x: 3, y: 0}
+  - Piece: {fileID: 5736374402247160093, guid: edf1c18d075c4c246a329aaff8f89773, type: 3}
+    Location: {x: 4, y: 0}
+  - Piece: {fileID: 4530054451612204216, guid: f065afdf94edb6944a7674ed3e835306, type: 3}
+    Location: {x: 5, y: 0}
+  - Piece: {fileID: 3953258588492159643, guid: fae15bac7b626564d90d8fd2304e5c51, type: 3}
+    Location: {x: 6, y: 0}
+  - Piece: {fileID: 2184750234666447243, guid: 3155663dbb25885409a57591f3ed3e81, type: 3}
+    Location: {x: 7, y: 0}
+  colour1: 0
+  direction1: 1
+  LayoutsPieces2:
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 0, y: 6}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 1, y: 6}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 2, y: 6}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 3, y: 6}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 4, y: 6}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 5, y: 6}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 6, y: 6}
+  - Piece: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+    Location: {x: 7, y: 6}
+  - Piece: {fileID: 613312115112896298, guid: f1512ca115f14c1479d06f45503ccdb3, type: 3}
+    Location: {x: 0, y: 7}
+  - Piece: {fileID: 8103333699798105752, guid: af8dd9a40b7b58d4e8eb6f285b7b4c70, type: 3}
+    Location: {x: 1, y: 7}
+  - Piece: {fileID: 1705003636539553403, guid: 65f1537ce8f45014db89d311bad20d0f, type: 3}
+    Location: {x: 2, y: 7}
+  - Piece: {fileID: 988020777839824704, guid: a4eb4f441caf44e448a34aec13a176f4, type: 3}
+    Location: {x: 3, y: 7}
+  - Piece: {fileID: 383973819957508641, guid: db2689f74ea1a7147b28a4fefc3d68ae, type: 3}
+    Location: {x: 4, y: 7}
+  - Piece: {fileID: 1705003636539553403, guid: 65f1537ce8f45014db89d311bad20d0f, type: 3}
+    Location: {x: 5, y: 7}
+  - Piece: {fileID: 8103333699798105752, guid: af8dd9a40b7b58d4e8eb6f285b7b4c70, type: 3}
+    Location: {x: 6, y: 7}
+  - Piece: {fileID: 613312115112896298, guid: f1512ca115f14c1479d06f45503ccdb3, type: 3}
+    Location: {x: 7, y: 7}
+  colour2: 1
+  direction2: 3
