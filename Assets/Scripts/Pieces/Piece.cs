@@ -137,9 +137,6 @@ public class Piece : MonoBehaviour
             pieceX = -1;
             pieceY = -1;
             Pawn pawn = gameObject.GetComponent<Pawn>();
-            if (pawn){
-                //Debug.Log("1");
-            }
             Piece tempObject;
             Pawn tempPawn;
             foreach((int x, int y) space in availableSpaces){
