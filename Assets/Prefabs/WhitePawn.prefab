@@ -76,7 +76,6 @@ MonoBehaviour:
   pieceY: 0
   dead: 0
   killedByColour: 0
-  moving: 0
   direction: 1
 --- !u!212 &-4609489026360161032
 SpriteRenderer:

@@ -14,13 +14,20 @@ public class BoardHandlerScript : MonoBehaviour
     [HideInInspector]
     public int turn = 0;
     [HideInInspector]
-    public (int colour, bool inCheck)[] checks;
+    public bool[] checks;
+    
+    private King[] kings;
 
     private void Start() {
-        checks = new (int, bool)[players];
+        checks = new bool[players];
         for (int i = 0; i < checks.Length; i++){
-            checks[i].colour = i;
-            checks[i].inCheck = false;
+            checks[i] = false;
+        }
+        kings = new King[players];
+        foreach (Transform child in transform){
+            if (child.gameObject.GetComponent<King>() != null){
+                kings[child.gameObject.GetComponent<King>().colour] = child.gameObject.GetComponent<King>();
+            }
         }
     }
 
@@ -40,6 +47,34 @@ public class BoardHandlerScript : MonoBehaviour
         else{
             foreach (Transform child in GameObject.Find("MoveIndicators").transform){
                 Destroy(child.gameObject);
+            }
+        }
+    }
+
+    public void UpdateChecks(){
+        List<int> checkedColours = new List<int>();
+        foreach(Transform child in transform){
+            for (int i = 0; i < kings.Length; i++){
+                if (child.gameObject.GetComponent<Piece>().colour != i){
+                    foreach((int x, int y) availablePos in child.gameObject.GetComponent<Piece>().availableSpaces){
+                        if (kings[i].pieceX == availablePos.x && kings[i].pieceY == availablePos.y){
+                            checkedColours.Add(i);
+                        }
+                    }
+                }
+            }
+        }
+        bool foundCol;
+        for (int i = 0; i < kings.Length; i++){
+            foundCol = false;
+            foreach(int c in checkedColours){
+                if (i == c){
+                    foundCol = true;
+                    checks[i] = true;
+                }
+            }
+            if (!foundCol){
+                checks[i] = false;
             }
         }
     }

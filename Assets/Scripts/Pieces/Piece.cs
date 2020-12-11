@@ -15,11 +15,10 @@ public class Piece : MonoBehaviour
     public bool dead = false;
     [HideInInspector]
     public int killedByColour;
-    [HideInInspector]
-    public bool moving = false;
     
     private Transform pieces;
     private BoardHandlerScript BHS;
+    
 
     private void Awake() {
         pieceX = Mathf.RoundToInt(transform.position.x);
@@ -40,6 +39,7 @@ public class Piece : MonoBehaviour
 
     public bool PieceAt(int x, int y, int c = -1)
     {
+        pieces = GameObject.Find("BoardHandler").transform;
         if (c == -1){
             foreach(Transform child in pieces)
             {
@@ -53,12 +53,11 @@ public class Piece : MonoBehaviour
         else{
             foreach(Transform child in pieces)
             {
-                if (child.gameObject.GetComponent<Piece>().pieceX == x && child.gameObject.GetComponent<Piece>().pieceY == y && c != child.gameObject.GetComponent<Piece>().colour)
-                {
-                    if (child.gameObject.GetComponent<King>() != null){
-                        Debug.Log("Check " + child.gameObject.GetComponent<King>().colour);
-                    } 
-                    return true;
+                if (child != null){
+                    if (child.gameObject.GetComponent<Piece>().pieceX == x && child.gameObject.GetComponent<Piece>().pieceY == y && c != child.gameObject.GetComponent<Piece>().colour)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;          
@@ -66,6 +65,7 @@ public class Piece : MonoBehaviour
     }
 
     public void TakePieceAt(int x, int y, int c){
+        pieces = GameObject.Find("BoardHandler").transform;
         foreach(Transform child in pieces)
         {
             if (child.gameObject.GetComponent<Piece>().pieceX == x && child.gameObject.GetComponent<Piece>().pieceY == y)
@@ -75,22 +75,7 @@ public class Piece : MonoBehaviour
         }
     }
 
-    protected bool CheckPath(int min, int max, int xm, int ym){
-        for (int i = min; i <= max; i++){
-            if (PieceAt(pieceX + (xm * i), pieceY + (ym * i)) && i < max){
-                return false;
-            }
-            else if (PieceAt(pieceX + (xm * i), pieceY + (ym * i), colour) && i == max){
-                TakePieceAt(pieceX + (xm * i), pieceY + (ym * i), colour);
-            }
-            else if(PieceAt(pieceX + (xm * i), pieceY + (ym * i)) && i == max){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public virtual void CheckSpaces(int min, int max, int xm, int ym){
+    protected void CheckSpaces(int min, int max, int xm, int ym, bool temp = false){
         for (int i = min; i <= max; i++){
             if (PieceAt(pieceX + (xm * i), pieceY + (ym * i), colour)){
                 availableSpaces.Add((pieceX + (xm * i), pieceY + (ym * i)));
@@ -113,6 +98,7 @@ public class Piece : MonoBehaviour
         dead = true;
         killedByColour = colour;
         transform.parent = GameObject.Find("DeadPieces").transform;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
+
 }

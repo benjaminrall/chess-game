@@ -26,45 +26,6 @@ public class Pawn : Piece
     }
 
     public override bool checkIsValidMove(int attemptedX, int attemptedY){
-        /*
-        if (!(0 <= attemptedX && attemptedX <= 7 && 0 <= attemptedY && attemptedY <= 7))    // check if in bounds of board
-        {
-            return false;
-        }
-        else if (attemptedX - pieceX == directions[0].x * 2 && attemptedY - pieceY == directions[0].y * 2 && !hasMoved){
-            if (PieceAt(attemptedX, attemptedY)){
-                return false;
-            }
-            hasMoved = true;
-            return true;
-        }
-        else if (attemptedX - pieceX == directions[0].x && attemptedY - pieceY == directions[0].y){
-            if (PieceAt(attemptedX, attemptedY)){
-                return false;
-            }
-            if (!hasMoved){
-                hasMoved = true;
-            }
-            return true;
-        }
-        else if (
-            (attemptedX - pieceX == directions[1].x && attemptedY - pieceY == directions[1].y) || 
-            (attemptedX - pieceX == directions[2].x && attemptedY - pieceY == directions[2].y)){
-            if (PieceAt(attemptedX, attemptedY, colour)){
-                TakePieceAt(attemptedX, attemptedY, colour);
-                if (!hasMoved){
-                    hasMoved = true;
-                }
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-        else{
-            return false;
-        }
-        */
         foreach ((int x, int y) space in availableSpaces){
             if (attemptedX == space.x && attemptedY == space.y){
                 if (PieceAt(attemptedX, attemptedY)){
