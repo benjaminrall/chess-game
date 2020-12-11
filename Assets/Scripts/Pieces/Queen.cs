@@ -8,13 +8,11 @@ public class Queen : Piece
 
     public override bool checkIsValidMove(int attemptedX, int attemptedY)
     {
-        foreach ((int x, int y) space in availableSpaces){
-            if (attemptedX == space.x && attemptedY == space.y){
-                if (PieceAt(attemptedX, attemptedY)){
-                    TakePieceAt(attemptedX, attemptedY, colour);
-                }
-                return true;
+        if (availableSpaces.Contains((attemptedX, attemptedY))){
+            if (PieceAt(attemptedX, attemptedY)){
+                TakePieceAt(attemptedX, attemptedY, colour);
             }
+            return true;
         }
         return false;
     }

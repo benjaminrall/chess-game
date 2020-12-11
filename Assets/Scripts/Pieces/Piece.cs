@@ -122,7 +122,7 @@ public class Piece : MonoBehaviour
         transform.position = new Vector3(-2, 1, 0);
         pieceX = -2;
         pieceY = 0;
-        // gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void SimulateMoves(){
@@ -136,14 +136,25 @@ public class Piece : MonoBehaviour
             (int x, int y) oldPos = (pieceX, pieceY);
             pieceX = -1;
             pieceY = -1;
+            Pawn pawn = gameObject.GetComponent<Pawn>();
+            if (pawn){
+                //Debug.Log("1");
+            }
             Piece tempObject;
+            Pawn tempPawn;
             foreach((int x, int y) space in availableSpaces){
                 tempObject = Instantiate(gameObject, pieces).GetComponent<Piece>();
                 BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
                 tempObject.real = false;
                 tempObject.pieceX = space.x;
                 tempObject.pieceY = space.y;
-                BHS.UpdateAvailableSpaces(true, tempObject.pieceX, tempObject.pieceY);
+                if (pawn && pawn.enPassantableSquares.Contains(space)){
+                    tempPawn = pawn.enPassantablePieces[pawn.enPassantableSquares.IndexOf(space)];
+                    BHS.UpdateAvailableSpaces(true, tempPawn.pieceX, tempPawn.pieceY, true);
+                }
+                else{
+                    BHS.UpdateAvailableSpaces(true, tempObject.pieceX, tempObject.pieceY);
+                }
                 if (!BHS.checks[colour]){
                     newAvailableSpaces.Add(space);
                 }

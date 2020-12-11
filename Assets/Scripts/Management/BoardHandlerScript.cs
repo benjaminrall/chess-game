@@ -31,7 +31,7 @@ public class BoardHandlerScript : MonoBehaviour
         }
     }
 
-    public void UpdateAvailableSpaces(bool temp = false, int nx = 0, int ny = 0){
+    public void UpdateAvailableSpaces(bool temp = false, int nx = 0, int ny = 0, bool enPassant = false){
         if (!temp){
             foreach(Transform child in transform)
             {
@@ -44,6 +44,16 @@ public class BoardHandlerScript : MonoBehaviour
             {
                 if (child.gameObject.GetComponent<Piece>().pieceX == nx && child.gameObject.GetComponent<Piece>().pieceY == ny){
                     child.gameObject.GetComponent<Piece>().tempAvailableSpaces = new List<(int x, int y)>();
+                    if (enPassant){
+                        (int x, int y) oldPos = (child.gameObject.GetComponent<Piece>().pieceX, child.gameObject.GetComponent<Piece>().pieceY);
+                        child.gameObject.GetComponent<Piece>().pieceX = -1;
+                        child.gameObject.GetComponent<Piece>().pieceY = -1;
+                        UpdateAvailableSpaces(true, nx, ny);
+                        UpdateChecks(temp);
+                        child.gameObject.GetComponent<Piece>().pieceX = oldPos.x;
+                        child.gameObject.GetComponent<Piece>().pieceY = oldPos.y;
+                        return;
+                    }
                 }
                 else{
                     child.gameObject.GetComponent<Piece>().FindTempSpaces();

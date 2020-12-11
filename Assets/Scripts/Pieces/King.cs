@@ -34,7 +34,7 @@ public class King : Piece
 
     public override bool checkIsValidMove(int attemptedX, int attemptedY)
     {
-        if (!(hasMoved)){
+        if (!(hasMoved) && availableSpaces.Contains((attemptedX, attemptedY))){
             if(attemptedX == pieceX + (castleDirections.x * 2) && attemptedY == pieceY + (castleDirections.y * 2)){
                 Rook r = BHS.GetPieceAt(pieceX + (castleDirections.x * 3), pieceY + (castleDirections.y * 3)).GetComponent<Rook>();
                 r.pieceX = pieceX + castleDirections.x;
@@ -54,16 +54,14 @@ public class King : Piece
                 return true;
             }
         }
-        foreach ((int x, int y) space in availableSpaces){
-            if (attemptedX == space.x && attemptedY == space.y){
-                if (PieceAt(attemptedX, attemptedY)){
-                    TakePieceAt(attemptedX, attemptedY, colour);
-                }
-                if (!hasMoved){
-                    hasMoved = true;
-                }
-                return true;
+        if (availableSpaces.Contains((attemptedX, attemptedY))){
+            if (PieceAt(attemptedX, attemptedY)){
+                TakePieceAt(attemptedX, attemptedY, colour);
             }
+            if (!hasMoved){
+                hasMoved = true;
+            }
+            return true;
         }
         return false;
     }
