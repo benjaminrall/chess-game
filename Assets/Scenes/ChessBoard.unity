@@ -259,6 +259,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340839059}
     m_Modifications:
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (4)
@@ -331,6 +339,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340839059}
     m_Modifications:
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (3)
@@ -467,6 +483,14 @@ PrefabInstance:
     - target: {fileID: 192791314911337416, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: direction
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
@@ -626,6 +650,14 @@ PrefabInstance:
       propertyPath: direction
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (9)
@@ -695,6 +727,14 @@ PrefabInstance:
     - target: {fileID: 192791314911337416, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: direction
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
@@ -918,6 +958,14 @@ PrefabInstance:
       propertyPath: direction
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (13)
@@ -1070,6 +1118,14 @@ PrefabInstance:
     - target: {fileID: 192791314911337416, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: direction
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
@@ -1374,7 +1430,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 0.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &844994055 stripped
 Transform:
@@ -1450,6 +1506,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340839059}
     m_Modifications:
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (1)
@@ -1564,6 +1628,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340839059}
     m_Modifications:
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (2)
@@ -1621,6 +1693,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340839059}
     m_Modifications:
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (5)
@@ -2023,6 +2103,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340839059}
     m_Modifications:
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (7)
@@ -2098,6 +2186,14 @@ PrefabInstance:
       propertyPath: direction
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (12)
@@ -2155,6 +2251,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340839059}
     m_Modifications:
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (6)
@@ -2281,6 +2385,14 @@ PrefabInstance:
     - target: {fileID: 192791314911337416, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: direction
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
@@ -2543,6 +2655,14 @@ PrefabInstance:
       propertyPath: direction
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn (15)
@@ -2605,6 +2725,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340839059}
     m_Modifications:
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761374101419201795, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5772252201088593515, guid: 5b4ca6cbce5f511418d9111474ef9310, type: 3}
       propertyPath: m_Name
       value: Pawn
