@@ -227,7 +227,7 @@ MonoBehaviour:
   pieceY: 0
   dead: 0
   killedByColour: 0
-  direction: 1
+  direction: 0
 --- !u!65 &2761374101419201795
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -39,16 +39,23 @@ public class PieceDrag : MonoBehaviour
         if (piece.checkIsValidMove(attemptedX, attemptedY))
         {
             transform.position = new Vector3(attemptedX, this.transform.position.y, attemptedY);
-            BHS.turn = (BHS.turn + 1) % BHS.players;
             OriginalPos();
-            GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>().UpdateAvailableSpaces();
-            GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>().CheckForEnd();
+            StartCoroutine(CheckAll(BHS.turn));
         }
         else
         {
             transform.position = new Vector3(piece.pieceX, this.transform.position.y, piece.pieceY);
         }
         BHS.ShowIndicators(false, new List<(int x, int y)>());
+        
+    }
+
+    IEnumerator CheckAll(int turn){
+        BHS.turn = -1;
+        yield return new WaitForSeconds(0.1f);
+        GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>().UpdateAvailableSpaces();
+        GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>().CheckForEnd();
+        BHS.turn = (turn + 1) % BHS.players;
     }
 
     public void OriginalPos()
