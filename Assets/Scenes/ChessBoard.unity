@@ -656,8 +656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec5b25d1eec8a4d4390b130316b0f93e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupAudio: {fileID: 0}
-  dropAudio: {fileID: 0}
+  dropAudio: {fileID: 8300000, guid: 0136fe4d7c579504a9f0988baaaab963, type: 3}
 --- !u!82 &1781139923
 AudioSource:
   m_ObjectHideFlags: 0

@@ -64,7 +64,6 @@ public class PieceDrag : MonoBehaviour
 
     public void OriginalPos()
     {
-        audioPlayer.pickupPiece();
         piece.pieceX = attemptedX;
         piece.pieceY = attemptedY;
     }

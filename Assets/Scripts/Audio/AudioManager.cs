@@ -6,17 +6,11 @@ public class AudioManager : MonoBehaviour
 {
 
     private AudioSource AS;
-    public AudioClip pickupAudio;
     public AudioClip dropAudio;
 
     void Start()
     {
         AS = GetComponent<AudioSource>();
-    }
-    public void pickupPiece()
-    {
-        AS.clip = pickupAudio;
-        AS.Play();
     }
     public void dropPiece()
     {
