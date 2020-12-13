@@ -75,7 +75,7 @@ public class ArrowDraw : MonoBehaviour
         }
     }
 
-    void HighlightSquare(int xCoord, int yCoord)
+    public void HighlightSquare(int xCoord, int yCoord)
     {
         bool z = false;
         for (int i = 0; i < drawnSquares.Count; i++)

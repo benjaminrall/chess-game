@@ -37,7 +37,7 @@ MonoBehaviour:
     Location: {x: 2, y: 0}
   - Piece: {fileID: 4371017406762007509, guid: 79b0572dc9f4fdc47834853e2a0f354b, type: 3}
     Location: {x: 3, y: 0}
-  - Piece: {fileID: 5736374402247160093, guid: edf1c18d075c4c246a329aaff8f89773, type: 3}
+  - Piece: {fileID: 383973819957508641, guid: db2689f74ea1a7147b28a4fefc3d68ae, type: 3}
     Location: {x: 4, y: 0}
   - Piece: {fileID: 4530054451612204216, guid: f065afdf94edb6944a7674ed3e835306, type: 3}
     Location: {x: 5, y: 0}

@@ -242,6 +242,7 @@ MonoBehaviour:
   killedByColour: 0
   hasMoved: 0
   direction: 0
+  highlightSquare: {fileID: 7111326664595309276, guid: 90563defd60dead40830345972b51bf0, type: 3}
 --- !u!1 &383973819997079525
 GameObject:
   m_ObjectHideFlags: 0

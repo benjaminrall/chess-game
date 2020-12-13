@@ -11,10 +11,32 @@ public class King : Piece
     public int direction = 0;
     public (int x, int y) castleDirections;
 
+    private bool isCheck;
+    private GameObject checkSquare;
+    public GameObject highlightSquare;
+    private GameObject UI;
+
     public override void Start() {
         hasMoved = false;
         SetDirections();
         base.Start();
+        BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
+        UI = GameObject.Find("UIHandler");
+    }
+
+    void Update()
+    {
+        if (BHS.checks[colour] == true && !isCheck)
+        {
+            checkSquare = Instantiate(highlightSquare, new Vector3(this.pieceX, 0.6f, this.pieceY), Quaternion.identity);
+            checkSquare.transform.SetParent(UI.transform);
+            isCheck = true;
+        }
+        else if (BHS.checks[colour] == false && isCheck)
+        {
+            Destroy(checkSquare);
+            isCheck = false;
+        }
     }
 
     private void SetDirections(){

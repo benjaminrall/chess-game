@@ -9,10 +9,12 @@ public class PieceDrag : MonoBehaviour
 
     private Piece piece;
     private BoardHandlerScript BHS;
+    private AudioManager audioPlayer;
 
     void Start()
     {
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
+        audioPlayer = GameObject.Find("AudioPlayer").GetComponent<AudioManager>();
         piece = gameObject.GetComponent<Piece>();
 
         if(gameObject.transform.childCount > 0)
@@ -39,15 +41,17 @@ public class PieceDrag : MonoBehaviour
         if (piece.checkIsValidMove(attemptedX, attemptedY))
         {
             transform.position = new Vector3(attemptedX, this.transform.position.y, attemptedY);
-            OriginalPos();
+            //OriginalPos();
+            piece.pieceX = attemptedX;
+            piece.pieceY = attemptedY;
             StartCoroutine(CheckAll(BHS.turn));
+            audioPlayer.dropPiece();
         }
         else
         {
             transform.position = new Vector3(piece.pieceX, this.transform.position.y, piece.pieceY);
         }
         BHS.ShowIndicators(false, new List<(int x, int y)>());
-        
     }
 
     IEnumerator CheckAll(int turn){
@@ -60,6 +64,7 @@ public class PieceDrag : MonoBehaviour
 
     public void OriginalPos()
     {
+        audioPlayer.pickupPiece();
         piece.pieceX = attemptedX;
         piece.pieceY = attemptedY;
     }
