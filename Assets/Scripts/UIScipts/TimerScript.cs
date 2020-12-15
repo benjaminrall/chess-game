@@ -46,14 +46,21 @@ public class TimerScript : MonoBehaviour
             if (Milliseconds[activePlayerColour] <= 0)
             {
                 Seconds[activePlayerColour] -= 1;
-                Milliseconds[activePlayerColour] = 60;
+                Milliseconds[activePlayerColour] = 59;
             }
             if (Seconds[activePlayerColour] <= 0)
             {
                 Minutes[activePlayerColour] -= 1;
-                Seconds[activePlayerColour] = 60;
+                Seconds[activePlayerColour] = 59;
             }
-            ClockText[activePlayerColour].text = Minutes[activePlayerColour].ToString() + ":" + Seconds[activePlayerColour].ToString();
+            if (Seconds[activePlayerColour] < 10)
+            {
+                ClockText[activePlayerColour].text = Minutes[activePlayerColour].ToString() + ":0" + Seconds[activePlayerColour].ToString();
+            }
+            else
+            {
+                ClockText[activePlayerColour].text = Minutes[activePlayerColour].ToString() + ":" + Seconds[activePlayerColour].ToString();
+            }
         }
     }
 

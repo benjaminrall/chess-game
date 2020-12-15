@@ -8,6 +8,10 @@ public class Pawn : Piece
     public int direction;
     public int promotionMoves = 6;
     public GameObject[] promotionPieces;
+    public GameObject promotionUIGO;
+    public GameObject WSUIGO;
+    private GameObject upgradeLink;
+    public int pieceUpgrade = -1;
 
     [HideInInspector]
     public bool enPassant = false;
@@ -35,6 +39,7 @@ public class Pawn : Piece
         base.Start();
         startX = pieceX;
         startY = pieceY;
+        WSUIGO = GameObject.Find("WorldSpaceUI");
     }
 
     private void SetDirections(){
@@ -71,7 +76,12 @@ public class Pawn : Piece
                 hasMoved = true;
             }
             movesMade++;
-            if (movesMade >= promotionMoves){
+            if (movesMade >= promotionMoves)
+            {
+                upgradeLink = Instantiate(promotionUIGO, new Vector3(attemptedX, 3, attemptedY), Quaternion.Euler(90,0,0));
+                upgradeLink.transform.SetParent(WSUIGO.transform);
+                upgradeLink.GetComponent<PromotionHandler>().pawnLink = this.gameObject;
+
                 promoted = true;
             }
             return true;

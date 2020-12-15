@@ -231,6 +231,12 @@ MonoBehaviour:
   promotionMoves: 6
   promotionPieces:
   - {fileID: 4371017406762007509, guid: 79b0572dc9f4fdc47834853e2a0f354b, type: 3}
+  - {fileID: 3953258588492159643, guid: fae15bac7b626564d90d8fd2304e5c51, type: 3}
+  - {fileID: 613312115112896298, guid: f1512ca115f14c1479d06f45503ccdb3, type: 3}
+  - {fileID: 4530054451612204216, guid: f065afdf94edb6944a7674ed3e835306, type: 3}
+  promotionUIGO: {fileID: 4782098335782034085, guid: 969f9624bad83b944bbfca260a32df57, type: 3}
+  WSUIGO: {fileID: 0}
+  pieceUpgrade: -1
   enPassant: 0
   enPassantablePieces: []
   promoted: 0

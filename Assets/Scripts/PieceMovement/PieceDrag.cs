@@ -48,10 +48,12 @@ public class PieceDrag : MonoBehaviour
                     // if piece is being promoted 
                     // this is currently shite because it's to bypass te piece being deactivated too quickly
                     // idea is that from ui you get index to promotionPieces list in pawns to get whatever piece you want to instantiate
+                    StartCoroutine(WaitForPromotion());
+                    /*
                     foreach(Transform child in piece.transform){
                         child.gameObject.SetActive(false);
-                    }
-                    GameObject newPiece = Instantiate(piece.gameObject.GetComponent<Pawn>().promotionPieces[0], BHS.transform);
+                    }                    
+                    GameObject newPiece = Instantiate(piece.gameObject.GetComponent<Pawn>().promotionPieces[piece.gameObject.GetComponent<Pawn>().pieceUpgrade], BHS.transform);
                     newPiece.transform.position = new Vector3(piece.pieceX, 1, piece.pieceY);
                     newPiece.GetComponent<Piece>().colour = piece.colour;
                     newPiece.GetComponent<Piece>().pieceX = piece.pieceX;
@@ -59,6 +61,7 @@ public class PieceDrag : MonoBehaviour
                     StartCoroutine(CheckAll(BHS.turn, true));
                     audioPlayer.dropPiece();
                     BHS.ShowIndicators(false, new List<(int x, int y)>());
+                    */
                     return;
                 }
             }
@@ -81,6 +84,27 @@ public class PieceDrag : MonoBehaviour
         if (kill){
             piece.Kill(-1);
         }
+    }
+
+    public IEnumerator WaitForPromotion()
+    {
+        Debug.Log("Still -1");
+        while (piece.gameObject.GetComponent<Pawn>().pieceUpgrade == -1)
+            yield return null;
+        Debug.Log("Past -1");
+        foreach (Transform child in piece.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+        GameObject newPiece = Instantiate(piece.gameObject.GetComponent<Pawn>().promotionPieces[piece.gameObject.GetComponent<Pawn>().pieceUpgrade], BHS.transform);
+        newPiece.transform.position = new Vector3(piece.pieceX, 1, piece.pieceY);
+        newPiece.GetComponent<Piece>().colour = piece.colour;
+        newPiece.GetComponent<Piece>().pieceX = piece.pieceX;
+        newPiece.GetComponent<Piece>().pieceY = piece.pieceY;
+        StartCoroutine(CheckAll(BHS.turn, true));
+        audioPlayer.dropPiece();
+        BHS.ShowIndicators(false, new List<(int x, int y)>());
+        yield return true;
     }
 
     public void OriginalPos()
