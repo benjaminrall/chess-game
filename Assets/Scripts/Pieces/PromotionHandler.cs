@@ -9,7 +9,7 @@ public class PromotionHandler : MonoBehaviour
     
     public void UpgradePawn(int pieceChoice)
     {
-        Debug.Log("Upgrade too: " + pieceChoice.ToString());
+        Debug.Log("Upgrade to: " + pieceChoice.ToString());
         pawnLink.GetComponent<Pawn>().pieceUpgrade = pieceChoice;
         Destroy(this.gameObject);
     }
