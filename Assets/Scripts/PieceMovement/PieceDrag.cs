@@ -48,11 +48,14 @@ public class PieceDrag : MonoBehaviour
                     // if piece is being promoted 
                     // this is currently shite because it's to bypass te piece being deactivated too quickly
                     // idea is that from ui you get index to promotionPieces list in pawns to get whatever piece you want to instantiate
-                    // also doesn't work yet
-                    // but effort whatever
+                    foreach(Transform child in piece.transform){
+                        child.gameObject.SetActive(false);
+                    }
                     GameObject newPiece = Instantiate(piece.gameObject.GetComponent<Pawn>().promotionPieces[0], BHS.transform);
                     newPiece.transform.position = new Vector3(piece.pieceX, 1, piece.pieceY);
                     newPiece.GetComponent<Piece>().colour = piece.colour;
+                    newPiece.GetComponent<Piece>().pieceX = piece.pieceX;
+                    newPiece.GetComponent<Piece>().pieceY = piece.pieceY;   
                     StartCoroutine(CheckAll(BHS.turn, true));
                     audioPlayer.dropPiece();
                     BHS.ShowIndicators(false, new List<(int x, int y)>());
