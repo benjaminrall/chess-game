@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoardHandlerScript : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class BoardHandlerScript : MonoBehaviour
     public int players = 2;
     public GameObject indicator;
 
-    [HideInInspector]
+    //[HideInInspector]
     public int turn = 0;
     [HideInInspector]
     public bool[] checks;
@@ -153,5 +154,10 @@ public class BoardHandlerScript : MonoBehaviour
             }
         }
         return gameObject;
+    }
+
+    public void PlayerResign(int playerColour)
+    {
+        Debug.Log(playerColour + " resigned");
     }
 }

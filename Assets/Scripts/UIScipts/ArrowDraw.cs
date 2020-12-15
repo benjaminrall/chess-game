@@ -21,13 +21,13 @@ public class ArrowDraw : MonoBehaviour
         public GameObject highlightGameObject;
     }
 
-    public List<DrawnArrow> drawnArrows = new List<DrawnArrow>();
-    public List<DrawnHighlightSquare> drawnSquares = new List<DrawnHighlightSquare>();
+    private List<DrawnArrow> drawnArrows = new List<DrawnArrow>();
+    private List<DrawnHighlightSquare> drawnSquares = new List<DrawnHighlightSquare>();
 
-    public int currentX;
-    public int currentY;
-    public int startX;
-    public int startY;
+    private int currentX;
+    private int currentY;
+    private int startX;
+    private int startY;
 
     public int arrowHeight;
     public float arrowWidth;
