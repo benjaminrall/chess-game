@@ -41,9 +41,24 @@ public class PieceDrag : MonoBehaviour
         if (piece.checkIsValidMove(attemptedX, attemptedY))
         {
             transform.position = new Vector3(attemptedX, this.transform.position.y, attemptedY);
-            //OriginalPos();
             piece.pieceX = attemptedX;
             piece.pieceY = attemptedY;
+            if (piece.gameObject.GetComponent<Pawn>()){
+                if (piece.gameObject.GetComponent<Pawn>().promoted){
+                    // if piece is being promoted 
+                    // this is currently shite because it's to bypass te piece being deactivated too quickly
+                    // idea is that from ui you get index to promotionPieces list in pawns to get whatever piece you want to instantiate
+                    // also doesn't work yet
+                    // but effort whatever
+                    GameObject newPiece = Instantiate(piece.gameObject.GetComponent<Pawn>().promotionPieces[0], BHS.transform);
+                    newPiece.transform.position = new Vector3(piece.pieceX, 1, piece.pieceY);
+                    newPiece.GetComponent<Piece>().colour = piece.colour;
+                    StartCoroutine(CheckAll(BHS.turn, true));
+                    audioPlayer.dropPiece();
+                    BHS.ShowIndicators(false, new List<(int x, int y)>());
+                    return;
+                }
+            }
             StartCoroutine(CheckAll(BHS.turn));
             audioPlayer.dropPiece();
         }
@@ -54,12 +69,15 @@ public class PieceDrag : MonoBehaviour
         BHS.ShowIndicators(false, new List<(int x, int y)>());
     }
 
-    IEnumerator CheckAll(int turn){
+    IEnumerator CheckAll(int turn, bool kill = false){
         BHS.turn = -1;
         yield return new WaitForSeconds(0.1f);
         GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>().UpdateAvailableSpaces();
         GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>().CheckForEnd();
         BHS.turn = (turn + 1) % BHS.players;
+        if (kill){
+            piece.Kill(-1);
+        }
     }
 
     public void OriginalPos()

@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Pawn : Piece
 {
     public int direction;
+    public int promotionMoves = 6;
+    public GameObject[] promotionPieces;
 
     [HideInInspector]
     public bool enPassant = false;
@@ -12,12 +15,17 @@ public class Pawn : Piece
     public (int x, int y) enPassantSquare;
     [HideInInspector]
     public List<(int x, int y)> enPassantableSquares = new List<(int x, int y)>();
+    [HideInInspector]
     public List<Pawn> enPassantablePieces = new List<Pawn>();
+    [HideInInspector]
+    public bool promoted = false;
 
     public (int x, int y)[] directions;
     private bool hasMoved;
     private int turnsSinceMove = 0;
-
+    private int movesMade = 0;
+    private int startX;
+    private int startY;
 
     public override void Start()
     {
@@ -25,6 +33,8 @@ public class Pawn : Piece
         SetDirections();
         enPassantSquare = (pieceX + directions[0].x, pieceY + directions[0].y);
         base.Start();
+        startX = pieceX;
+        startY = pieceY;
     }
 
     private void SetDirections(){
@@ -56,8 +66,13 @@ public class Pawn : Piece
             if (!hasMoved){
                 if (attemptedX == pieceX + (2 * directions[0].x) && attemptedY == pieceY + (2 * directions[0].y)){
                     enPassant = true;
+                    movesMade++;
                 }
                 hasMoved = true;
+            }
+            movesMade++;
+            if (movesMade >= promotionMoves){
+                promoted = true;
             }
             return true;
         }

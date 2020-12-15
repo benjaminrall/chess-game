@@ -228,6 +228,12 @@ MonoBehaviour:
   dead: 0
   killedByColour: 0
   direction: 0
+  promotionMoves: 6
+  promotionPieces:
+  - {fileID: 4371017406762007509, guid: 79b0572dc9f4fdc47834853e2a0f354b, type: 3}
+  enPassant: 0
+  enPassantablePieces: []
+  promoted: 0
 --- !u!65 &2761374101419201795
 BoxCollider:
   m_ObjectHideFlags: 0
