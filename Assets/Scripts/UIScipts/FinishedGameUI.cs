@@ -57,6 +57,7 @@ public class FinishedGameUI : MonoBehaviour
         PISS.InstantiatePieces();
         endGameUI.SetActive(false);
         timer.ResetClock();
+        BHS.gameIsPlaying = true;
     }
     public void ExitGame()
     {
