@@ -11,6 +11,9 @@ public class PieceDrag : MonoBehaviour
     private BoardHandlerScript BHS;
     private AudioManager audioPlayer;
 
+    [HideInInspector]
+    public bool GameIsPlaying = true;
+
     void Start()
     {
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
@@ -27,6 +30,7 @@ public class PieceDrag : MonoBehaviour
 
     void Update()
     {
+        GameIsPlaying = BHS.gameIsPlaying;
         attemptedX = Mathf.RoundToInt(transform.position.x);
         attemptedY = Mathf.RoundToInt(transform.position.z);
     }
@@ -38,30 +42,14 @@ public class PieceDrag : MonoBehaviour
 
     public void DropPiece()
     {
-        if (piece.checkIsValidMove(attemptedX, attemptedY))
+        if (piece.checkIsValidMove(attemptedX, attemptedY) && GameIsPlaying)
         {
             transform.position = new Vector3(attemptedX, this.transform.position.y, attemptedY);
             piece.pieceX = attemptedX;
             piece.pieceY = attemptedY;
             if (piece.gameObject.GetComponent<Pawn>()){
                 if (piece.gameObject.GetComponent<Pawn>().promoted){
-                    // if piece is being promoted 
-                    // this is currently shite because it's to bypass te piece being deactivated too quickly
-                    // idea is that from ui you get index to promotionPieces list in pawns to get whatever piece you want to instantiate
                     StartCoroutine(WaitForPromotion());
-                    /*
-                    foreach(Transform child in piece.transform){
-                        child.gameObject.SetActive(false);
-                    }                    
-                    GameObject newPiece = Instantiate(piece.gameObject.GetComponent<Pawn>().promotionPieces[piece.gameObject.GetComponent<Pawn>().pieceUpgrade], BHS.transform);
-                    newPiece.transform.position = new Vector3(piece.pieceX, 1, piece.pieceY);
-                    newPiece.GetComponent<Piece>().colour = piece.colour;
-                    newPiece.GetComponent<Piece>().pieceX = piece.pieceX;
-                    newPiece.GetComponent<Piece>().pieceY = piece.pieceY;   
-                    StartCoroutine(CheckAll(BHS.turn, true));
-                    audioPlayer.dropPiece();
-                    BHS.ShowIndicators(false, new List<(int x, int y)>());
-                    */
                     return;
                 }
             }

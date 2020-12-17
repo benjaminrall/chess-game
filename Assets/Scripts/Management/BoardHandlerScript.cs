@@ -11,7 +11,14 @@ public class BoardHandlerScript : MonoBehaviour
     public Material[] pieceTertiaryColours;
     public int players = 2;
     public GameObject indicator;
+<<<<<<< Updated upstream
     public NetworkManager networkManager;
+=======
+    public string[] colourNames;
+
+    public bool gameIsPlaying = true;
+    public FinishedGameUI FGUI;
+>>>>>>> Stashed changes
 
     [HideInInspector]
     public int turn = 0;
@@ -22,7 +29,11 @@ public class BoardHandlerScript : MonoBehaviour
     
     private King[] kings;
 
+
+
     private void Start() {
+        FGUI = GameObject.Find("UIHandler").GetComponent<FinishedGameUI>();
+
         checks = new bool[players];
         for (int i = 0; i < checks.Length; i++){
             checks[i] = false;
@@ -151,9 +162,11 @@ public class BoardHandlerScript : MonoBehaviour
             }
             if (ended && checks[i]){
                 Debug.Log(i + " checkmated");
+                FGUI.PlayerCheckmated(i);
             }
             else if (ended){
                 Debug.Log(i + " stalemated");
+                FGUI.ShowEndGameUI("Stalemate");
             }
         }
     }
@@ -165,10 +178,5 @@ public class BoardHandlerScript : MonoBehaviour
             }
         }
         return gameObject;
-    }
-
-    public void PlayerResign(int playerColour)
-    {
-        Debug.Log(playerColour + " resigned");
     }
 }

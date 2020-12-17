@@ -33,13 +33,10 @@ public class TimerScript : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        activePlayerColour = BHS.turn;
-    }
-
     void FixedUpdate()
     {
+        activePlayerColour = BHS.turn;
+
         if (TimerActive == true && activePlayerColour != -1)
         {
             Milliseconds[activePlayerColour] -= 1;
@@ -70,5 +67,13 @@ public class TimerScript : MonoBehaviour
         {
             array[i] = FillNum;
         }
+    }
+
+    public void ResetClock()
+    {
+        FillInt(Milliseconds, 60);
+        FillInt(Seconds, 59);
+        FillInt(Minutes, 9);
+        TimerActive = true;
     }
 }
