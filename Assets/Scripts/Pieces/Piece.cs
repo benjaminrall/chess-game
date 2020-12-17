@@ -35,7 +35,6 @@ public class Piece : MonoBehaviour
         pieceX = Mathf.RoundToInt(transform.position.x);
         pieceY = Mathf.RoundToInt(transform.position.z);
         //GetComponent<Renderer>().material = BHS.pieceColours[colour];
-        FindAvailableSpaces();
     }
 
     public virtual bool checkIsValidMove(int attemptedX, int attemptedY)

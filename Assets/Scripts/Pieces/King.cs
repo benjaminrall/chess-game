@@ -107,7 +107,7 @@ public class King : Piece
                     availableSpaces.Add((pieceX + (castleDirections.x * 2), pieceY + (castleDirections.y * 2)));
                 }
             }
-            if (!PieceAt(pieceX - castleDirections.x, pieceY - castleDirections.y) && !PieceAt(pieceX - (castleDirections.x * 2), pieceY - (castleDirections.y * 2))){
+            if (!PieceAt(pieceX - castleDirections.x, pieceY - castleDirections.y) && !PieceAt(pieceX - (castleDirections.x * 2), pieceY - (castleDirections.y * 2)) && !PieceAt(pieceX - (castleDirections.x * 3), pieceY - (castleDirections.y * 3))){
                 if (BHS.GetPieceAt(pieceX - (castleDirections.x * 4), pieceY - (castleDirections.y * 4)).GetComponent<Rook>() && !BHS.GetPieceAt(pieceX - (castleDirections.x * 4), pieceY - (castleDirections.y * 4)).GetComponent<Rook>().hasMoved){
                     availableSpaces.Add((pieceX - (castleDirections.x * 2), pieceY - (castleDirections.y * 2)));
                 }

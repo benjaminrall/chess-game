@@ -44,6 +44,7 @@ public class FinishedGameUI : MonoBehaviour
         {
             child.GetComponent<Piece>().pieceX = -1;
             child.GetComponent<Piece>().pieceY = -1;
+            child.transform.position = new Vector3(-1.0f, 0.0f, -1.0f);
             GameObject.Destroy(child.gameObject);
         }
         foreach (Transform child in this.transform)
