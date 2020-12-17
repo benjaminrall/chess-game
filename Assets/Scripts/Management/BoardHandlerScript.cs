@@ -11,14 +11,11 @@ public class BoardHandlerScript : MonoBehaviour
     public Material[] pieceTertiaryColours;
     public int players = 2;
     public GameObject indicator;
-<<<<<<< Updated upstream
     public NetworkManager networkManager;
-=======
     public string[] colourNames;
 
     public bool gameIsPlaying = true;
     public FinishedGameUI FGUI;
->>>>>>> Stashed changes
 
     [HideInInspector]
     public int turn = 0;
