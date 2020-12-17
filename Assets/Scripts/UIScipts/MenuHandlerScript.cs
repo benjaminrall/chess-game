@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Net;
+using System.Net.Sockets;
 
 public class MenuHandlerScript : MonoBehaviour
 {
     public GameObject ServerConnectUI;
     public GameObject MenuUI;
     public GameObject ServerForms;
-
     public GameObject JoinGameUI;
     public GameObject CreateGameUI;
-
     public Text startupIPField;
-
     public Text CodeInput;
+    public Text startupIPFieldOutput;
     public string ConnectedCode;
 
     //Account Details
     public string playerName;
-    public string connectedIP;
+    public IPAddress connectedIP;
 
     public Text NameDisplay;
     public Text ConnectedIPDisplay;
+
+    public NetworkManager networkManager;
 
     void Start()
     {
@@ -39,24 +41,36 @@ public class MenuHandlerScript : MonoBehaviour
 
     public void SubmitFirstIP()
     {
-        connectedIP = startupIPField.text;
+        string ipText = startupIPField.text;
+        if (ipText == ""){
+            ipText = "192.168.1.154";
+        }
+        if (IPAddress.TryParse(ipText, out connectedIP)){
+            if (networkManager.Connect()){
+                ServerConnectUI.SetActive(false);
+                MenuUI.SetActive(true);
+                NameDisplay.text = "Name: " + playerName;
+                ConnectedIPDisplay.text = "Connected IP: " + connectedIP;
+            }
+            else{
+                startupIPFieldOutput.text = "Connection failed";
+            }
+        }
+        else{
+            startupIPFieldOutput.text = "Invalid IP input";
+        }
         startupIPField.text = "";
-        Debug.Log(connectedIP);
-        ServerConnectUI.SetActive(false);
-        MenuUI.SetActive(true);
-
-        NameDisplay.text = "Name: " + playerName;
-        ConnectedIPDisplay.text = "Connected IP: " + connectedIP;
     }
 
     public void SwitchServer()
     {
+        networkManager.CloseConnection();
         ServerConnectUI.SetActive(true);
         MenuUI.SetActive(false);
         ServerForms.SetActive(false);
-        connectedIP = "";
+        connectedIP = null;
         startupIPField.text = "";
-}
+    }
 
     public void PlayButton()
     {

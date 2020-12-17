@@ -11,11 +11,14 @@ public class BoardHandlerScript : MonoBehaviour
     public Material[] pieceTertiaryColours;
     public int players = 2;
     public GameObject indicator;
+    public NetworkManager networkManager;
 
-    //[HideInInspector]
+    [HideInInspector]
     public int turn = 0;
     [HideInInspector]
     public bool[] checks;
+    [HideInInspector]
+    public bool active;
     
     private King[] kings;
 
@@ -30,6 +33,14 @@ public class BoardHandlerScript : MonoBehaviour
                 kings[child.gameObject.GetComponent<King>().colour] = child.gameObject.GetComponent<King>();
             }
         }
+    }
+
+    public string Encode(){
+        return "";
+    }
+
+    public void Decode(string msg){
+
     }
 
     public void UpdateAvailableSpaces(bool temp = false, int nx = 0, int ny = 0, bool enPassant = false){
