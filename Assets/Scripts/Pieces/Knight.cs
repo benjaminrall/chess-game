@@ -6,10 +6,6 @@ using UnityEngine;
 public class Knight : Piece
 {
 
-    public override void Start() {
-        base.Start();
-    }
-
     public override bool checkIsValidMove(int attemptedX, int attemptedY)
     {
         if (availableSpaces.Contains((attemptedX, attemptedY))){

@@ -8,9 +8,9 @@ public class Rook : Piece
     [HideInInspector]
     public bool hasMoved;
 
-    public override void Start() {
+    public override void Setup() {
         hasMoved = false;
-        base.Start();
+        base.Setup();
     }
 
     public override bool checkIsValidMove(int attemptedX, int attemptedY)

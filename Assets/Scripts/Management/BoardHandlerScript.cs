@@ -26,9 +26,7 @@ public class BoardHandlerScript : MonoBehaviour
     
     private King[] kings;
 
-
-
-    private void Start() {
+    public void Setup(){
         FGUI = GameObject.Find("UIHandler").GetComponent<FinishedGameUI>();
 
         checks = new bool[players];

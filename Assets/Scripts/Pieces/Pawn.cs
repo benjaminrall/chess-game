@@ -31,12 +31,12 @@ public class Pawn : Piece
     private int startX;
     private int startY;
 
-    public override void Start()
+    public override void Setup()
     {
         hasMoved = false;
         SetDirections();
         enPassantSquare = (pieceX + directions[0].x, pieceY + directions[0].y);
-        base.Start();
+        base.Setup();
         startX = pieceX;
         startY = pieceY;
         WSUIGO = GameObject.Find("WorldSpaceUI");
@@ -99,6 +99,7 @@ public class Pawn : Piece
         if(hasMoved){
             turnsSinceMove++;
         }
+        SetDirections();
         if (0 <= pieceX + directions[0].x && pieceX + directions[0].x <= 7 && 0 <= pieceY + directions[0].y && pieceY + directions[0].y <= 7){
             if (!PieceAt(pieceX + directions[0].x, pieceY + directions[0].y)){
                 availableSpaces.Add((pieceX + directions[0].x, pieceY + directions[0].y));
@@ -113,34 +114,36 @@ public class Pawn : Piece
                 availableSpaces.Add((pieceX + directions[2].x, pieceY + directions[2].y));
             }
         }
-        if (BHS.GetPieceAt(pieceX + directions[0].x, pieceY + directions[0].y).GetComponent<Pawn>()){
-            Pawn p = BHS.GetPieceAt(pieceX + directions[0].x, pieceY + directions[0].y).GetComponent<Pawn>();
-            if (p.colour != colour && p.direction % 2 == (direction + 1) % 2 && p.enPassant){
-                availableSpaces.Add((p.enPassantSquare.x, p.enPassantSquare.y));
-                enPassantableSquares.Add((p.enPassantSquare.x, p.enPassantSquare.y));
-                enPassantablePieces.Add(p);
+        if (hasMoved){
+            if (BHS.GetPieceAt(pieceX + directions[0].x, pieceY + directions[0].y).GetComponent<Pawn>()){
+                Pawn p = BHS.GetPieceAt(pieceX + directions[0].x, pieceY + directions[0].y).GetComponent<Pawn>();
+                if (p.colour != colour && p.direction % 2 == (direction + 1) % 2 && p.enPassant){
+                    availableSpaces.Add((p.enPassantSquare.x, p.enPassantSquare.y));
+                    enPassantableSquares.Add((p.enPassantSquare.x, p.enPassantSquare.y));
+                    enPassantablePieces.Add(p);
+                }
             }
-        }
-        if (direction % 2 == 0 && (BHS.GetPieceAt(pieceX, pieceY + directions[1].y).GetComponent<Pawn>() || BHS.GetPieceAt(pieceX, pieceY + directions[2].y).GetComponent<Pawn>())){
-            Pawn p = BHS.GetPieceAt(pieceX, pieceY + directions[1].y).GetComponent<Pawn>();
-            if (!p){
-                p = BHS.GetPieceAt(pieceX, pieceY + directions[2].y).GetComponent<Pawn>();
+            if (direction % 2 == 0 && (BHS.GetPieceAt(pieceX, pieceY + directions[1].y).GetComponent<Pawn>() || BHS.GetPieceAt(pieceX, pieceY + directions[2].y).GetComponent<Pawn>())){
+                Pawn p = BHS.GetPieceAt(pieceX, pieceY + directions[1].y).GetComponent<Pawn>();
+                if (!p){
+                    p = BHS.GetPieceAt(pieceX, pieceY + directions[2].y).GetComponent<Pawn>();
+                }
+                if (p.colour != colour && p.direction % 2 == direction % 2 && p.enPassant){
+                    availableSpaces.Add((p.enPassantSquare.x, p.enPassantSquare.y));
+                    enPassantableSquares.Add((p.enPassantSquare.x, p.enPassantSquare.y));
+                    enPassantablePieces.Add(p);
+                }
             }
-            if (p.colour != colour && p.direction % 2 == direction % 2 && p.enPassant){
-                availableSpaces.Add((p.enPassantSquare.x, p.enPassantSquare.y));
-                enPassantableSquares.Add((p.enPassantSquare.x, p.enPassantSquare.y));
-                enPassantablePieces.Add(p);
-            }
-        }
-        if (direction % 2 == 1 && (BHS.GetPieceAt(pieceX + directions[1].x, pieceY).GetComponent<Pawn>() || BHS.GetPieceAt(pieceX + directions[2].x, pieceY).GetComponent<Pawn>())){
-            Pawn p = BHS.GetPieceAt(pieceX + directions[1].x, pieceY).GetComponent<Pawn>();
-            if (!p){
-                p = BHS.GetPieceAt(pieceX + directions[2].x, pieceY).GetComponent<Pawn>();
-            }
-            if (p.colour != colour && p.direction % 2 == direction % 2 && p.enPassant){
-                availableSpaces.Add((p.enPassantSquare.x, p.enPassantSquare.y));
-                enPassantableSquares.Add((p.enPassantSquare.x, p.enPassantSquare.y));
-                enPassantablePieces.Add(p);
+            if (direction % 2 == 1 && (BHS.GetPieceAt(pieceX + directions[1].x, pieceY).GetComponent<Pawn>() || BHS.GetPieceAt(pieceX + directions[2].x, pieceY).GetComponent<Pawn>())){
+                Pawn p = BHS.GetPieceAt(pieceX + directions[1].x, pieceY).GetComponent<Pawn>();
+                if (!p){
+                    p = BHS.GetPieceAt(pieceX + directions[2].x, pieceY).GetComponent<Pawn>();
+                }
+                if (p.colour != colour && p.direction % 2 == direction % 2 && p.enPassant){
+                    availableSpaces.Add((p.enPassantSquare.x, p.enPassantSquare.y));
+                    enPassantableSquares.Add((p.enPassantSquare.x, p.enPassantSquare.y));
+                    enPassantablePieces.Add(p);
+                }
             }
         }
     }

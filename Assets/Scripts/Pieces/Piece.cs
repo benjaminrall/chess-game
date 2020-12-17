@@ -29,9 +29,11 @@ public class Piece : MonoBehaviour
         pieceY = Mathf.RoundToInt(transform.position.z);
     }
 
-    public virtual void Start(){
+    public virtual void Setup(){
         pieces = GameObject.Find("BoardHandler").transform;
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
+        pieceX = Mathf.RoundToInt(transform.position.x);
+        pieceY = Mathf.RoundToInt(transform.position.z);
         //GetComponent<Renderer>().material = BHS.pieceColours[colour];
         FindAvailableSpaces();
     }

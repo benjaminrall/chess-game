@@ -16,10 +16,10 @@ public class King : Piece
     public GameObject highlightSquare;
     private GameObject UI;
 
-    public override void Start() {
+    public override void Setup() {
         hasMoved = false;
         SetDirections();
-        base.Start();
+        base.Setup();
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
         UI = GameObject.Find("UIHandler");
     }

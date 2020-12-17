@@ -28,7 +28,7 @@ class Game:
     def Disconnect(self, id):
         self.emptyPlaces.append(self.players[id])
         self.players.pop(id)
-        self.playerIDs.pop(id)
+        self.playerIDs.remove(id)
         self.full = False
         if len(self.playerIDs) > 0 and id == self.host:
             self.playerIDs[0] = self.host

@@ -23,11 +23,6 @@ public class FinishedGameUI : MonoBehaviour
         endGameUI.SetActive(false);
     }
 
-    void Update()
-    {
-        
-    }
-
     public void ShowEndGameUI(string text)
     {
         endGameUI.SetActive(true);
@@ -47,6 +42,8 @@ public class FinishedGameUI : MonoBehaviour
 
         foreach (Transform child in BHS.transform)
         {
+            child.GetComponent<Piece>().pieceX = -1;
+            child.GetComponent<Piece>().pieceY = -1;
             GameObject.Destroy(child.gameObject);
         }
         foreach (Transform child in this.transform)
