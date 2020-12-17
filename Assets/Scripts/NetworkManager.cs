@@ -50,32 +50,37 @@ public class NetworkManager : MonoBehaviour
     }
 
     private void Update() {
-        GameObject BHS_GO = GameObject.Find("BoardHandler");
-        if (BHS_GO){
-            BHS = BHS_GO.GetComponent<BoardHandlerScript>();
-        }
-        if (BHS != null){
-            if (waiting && playerID == 0){
-                if (StartGame()){
-                    waiting = false;
-                    playing = true;
-                    Debug.Log("game started");
-                    BHS.networkManager = this;
+        if (connected && (waiting || playing)){
+            GameObject BHS_GO = GameObject.Find("BoardHandler");
+            if (BHS_GO){
+                BHS = BHS_GO.GetComponent<BoardHandlerScript>();
+            }
+            if (BHS != null){
+                if (waiting && host){
+                    if (StartGame()){
+                        waiting = false;
+                        playing = true;
+                        Debug.Log("game started");
+                        BHS.networkManager = this;
+                        GetGame();
+                    }
+                }
+                else if (waiting){
                     GetGame();
+                    if (BHS.active){
+                        waiting = false;
+                        playing = true;
+                    }
+                }
+                else if (playing){
+                    if (playerID != BHS.turn){
+                        BHS.networkManager = this;
+                        GetGame();
+                    }
                 }
             }
-            else if (waiting){
-                GetGame();
-                if (BHS.active){
-                    waiting = false;
-                    playing = true;
-                }
-            }
-            else if (playing){
-                if (playerID != BHS.turn){
-                    BHS.networkManager = this;
-                    GetGame();
-                }
+            if (GetHost()){
+                host = true;
             }
         }
     }
@@ -131,14 +136,15 @@ public class NetworkManager : MonoBehaviour
         return responseStr.Replace("\x00", "");
     }
 
-    public void CreateGame(){
-        Send("create_game::4");
+    public void CreateGame(int players){
+        Send("create_game::" + players.ToString());
         code = Receive();
         Send("join_game::" + code);
         playerID = int.Parse(Receive());
         Debug.Log("Created game with code " + code);
         SceneManager.LoadScene(1);
         waiting = true;
+        host = true;
     }
 
     public void JoinGame(){
@@ -153,8 +159,11 @@ public class NetworkManager : MonoBehaviour
             SceneManager.LoadScene(1);
             waiting = true;
         }
+        else if (response == "full"){
+            menuHandler.CodeInputOutput.text = "Game full";
+        }
         else{
-            // uiManager.joinText.text = "Game not found";
+            menuHandler.CodeInputOutput.text = "Game not found";
         }
     }
 
@@ -176,5 +185,13 @@ public class NetworkManager : MonoBehaviour
         else{
             return false;
         }
+    }
+
+    public bool GetHost(){
+        Send("get_host::" + code);
+        if (Receive() == "True"){
+            return true;
+        }
+        return false;
     }
 }

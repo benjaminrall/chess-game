@@ -13,9 +13,13 @@ public class MenuHandlerScript : MonoBehaviour
     public GameObject ServerForms;
     public GameObject JoinGameUI;
     public GameObject CreateGameUI;
+    public GameObject Presets;
     public Text startupIPField;
-    public Text CodeInput;
     public Text startupIPFieldOutput;
+    public Text CodeInput;
+    public Text CodeInputOutput;
+    public Text PresetName;
+    public Text PresetPlayers;
     public string ConnectedCode;
 
     //Account Details
@@ -27,16 +31,13 @@ public class MenuHandlerScript : MonoBehaviour
 
     public NetworkManager networkManager;
 
+    private int currentPreset;
+
     void Start()
     {
         ServerConnectUI.SetActive(true);
         MenuUI.SetActive(false);
         ServerForms.SetActive(false);
-    }
-
-    void Update()
-    {
-
     }
 
     public void SubmitFirstIP()
@@ -98,6 +99,7 @@ public class MenuHandlerScript : MonoBehaviour
     {
         CreateGameUI.SetActive(true);
         JoinGameUI.SetActive(false);
+        SelectPreset(0);
     }
     
     public void BackButtonIP()
@@ -109,18 +111,35 @@ public class MenuHandlerScript : MonoBehaviour
 
     public void CreateGame()
     {
-        //Create Game lol
+        networkManager.CreateGame(Presets.transform.GetChild(currentPreset).GetComponent<PresetSettings>().players);
     }
 
     public void JoinExistingGame()
     {
         ConnectedCode = CodeInput.text;
-        Debug.Log(ConnectedCode);
         CodeInput.text = "";
-        if(ConnectedCode == "1234")
-        {
-            SceneManager.LoadScene("ChessBoard");
+        networkManager.JoinGame();
+    }
+
+    public void SelectPreset(int index){
+        for (int i = 0; i < Presets.transform.childCount; i++){
+            Presets.transform.GetChild(i).gameObject.SetActive(i == index);
+            if (i == index){
+                PresetSettings s = Presets.transform.GetChild(i).GetComponent<PresetSettings>();
+                PresetName.text = "Name: " + s.presetName;
+                PresetPlayers.text = "Players: " + s.players.ToString();
+            }
         }
-        //Do join stuff lol
+    }
+
+    public void ChangePreset(int change){
+        currentPreset += change;
+        if (currentPreset < 0){
+            currentPreset = Presets.transform.childCount - 1;
+        }
+        if (currentPreset >= Presets.transform.childCount){
+            currentPreset = 0;
+        }
+        SelectPreset(currentPreset);
     }
 }

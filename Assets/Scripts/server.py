@@ -2,9 +2,11 @@ import socket, random
 from _thread import *
 
 class Game:
-    def __init__(self, code, maxPlayers):
+    def __init__(self, code, maxPlayers, host):
         self.code = code
         self.maxPlayers = maxPlayers
+        self.host = host
+        self.playerIDs = []
         self.players = {}
         self.active = False
         self.full = False
@@ -17,6 +19,7 @@ class Game:
 
     def AddPlayer(self, id):
         self.players[id] = self.emptyPlaces[0]
+        self.playerIDs.append(id)
         self.emptyPlaces.pop(0)
         if len(self.players) >= self.maxPlayers:
             self.full = True
@@ -25,7 +28,10 @@ class Game:
     def Disconnect(self, id):
         self.emptyPlaces.append(self.players[id])
         self.players.pop(id)
+        self.playerIDs.pop(id)
         self.full = False
+        if len(self.playerIDs) > 0 and id == self.host:
+            self.playerIDs[0] = self.host
 
     def Encode(self):
         return str(self.turn) + "~" + str(self.counter) + "~" + str(self.active) + "~" + str(self.maxPlayers)
@@ -34,6 +40,7 @@ class Game:
         msg = msg.split("~")
         self.turn = msg[0]
         self.counter = msg[1]
+
 
 server = "192.168.1.154"
 port = 5555
@@ -64,7 +71,7 @@ def threaded_client(conn, playerID):
                 while True:
                     code = random.choice(codeCharacterValues) + random.choice(codeCharacterValues) + random.choice(codeCharacterValues) + random.choice(codeCharacterValues)
                     if code not in games:
-                        games[code] = Game(code, int(msg[1]))
+                        games[code] = Game(code, int(msg[1]), playerID)
                         break
                 print(f"new game created with code {code}")
                 response = code
@@ -74,6 +81,8 @@ def threaded_client(conn, playerID):
             elif msg[0] == "get_game_code":
                 if msg[1] in games:
                     response = msg[1]
+                    if games[msg[1]].full:
+                        response = "full"
             elif msg[0] == "join_game":
                 if not games[msg[1]].full and not games[msg[1]].active:
                     response = str(games[msg[1]].AddPlayer(playerID)) 
@@ -85,6 +94,9 @@ def threaded_client(conn, playerID):
                 if not games[msg[1]].active and games[msg[1]].full:
                     games[msg[1]].active = True
                     response = "true"
+            elif msg[0] == "get_host":
+                if msg[1] in games:
+                    response = str(games[msg[1]].host == playerID)
             conn.send(response.encode())
         except:
             print(f"{playerID} {addr} disconnected forcefully.")
@@ -92,8 +104,9 @@ def threaded_client(conn, playerID):
             break
     if gameCode in games:
         games[gameCode].Disconnect(playerID)
-        if len(games[gameCode].players) <= 0:
+        if len(games[gameCode].playerIDs) <= 0:
             games.pop(gameCode)
+            print(f"Game {gameCode} deleted.")
     conn.close()
 
 while True:
