@@ -17,7 +17,7 @@ public class BoardHandlerScript : MonoBehaviour
     public bool gameIsPlaying = true;
     public FinishedGameUI FGUI;
 
-    [HideInInspector]
+    //[HideInInspector]
     public int turn = 0;
     [HideInInspector]
     public bool[] checks;

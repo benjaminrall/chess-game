@@ -80,18 +80,26 @@ public class PieceDrag : MonoBehaviour
         while (piece.gameObject.GetComponent<Pawn>().pieceUpgrade == -1)
             yield return null;
         Debug.Log("Past -1");
+        /*
         foreach (Transform child in piece.transform)
         {
             child.gameObject.SetActive(false);
         }
+        */
+        
         GameObject newPiece = Instantiate(piece.gameObject.GetComponent<Pawn>().promotionPieces[piece.gameObject.GetComponent<Pawn>().pieceUpgrade], BHS.transform);
         newPiece.transform.position = new Vector3(piece.pieceX, 1, piece.pieceY);
         newPiece.GetComponent<Piece>().colour = piece.colour;
-        newPiece.GetComponent<Piece>().pieceX = piece.pieceX;
-        newPiece.GetComponent<Piece>().pieceY = piece.pieceY;
-        StartCoroutine(CheckAll(BHS.turn, true));
+        newPiece.GetComponent<Piece>().pieceX = attemptedX;
+        newPiece.GetComponent<Piece>().pieceY = attemptedY;
+        newPiece.GetComponent<Piece>().Setup();
+        //StartCoroutine(CheckAll(BHS.turn, true));
+        BHS.turn = (BHS.turn + 1) % BHS.players;
+
         audioPlayer.dropPiece();
         BHS.ShowIndicators(false, new List<(int x, int y)>());
+        
+        Destroy(this.gameObject);
         yield return true;
     }
 
