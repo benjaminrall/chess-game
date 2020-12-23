@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource AS;
     public AudioClip dropAudio;
+    public float currentVolume;
 
     void Start()
     {
