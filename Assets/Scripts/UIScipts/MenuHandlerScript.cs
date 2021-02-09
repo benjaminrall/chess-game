@@ -44,7 +44,7 @@ public class MenuHandlerScript : MonoBehaviour
     {
         string ipText = startupIPField.text;
         if (ipText == ""){
-            ipText = "192.168.1.154";
+            ipText = "192.168.1.104";
         }
         if (IPAddress.TryParse(ipText, out connectedIP)){
             if (networkManager.Connect()){
