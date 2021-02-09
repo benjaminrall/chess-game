@@ -5,33 +5,30 @@ class Game:
     def __init__(self, code, maxPlayers, host):
         self.code = code
         self.maxPlayers = maxPlayers
-        self.host = host
-        self.playerIDs = []
-        self.players = {}
+        self.host = host    # id of host of game
+
+        self.playerIDs = [] # list of player ids in game
+
         self.active = False
         self.full = False
         self.turn = 0
         self.counter = 0
-        self.emptyPlaces = []
-        for i in range(self.maxPlayers):
-            self.emptyPlaces.append(i)
-        random.shuffle(self.emptyPlaces)
 
     def AddPlayer(self, id):
-        self.players[id] = self.emptyPlaces[0]
         self.playerIDs.append(id)
-        self.emptyPlaces.pop(0)
-        if len(self.players) >= self.maxPlayers:
+        if len(self.playerIDs) >= self.maxPlayers:
             self.full = True
-        return self.players[id]
+            print("Game full")
+        print(f"Added player: {id}, now player IDs: {self.playerIDs}")
+        return id
 
     def Disconnect(self, id):
-        self.emptyPlaces.append(self.players[id])
-        self.players.pop(id)
-        self.playerIDs.remove(id)
-        self.full = False
-        if len(self.playerIDs) > 0 and id == self.host:
-            self.playerIDs[0] = self.host
+        if not self.active:
+            self.playerIDs.remove(id)
+            self.full = False
+            if len(self.playerIDs) > 0 and id == self.host:
+                self.host = self.playerIDs[0]
+            print(f"Removed player: {id}, now player IDs: {self.playerIDs}")
 
     def Encode(self):
         return str(self.turn) + "~" + str(self.counter) + "~" + str(self.active) + "~" + str(self.maxPlayers)
@@ -67,6 +64,7 @@ def threaded_client(conn, playerID):
         try:
             msg = conn.recv(1024).decode().split("::")
             response = "null"
+
             if msg[0] == "create_game":
                 while True:
                     code = random.choice(codeCharacterValues) + random.choice(codeCharacterValues) + random.choice(codeCharacterValues) + random.choice(codeCharacterValues)
@@ -75,28 +73,38 @@ def threaded_client(conn, playerID):
                         break
                 print(f"new game created with code {code}")
                 response = code
+
             elif msg[0] == "get_game":
                 if msg[1] in games:
                     response = games[msg[1]].Encode()
+
             elif msg[0] == "get_game_code":
                 if msg[1] in games:
                     response = msg[1]
                     if games[msg[1]].full:
+
                         response = "full"
             elif msg[0] == "join_game":
                 if not games[msg[1]].full and not games[msg[1]].active:
                     response = str(games[msg[1]].AddPlayer(playerID)) 
                     gameCode = games[msg[1]].code
                     print(f"{playerID} {addr} joined game {gameCode}")
+                elif games[msg[1]].full:
+                    response = "full"
+
             elif msg[0] == "send_game":
                 games[msg[1]].Decode(msg[2])
+
             elif msg[0] == "start_game":
                 if not games[msg[1]].active and games[msg[1]].full:
                     games[msg[1]].active = True
                     response = "true"
+                    print(f"started game {msg[1]}")
+
             elif msg[0] == "get_host":
                 if msg[1] in games:
                     response = str(games[msg[1]].host == playerID)
+
             conn.send(response.encode())
         except:
             print(f"{playerID} {addr} disconnected forcefully.")

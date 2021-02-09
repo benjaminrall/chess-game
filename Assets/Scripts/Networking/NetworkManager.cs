@@ -151,7 +151,7 @@ public class NetworkManager : MonoBehaviour
         Send("get_game_code::" + menuHandler.ConnectedCode);
         string response = "null";
         response = Receive();
-        if (response != "null"){
+        if (response != "null" && response != "full"){
             code = response;
             Send("join_game::" + code);
             playerID = int.Parse(Receive());
