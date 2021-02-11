@@ -51,6 +51,10 @@ public class PauseMenu : MonoBehaviour
                 pauseMenuActive = true;
             }
         }
+    }
+
+    public void UpdateVolume()
+    {
         masterVolumeSetting = mVSlider.GetComponent<Slider>().value;
     }
 

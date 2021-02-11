@@ -1551,7 +1551,7 @@ MonoBehaviour:
   settingsMenuUI: {fileID: 727695385}
   exitConfirmUI: {fileID: 223061667}
   exitDefiniteConfirmUI: {fileID: 70249424}
-  masterVolumeSetting: 0
+  masterVolumeSetting: 1
   mVSlider: {fileID: 1325424909}
   AS: {fileID: 0}
 --- !u!114 &476534117
@@ -3910,12 +3910,24 @@ MonoBehaviour:
   m_HandleRect: {fileID: 899477998}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 2
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 476534116}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: UpdateVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1332773468
 GameObject:
   m_ObjectHideFlags: 0
