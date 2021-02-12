@@ -4181,6 +4181,7 @@ MonoBehaviour:
   ServerForms: {fileID: 1505978575}
   JoinGameUI: {fileID: 1883656799}
   CreateGameUI: {fileID: 182179680}
+  WaitingRoom: {fileID: 1998608773}
   Presets: {fileID: 114670183}
   startupIPField: {fileID: 768969228}
   startupIPFieldOutput: {fileID: 1594799753}
@@ -5000,7 +5001,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1998608774
 RectTransform:
   m_ObjectHideFlags: 0

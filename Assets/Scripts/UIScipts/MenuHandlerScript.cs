@@ -13,6 +13,7 @@ public class MenuHandlerScript : MonoBehaviour
     public GameObject ServerForms;
     public GameObject JoinGameUI;
     public GameObject CreateGameUI;
+    public GameObject WaitingRoom;
     public GameObject Presets;
     public Text startupIPField;
     public Text startupIPFieldOutput;

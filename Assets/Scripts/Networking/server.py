@@ -119,7 +119,7 @@ def threaded_client(conn, playerID):
 
 while True:
     conn, addr = s.accept()
-    if players < 400000:
+    if players < 999999:
         players += 1
     else:
         players = 0
