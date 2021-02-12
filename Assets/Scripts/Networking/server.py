@@ -78,6 +78,10 @@ def threaded_client(conn, playerID):
                 if msg[1] in games:
                     response = games[msg[1]].Encode()
 
+            elif msg[0] == "get_game_info":
+                if msg[1] in games:
+                    response = games[msg[1]].code + " " + str(len(games[msg[1]].playerIDs)) + " " + str(games[msg[1]].maxPlayers)
+
             elif msg[0] == "get_game_code":
                 if msg[1] in games:
                     response = msg[1]

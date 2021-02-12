@@ -728,6 +728,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359551494}
   m_CullTransparentMesh: 0
+--- !u!1 &476833851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 476833852}
+  m_Layer: 5
+  m_Name: StartButtonHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &476833852
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476833851}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 575661834}
+  m_Father: {fileID: 1998608774}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &504381307
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,7 +1125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &575661834
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1097,13 +1133,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 575661833}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1457500882}
-  m_Father: {fileID: 1998608774}
-  m_RootOrder: 3
+  m_Father: {fileID: 476833852}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1978,7 +2014,7 @@ RectTransform:
   m_Children:
   - {fileID: 710099097}
   m_Father: {fileID: 1998608774}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4189,6 +4225,10 @@ MonoBehaviour:
   CodeInputOutput: {fileID: 721681522}
   PresetName: {fileID: 1294633589}
   PresetPlayers: {fileID: 1119752290}
+  WaitingRoomCode: {fileID: 1035429944}
+  WaitingRoomPlayers: {fileID: 746088801}
+  WaitingRoomInfo: {fileID: 116980902}
+  WaitingRoomStartButton: {fileID: 476833851}
   ConnectedCode: 
   playerName: 
   NameDisplay: {fileID: 723827980}
@@ -5016,8 +5056,8 @@ RectTransform:
   - {fileID: 1035429943}
   - {fileID: 116980901}
   - {fileID: 746088800}
-  - {fileID: 575661834}
   - {fileID: 833662199}
+  - {fileID: 476833852}
   m_Father: {fileID: 1743950031}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -42,53 +42,50 @@ public class NetworkManager : MonoBehaviour
 		}
 	}
 
-    private void Start() {
+    private void Start() 
+    {
         GameObject menuHandlerGO = GameObject.Find("MenuHandler");
-        if (menuHandlerGO){
+        if (menuHandlerGO)
+        {
             menuHandler = menuHandlerGO.GetComponent<MenuHandlerScript>();
         }
     }
 
-    private void Update() {
-        if (connected && (waiting || playing)){
-            GameObject BHS_GO = GameObject.Find("BoardHandler");
-            if (BHS_GO){
-                BHS = BHS_GO.GetComponent<BoardHandlerScript>();
-            }
-            if (BHS != null){
-                if (waiting && host){
-                    if (StartGame()){
-                        waiting = false;
-                        playing = true;
-                        Debug.Log("game started");
-                        BHS.networkManager = this;
-                        GetGame();
-                    }
-                }
-                else if (waiting){
-                    GetGame();
-                    if (BHS.active){
-                        waiting = false;
-                        playing = true;
-                    }
-                }
-                else if (playing){
-                    if (playerID != BHS.turn){
-                        BHS.networkManager = this;
-                        GetGame();
-                    }
-                }
-            }
-            if (GetHost()){
+    private void Update() 
+    {
+        if (connected && (waiting || playing))
+        {
+            if (GetHost())
+            {
                 host = true;
+            }
+            if (waiting && host)
+            {
+                menuHandler.UpdateWaitingRoom(true, GetGameInfo());
+                /*                
+                if (StartGame())
+                {
+                    waiting = false;
+                    playing = true;
+                    Debug.Log("game started");
+                    BHS.networkManager = this;
+                    GetGame();
+                }
+                */
+            }
+            else if (waiting)
+            {
+                menuHandler.UpdateWaitingRoom(false, GetGameInfo());
             }
         }
     }
 
     public bool Connect()
     {
-        if (!connected){
-            try{
+        if (!connected)
+        {
+            try
+            {
                 endPoint = new IPEndPoint(menuHandler.connectedIP, 5555);
                 socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
@@ -100,18 +97,21 @@ public class NetworkManager : MonoBehaviour
                 Debug.Log("Connected Successfully");
                 return true;
             }
-            catch (Exception e){
+            catch (Exception e)
+            {
                 Debug.Log(e.Message);
                 Debug.Log("Connection Failed");
             }
         }
-        else{
+        else
+        {
             Debug.Log("Already connected");
         }
         return false;
     }
 
-    public void CloseConnection(){
+    public void CloseConnection()
+    {
         try
         {
             socket.Shutdown(SocketShutdown.Both);
@@ -124,72 +124,91 @@ public class NetworkManager : MonoBehaviour
         Debug.Log("Disconnected Successfully");
     }
 
-    public void Send(string msg){
+    public void Send(string msg)
+    {
         var buffer = System.Text.Encoding.UTF8.GetBytes(msg);
         networkStream.Write(buffer, 0, buffer.Length);
     }
 
-    public string Receive(){
+    public string Receive()
+    {
         var response = new byte[1024];
         var bytesRead = networkStream.Read(response, 0, response.Length);
         var responseStr = System.Text.Encoding.UTF8.GetString(response);
         return responseStr.Replace("\x00", "");
     }
 
-    public void CreateGame(int players){
+    public void CreateGame(int players)
+    {
         Send("create_game::" + players.ToString());
         code = Receive();
         Send("join_game::" + code);
         playerID = int.Parse(Receive());
         Debug.Log("Created game with code " + code);
-        SceneManager.LoadScene(1);
+        menuHandler.JoinWaitingRoom();
         waiting = true;
         host = true;
     }
 
-    public void JoinGame(){
+    public void JoinGame()
+    {
         Send("get_game_code::" + menuHandler.ConnectedCode);
         string response = "null";
         response = Receive();
-        if (response != "null" && response != "full"){
+        if (response != "null" && response != "full")
+        {
             code = response;
             Send("join_game::" + code);
             playerID = int.Parse(Receive());
-            Debug.Log(playerID);
-            SceneManager.LoadScene(1);
+            menuHandler.JoinWaitingRoom();
             waiting = true;
         }
-        else if (response == "full"){
+        else if (response == "full")
+        {
             menuHandler.CodeInputOutput.text = "Game full";
         }
-        else{
+        else
+        {
             menuHandler.CodeInputOutput.text = "Game not found";
         }
     }
 
-    public void GetGame(){
+    public void GetGame()
+    {
         Send("get_game::" + code);
         BHS.Decode(Receive());
     }
 
-    public void SendGame(){
+    public string GetGameInfo()
+    {
+        Send("get_game_info::" + code);
+        return Receive();
+    }
+
+    public void SendGame()
+    {
         Send("send_game::" + code + "::" + BHS.Encode());
         Receive();
     }
 
-    public bool StartGame(){
+    public bool StartGame()
+    {
         Send("start_game::" + code);
-        if (Receive() == "true"){
+        if (Receive() == "true")
+        {
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
     }
 
-    public bool GetHost(){
+    public bool GetHost()
+    {
         Send("get_host::" + code);
-        if (Receive() == "True"){
+        if (Receive() == "True")
+        {
             return true;
         }
         return false;

@@ -21,6 +21,10 @@ public class MenuHandlerScript : MonoBehaviour
     public Text CodeInputOutput;
     public Text PresetName;
     public Text PresetPlayers;
+    public Text WaitingRoomCode;
+    public Text WaitingRoomPlayers;
+    public Text WaitingRoomInfo;
+    public GameObject WaitingRoomStartButton;
     public string ConnectedCode;
 
     //Account Details
@@ -39,6 +43,7 @@ public class MenuHandlerScript : MonoBehaviour
         ServerConnectUI.SetActive(true);
         MenuUI.SetActive(false);
         ServerForms.SetActive(false);
+        WaitingRoom.SetActive(false);
     }
 
     public void SubmitFirstIP()
@@ -142,5 +147,59 @@ public class MenuHandlerScript : MonoBehaviour
             currentPreset = 0;
         }
         SelectPreset(currentPreset);
+    }
+
+    public void JoinWaitingRoom()
+    {
+        ServerConnectUI.SetActive(false);
+        MenuUI.SetActive(false);
+        ServerForms.SetActive(false);
+        WaitingRoom.SetActive(true);
+    }
+
+    public void LeaveWaitingRoom()
+    {
+        ServerConnectUI.SetActive(false);
+        MenuUI.SetActive(true);
+        ServerForms.SetActive(false);
+        WaitingRoom.SetActive(false);   
+    }
+
+    public void UpdateWaitingRoom(bool host, string data)
+    {
+        string code = data.Split(' ')[0];
+        string players = data.Split(' ')[1];
+        string maxPlayers = data.Split(' ')[2];
+        WaitingRoomCode.text = "Code: " + code;
+        WaitingRoomPlayers.text = $"Players Connected: {players}/{maxPlayers}";
+        if (host)
+        {
+            if (players == maxPlayers)
+            {
+                WaitingRoomStartButton.SetActive(true);
+                WaitingRoomInfo.text = "";
+            }
+            else
+            {
+                WaitingRoomStartButton.SetActive(false);
+                WaitingRoomInfo.text = "Waiting for players...";
+            }
+        }
+        else
+        {
+            if (players == maxPlayers)
+            {
+                WaitingRoomInfo.text = "Waiting for host...";
+            }
+            else
+            {
+                WaitingRoomInfo.text = "Waiting for players...";
+            }
+        }
+    }
+
+    public void StartGame()
+    {
+
     }
 }
