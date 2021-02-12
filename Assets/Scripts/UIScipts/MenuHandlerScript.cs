@@ -59,9 +59,6 @@ public class MenuHandlerScript : MonoBehaviour
                 NameDisplay.text = "Name: " + playerName;
                 ConnectedIPDisplay.text = "Connected IP: " + connectedIP;
             }
-            else{
-                startupIPFieldOutput.text = "Connection failed";
-            }
         }
         else{
             startupIPFieldOutput.text = "Invalid IP input";
@@ -189,17 +186,14 @@ public class MenuHandlerScript : MonoBehaviour
         {
             if (players == maxPlayers)
             {
+                WaitingRoomStartButton.SetActive(false);
                 WaitingRoomInfo.text = "Waiting for host...";
             }
             else
             {
+                WaitingRoomStartButton.SetActive(false);
                 WaitingRoomInfo.text = "Waiting for players...";
             }
         }
-    }
-
-    public void StartGame()
-    {
-
     }
 }

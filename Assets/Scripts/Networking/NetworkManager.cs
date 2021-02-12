@@ -10,6 +10,8 @@ using System;
 
 public class NetworkManager : MonoBehaviour
 {
+    private const string VERSION = "0.0";
+
     private IPEndPoint endPoint;
     private Socket socket;
     private NetworkStream networkStream;
@@ -93,19 +95,34 @@ public class NetworkManager : MonoBehaviour
 
                 networkStream = new NetworkStream(socket, true);
 
-                connected = true;
-                Debug.Log("Connected Successfully");
-                return true;
+                Send("version_check::" + VERSION.ToString());
+                string r = Receive();
+                if (r == "true")
+                {
+                    connected = true;
+                    Debug.Log("Connected Successfully");
+                    return true;
+                }
+                else if (r == "false_c")
+                {
+                    menuHandler.startupIPFieldOutput.text = "Outdated Client";
+                }
+                else if (r == "false_s")
+                {
+                    menuHandler.startupIPFieldOutput.text = "Outdated Server";
+                }
             }
             catch (Exception e)
             {
                 Debug.Log(e.Message);
                 Debug.Log("Connection Failed");
+                menuHandler.startupIPFieldOutput.text = "Connection failed";
             }
         }
         else
         {
             Debug.Log("Already connected");
+            menuHandler.startupIPFieldOutput.text = "Already connected";
         }
         return false;
     }
@@ -191,17 +208,32 @@ public class NetworkManager : MonoBehaviour
         Receive();
     }
 
-    public bool StartGame()
+    public void StartGame()
     {
         Send("start_game::" + code);
         if (Receive() == "true")
         {
-            return true;
+            Debug.Log("Game started");
         }
         else
         {
-            return false;
+            Debug.Log("Game failed to start");
         }
+    }
+
+    public void LeaveGame()
+    {
+        Send("leave_game::" + code);
+        if (Receive() == "true")
+        {
+            Debug.Log("Left game");
+        }
+        else
+        {
+            Debug.Log("Leaving game failed");
+        }
+        waiting = false;
+        menuHandler.LeaveWaitingRoom();
     }
 
     public bool GetHost()

@@ -23,12 +23,11 @@ class Game:
         return id
 
     def Disconnect(self, id):
-        if not self.active:
-            self.playerIDs.remove(id)
-            self.full = False
-            if len(self.playerIDs) > 0 and id == self.host:
-                self.host = self.playerIDs[0]
-            print(f"Removed player: {id}, now player IDs: {self.playerIDs}")
+        self.playerIDs.remove(id)
+        self.full = False
+        if len(self.playerIDs) > 0 and id == self.host:
+            self.host = self.playerIDs[0]
+        print(f"Removed player: {id}, now player IDs: {self.playerIDs}")
 
     def Encode(self):
         return str(self.turn) + "~" + str(self.counter) + "~" + str(self.active) + "~" + str(self.maxPlayers)
@@ -38,6 +37,7 @@ class Game:
         self.turn = msg[0]
         self.counter = msg[1]
 
+VERSION = "0.0"
 
 server = "192.168.1.104"
 port = 5555
@@ -65,7 +65,16 @@ def threaded_client(conn, playerID):
             msg = conn.recv(1024).decode().split("::")
             response = "null"
 
-            if msg[0] == "create_game":
+            if msg[0] == "version_check":
+                if msg[1] == VERSION:
+                    response = "true"
+                else:
+                    if float(VERSION) > float(msg[1]):
+                        response = "false_c"
+                    else:
+                        response = "false_s"
+
+            elif msg[0] == "create_game":
                 while True:
                     code = random.choice(codeCharacterValues) + random.choice(codeCharacterValues) + random.choice(codeCharacterValues) + random.choice(codeCharacterValues)
                     if code not in games:
@@ -104,6 +113,13 @@ def threaded_client(conn, playerID):
                     games[msg[1]].active = True
                     response = "true"
                     print(f"started game {msg[1]}")
+            
+            elif msg[0] == "leave_game":
+                games[msg[1]].Disconnect(playerID)
+                if len(games[gameCode].playerIDs) <= 0:
+                    games.pop(gameCode)
+                    response = "true"
+                    print(f"Game {gameCode} deleted.")
 
             elif msg[0] == "get_host":
                 if msg[1] in games:
