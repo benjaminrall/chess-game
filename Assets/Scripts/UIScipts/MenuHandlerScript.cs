@@ -14,6 +14,7 @@ public class MenuHandlerScript : MonoBehaviour
     public GameObject JoinGameUI;
     public GameObject CreateGameUI;
     public GameObject WaitingRoom;
+    public GameObject LevelEditorUI;
     public GameObject Presets;
     public Text startupIPField;
     public Text startupIPFieldOutput;
@@ -83,6 +84,15 @@ public class MenuHandlerScript : MonoBehaviour
             ServerForms.SetActive(true);
         }
     }
+
+    public void EditorButton()
+    {
+        if (MenuUI.activeSelf)
+        {
+            
+        }
+    }
+
     public void QuitButton()
     {
         if (MenuUI.activeSelf)
@@ -160,6 +170,8 @@ public class MenuHandlerScript : MonoBehaviour
         MenuUI.SetActive(true);
         ServerForms.SetActive(false);
         WaitingRoom.SetActive(false);   
+        CreateGameUI.SetActive(false);
+        JoinGameUI.SetActive(false);
     }
 
     public void UpdateWaitingRoom(bool host, string data)
