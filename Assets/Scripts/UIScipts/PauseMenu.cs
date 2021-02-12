@@ -27,7 +27,7 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(Application.persistentDataPath);
+        //Debug.Log(Application.persistentDataPath);
         AS = GameObject.Find("AudioPlayer").GetComponent<AudioSource>();
 
         string destination = Application.persistentDataPath + "/settings.dat";
