@@ -39,7 +39,9 @@ class Game:
 
 VERSION = "0.0"
 
-server = "192.168.1.104"
+#server = "192.168.1.104"
+
+server = ""
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -65,6 +67,7 @@ def threaded_client(conn, playerID):
             msg = conn.recv(1024).decode().split("::")
             response = "null"
 
+            kick = False
             if msg[0] == "version_check":
                 if msg[1] == VERSION:
                     response = "true"
@@ -73,6 +76,7 @@ def threaded_client(conn, playerID):
                         response = "false_c"
                     else:
                         response = "false_s"
+                    kick = True
 
             elif msg[0] == "create_game":
                 while True:
@@ -126,6 +130,9 @@ def threaded_client(conn, playerID):
                     response = str(games[msg[1]].host == playerID)
 
             conn.send(response.encode())
+
+            if kick:
+                conn.close()
         except:
             print(f"{playerID} {addr} disconnected forcefully.")
             # print(e)

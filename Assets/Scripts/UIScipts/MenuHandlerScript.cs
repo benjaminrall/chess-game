@@ -14,7 +14,6 @@ public class MenuHandlerScript : MonoBehaviour
     public GameObject JoinGameUI;
     public GameObject CreateGameUI;
     public GameObject WaitingRoom;
-    public GameObject LevelEditorUI;
     public GameObject Presets;
     public Text startupIPField;
     public Text startupIPFieldOutput;
@@ -89,7 +88,7 @@ public class MenuHandlerScript : MonoBehaviour
     {
         if (MenuUI.activeSelf)
         {
-            
+            SceneManager.LoadScene(2);
         }
     }
 
