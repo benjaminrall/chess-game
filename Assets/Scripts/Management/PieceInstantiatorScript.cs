@@ -19,6 +19,7 @@ public class PieceInstantiatorScript : MonoBehaviour
         {
             GameObject piece = Instantiate(layout.LayoutsPieces1[i].Piece, new Vector3(layout.LayoutsPieces1[i].Location.x, 1, layout.LayoutsPieces1[i].Location.y), layout.LayoutsPieces1[i].Piece.transform.rotation);
             piece.transform.SetParent(BHS.transform);
+            piece.transform.tag = "Piece";
             piece.GetComponent<Piece>().colour = layout.colour1;
             if (piece.GetComponent<Pawn>())
             {
@@ -35,6 +36,7 @@ public class PieceInstantiatorScript : MonoBehaviour
         {
             GameObject piece = Instantiate(layout.LayoutsPieces2[z].Piece, new Vector3(layout.LayoutsPieces2[z].Location.x, 1, layout.LayoutsPieces2[z].Location.y), layout.LayoutsPieces2[z].Piece.transform.rotation);
             piece.transform.SetParent(BHS.transform);
+            piece.transform.tag = "Piece";
             piece.GetComponent<Piece>().colour = layout.colour2;
             if (piece.GetComponent<Pawn>())
             {

@@ -20,7 +20,7 @@ public class CursorPickup : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
         transform.position = mousePos;
 
-        if (RayGetPiece() != null){ // Sets GO to raycast Piece
+        if (RayGetPiece() != null && RayGetPiece().transform.tag == "Piece"){ // Sets GO to raycast Piece
             GO = RayGetPiece();
         }
         else{
