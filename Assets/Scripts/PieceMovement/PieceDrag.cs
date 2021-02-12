@@ -54,7 +54,7 @@ public class PieceDrag : MonoBehaviour
                 }
             }
             StartCoroutine(CheckAll(BHS.turn));
-            audioPlayer.dropPiece();
+            audioPlayer.DropPiece();
         }
         else
         {
@@ -96,7 +96,7 @@ public class PieceDrag : MonoBehaviour
         //StartCoroutine(CheckAll(BHS.turn, true));
         BHS.turn = (BHS.turn + 1) % BHS.players;
 
-        audioPlayer.dropPiece();
+        audioPlayer.DropPiece();
         BHS.ShowIndicators(false, new List<(int x, int y)>());
         
         Destroy(this.gameObject);

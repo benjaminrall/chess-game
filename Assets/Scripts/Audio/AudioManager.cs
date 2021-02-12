@@ -13,7 +13,7 @@ public class AudioManager : MonoBehaviour
     {
         AS = GetComponent<AudioSource>();
     }
-    public void dropPiece()
+    public void DropPiece()
     {
         AS.clip = dropAudio;
         AS.Play();
