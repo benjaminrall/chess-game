@@ -62,7 +62,6 @@ public class ToolBeltHandler : MonoBehaviour
     }
     public IEnumerator ToggleBeltHorizontal(int toolType)
     {
-        
         if (AllTools[toolType][0].activeInHierarchy)
         {
             for (int i = AllTools[toolType].Length; i-- > 0;)
