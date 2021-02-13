@@ -8,19 +8,30 @@ class Game:
         self.host = host    # id of host of game
 
         self.playerIDs = [] # list of player ids in game
+        self.turnPositions = {}
 
         self.active = False
         self.full = False
         self.turn = 0
         self.moveCounter = 0
 
-    def AddPlayer(self, id):
-        self.playerIDs.append(id)
+        self.lastMove = []
+
+    def SetTurnPositions(self):
+        t = []
+        for i in range(self.maxPlayers):
+            t.append(i)
+        random.shuffle(t)
+        for i in range(self.maxPlayers):
+            self.turnPositions[self.playerIDs[i]] = t[i]
+
+    def AddPlayer(self, ID):
+        self.playerIDs.append(ID)
         if len(self.playerIDs) >= self.maxPlayers:
             self.full = True
             print("Game full")
-        print(f"Added player: {id}, now player IDs: {self.playerIDs}")
-        return id
+        print(f"Added player: {ID}, now player IDs: {self.playerIDs}")
+        return ID
 
     def Disconnect(self, id):
         self.playerIDs.remove(id)
@@ -31,8 +42,7 @@ class Game:
 
     def Encode(self):
         data = ""
-        data += str(self.active).lower() 
-        data += "~" + str(self.turn) 
+        data += str(self.turn) 
         data += "~" + str(self.moveCounter) 
         data += "~" + str(len(self.playerIDs)) 
         data += "~" + str(self.maxPlayers)
@@ -40,7 +50,12 @@ class Game:
 
     def Decode(self, msg):
         msg = msg.split("~")
-        self.turn = msg[0]
+        self.lastMove = [(msg[0],msg[1]), (msg[2], msg[3])]
+        self.turn = (self.turn + 1) % self.maxPlayers
+        self.moveCounter += 1
+
+    def FetchMove(self):
+        return f"{self.lastMove[0][0]}~{self.lastMove[0][1]}~{self.lastMove[1][0]}~{self.lastMove[1][1]}"
 
 VERSION = "0.0"
 
@@ -112,32 +127,46 @@ def threaded_client(conn, playerID):
                         response = "full"
 
             elif msg[0] == "join_game":
-                if not games[msg[1]].full and not games[msg[1]].active:
-                    response = str(games[msg[1]].AddPlayer(playerID)) 
-                    gameCode = games[msg[1]].code
-                    print(f"{playerID} {addr} joined game {gameCode}")
-                elif games[msg[1]].full:
-                    response = "full"
+                if msg[1] in games:
+                    if not games[msg[1]].full and not games[msg[1]].active:
+                        response = str(games[msg[1]].AddPlayer(playerID)) 
+                        gameCode = games[msg[1]].code
+                        print(f"{playerID} {addr} joined game {gameCode}")
+                    elif games[msg[1]].full:
+                        response = "full"
 
-            elif msg[0] == "make_move":
-                games[msg[1]].Decode(msg[2])
+            elif msg[0] == "send_move":
+                if msg[1] in games:
+                    games[msg[1]].Decode(msg[2])
+                    response = "true"
+
+            elif msg[0] == "fetch_move":
+                if msg[1] in games:
+                    response = games[msg[1]].FetchMove()
 
             elif msg[0] == "start_game":
-                if not games[msg[1]].active and games[msg[1]].full:
-                    games[msg[1]].active = True
-                    response = "true"
-                    print(f"Started game {msg[1]}")
+                if msg[1] in games:
+                    if not games[msg[1]].active and games[msg[1]].full:
+                        games[msg[1]].active = True
+                        games[msg[1]].SetTurnPositions()
+                        response = "true"
+                        print(f"Started game {msg[1]}")
             
             elif msg[0] == "leave_game":
-                games[msg[1]].Disconnect(playerID)
-                if len(games[gameCode].playerIDs) <= 0:
-                    games.pop(gameCode)
-                    response = "true"
-                    print(f"Game {gameCode} deleted.")
+                if msg[1] in games:
+                    games[msg[1]].Disconnect(playerID)
+                    if len(games[gameCode].playerIDs) <= 0:
+                        games.pop(gameCode)
+                        response = "true"
+                        print(f"Game {gameCode} deleted.")
 
             elif msg[0] == "get_host":
                 if msg[1] in games:
                     response = str(games[msg[1]].host == playerID)
+
+            elif msg[0] == "get_turn_pos":
+                if msg[1] in games:
+                    response = str(games[msg[1]].turnPositions[playerID])
 
             conn.send(response.encode())
 

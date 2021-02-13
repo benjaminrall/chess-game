@@ -41,6 +41,28 @@ public class BoardHandlerScript : MonoBehaviour
         }
     }
 
+    public void MakeMove(int[] move)
+    {
+        (int x, int y) startPos = (move[0], move[1]);
+        (int x, int y) endPos = (move[2], move[3]);
+        Piece pieceToMove;
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.GetComponent<Piece>().pieceX == startPos.x && child.gameObject.GetComponent<Piece>().pieceY == startPos.y)
+            {
+                child.position = new Vector3(endPos.x, 1, endPos.y);
+                pieceToMove = child.gameObject.GetComponent<Piece>();
+                pieceToMove.TakePieceAt(endPos.x, endPos.y, pieceToMove.colour);
+                pieceToMove.pieceX = endPos.x;
+                pieceToMove.pieceY = endPos.y;
+                break;
+            }
+        }
+        UpdateAvailableSpaces();
+        CheckForEnd();
+        turn = (turn + 1) % players;
+    }
+
     public void UpdateAvailableSpaces(bool temp = false, int nx = 0, int ny = 0, bool enPassant = false){
         if (!temp){
             foreach(Transform child in transform)

@@ -10,6 +10,7 @@ public class PieceDrag : MonoBehaviour
     private Piece piece;
     private BoardHandlerScript BHS;
     private AudioManager audioPlayer;
+    private NetworkManager networkManager;
 
     [HideInInspector]
     public bool GameIsPlaying = true;
@@ -18,6 +19,7 @@ public class PieceDrag : MonoBehaviour
     {
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
         audioPlayer = GameObject.Find("AudioPlayer").GetComponent<AudioManager>();
+        networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         piece = gameObject.GetComponent<Piece>();
 
         if(gameObject.transform.childCount > 0)
@@ -45,16 +47,22 @@ public class PieceDrag : MonoBehaviour
         if (piece.checkIsValidMove(attemptedX, attemptedY) && GameIsPlaying)
         {
             transform.position = new Vector3(attemptedX, this.transform.position.y, attemptedY);
+            int oldX = piece.pieceX;
+            int oldY = piece.pieceY;
             piece.pieceX = attemptedX;
             piece.pieceY = attemptedY;
             if (piece.gameObject.GetComponent<Pawn>()){
                 if (piece.gameObject.GetComponent<Pawn>().promoted){
                     StartCoroutine(WaitForPromotion());
+                    string _move = oldX.ToString() + "~" + oldY.ToString() + "~" + attemptedX.ToString() + "~" + attemptedY.ToString();
+                    networkManager.SendMove(_move);
                     return;
                 }
             }
             StartCoroutine(CheckAll(BHS.turn));
             audioPlayer.DropPiece();
+            string move = oldX.ToString() + "~" + oldY.ToString() + "~" + attemptedX.ToString() + "~" + attemptedY.ToString();
+            networkManager.SendMove(move);
         }
         else
         {
