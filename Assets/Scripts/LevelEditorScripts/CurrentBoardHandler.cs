@@ -7,6 +7,7 @@ public class CurrentBoardHandler : MonoBehaviour
     public struct ChessSquare
     {
         public bool isActive;
+        public int squareType;
         public GameObject reference;
     }
 
@@ -14,18 +15,20 @@ public class CurrentBoardHandler : MonoBehaviour
 
     public Material lightSquare, darkSquare;
     public GameObject squareSprite;
+    public Material[] squareTypeMats;
 
     void Start()
     {
 
     }
 
-    public void AddSquare(Vector2 pos)
+    public void AddSquare(Vector2 pos, int type)
     {
         if (pos.x <= 0 || pos.x >= 31) return;
         if (pos.y <= 0 || pos.y >= 31) return;
 
         Cb[(int)pos.x, (int)pos.y].isActive = true;
+        Cb[(int)pos.x, (int)pos.y].squareType = type;
         RedrawBoard();
     }
     public void RemoveSquare(Vector2 pos)
@@ -34,6 +37,7 @@ public class CurrentBoardHandler : MonoBehaviour
         if (pos.y <= 0 || pos.y >= 31) return;
 
         Cb[(int)pos.x, (int)pos.y].isActive = false;
+        Cb[(int)pos.x, (int)pos.y].squareType = -1;
         RedrawBoard();
     }
 
@@ -46,8 +50,14 @@ public class CurrentBoardHandler : MonoBehaviour
 
                 if (Cb[rank, file].isActive == true && Cb[rank, file].reference == null)
                 {
-                    bool isLightSquare = (file + rank) % 2 != 0;
-                    Material squareColour = (isLightSquare) ? lightSquare : darkSquare;
+                    Material squareColour;
+                    if (Cb[rank, file].squareType == -1)
+                    {
+                        if ((file + rank) % 2 != 0) Cb[rank, file].squareType = 0;
+                        else Cb[rank, file].squareType = 1;
+                    }
+                    squareColour = squareTypeMats[Cb[rank, file].squareType];
+
                     Vector2 position = new Vector2(file, rank);
                     Cb[rank, file].isActive = true;
                     Cb[rank, file].reference = DrawSquare(squareColour, position);
@@ -56,6 +66,12 @@ public class CurrentBoardHandler : MonoBehaviour
                 {
                     Destroy(Cb[rank, file].reference);
                     Cb[rank, file].reference = null;
+                    Cb[rank, file].squareType = -1;
+                }
+
+                if (Cb[rank, file].reference.GetComponent<SpriteRenderer>().material != squareTypeMats[Cb[rank, file].squareType])
+                {
+                    Cb[rank, file].reference.GetComponent<SpriteRenderer>().material = squareTypeMats[Cb[rank, file].squareType];
                 }
             }
        }

@@ -14,13 +14,14 @@ public class LevelEditorCursor : MonoBehaviour
 
     public int cursorPosX;
     public int cursorPosY;
+    public int currentDrawType;
 
     public CurrentBoardHandler CBH;
     //public Tool[]
 
     void Start()
     {
-
+        currentDrawType = -1;
     }
 
     void Update()
@@ -29,9 +30,12 @@ public class LevelEditorCursor : MonoBehaviour
         cursorPosY = Mathf.RoundToInt(this.transform.position.z);
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
 
-
-
-        if (Input.GetMouseButtonDown(0)) CBH.AddSquare(new Vector2(cursorPosY, cursorPosX));
+        if (Input.GetMouseButtonDown(0)) CBH.AddSquare(new Vector2(cursorPosY, cursorPosX), currentDrawType);
         if (Input.GetMouseButtonDown(1)) CBH.RemoveSquare(new Vector2(cursorPosY, cursorPosX));
+    }
+
+    public void ChangeDrawType(int type)
+    {
+        currentDrawType = type;
     }
 }
