@@ -20,9 +20,7 @@ public class LevelEditorCursor : MonoBehaviour
         cursorPosY = Mathf.RoundToInt(this.transform.position.z);
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
 
-
-
-        //CBH.Cb[cursorPosY, cursorPosX].isActive = true;
-        //CBH.RedrawBoard();
+        if (Input.GetMouseButtonDown(0)) CBH.AddSquare(new Vector2(cursorPosY, cursorPosX));
+        if (Input.GetMouseButtonDown(1)) CBH.RemoveSquare(new Vector2(cursorPosY, cursorPosX));
     }
 }

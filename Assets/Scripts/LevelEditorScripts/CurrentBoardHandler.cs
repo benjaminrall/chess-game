@@ -20,6 +20,23 @@ public class CurrentBoardHandler : MonoBehaviour
 
     }
 
+    public void AddSquare(Vector2 pos)
+    {
+        if (pos.x <= 0 || pos.x >= 31) return;
+        if (pos.y <= 0 || pos.y >= 31) return;
+
+        Cb[(int)pos.x, (int)pos.y].isActive = true;
+        RedrawBoard();
+    }
+    public void RemoveSquare(Vector2 pos)
+    {
+        if (pos.x <= 0 || pos.x >= 31) return;
+        if (pos.y <= 0 || pos.y >= 31) return;
+
+        Cb[(int)pos.x, (int)pos.y].isActive = false;
+        RedrawBoard();
+    }
+
     public void RedrawBoard()
     {
         for (int file = 0; file < 32; file++){
