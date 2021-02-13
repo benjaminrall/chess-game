@@ -191,7 +191,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public void GetGame()
+    public string GetGame()
     {
         Send("get_game::" + code);
         return Receive();
