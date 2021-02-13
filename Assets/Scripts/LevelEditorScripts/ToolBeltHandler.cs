@@ -11,10 +11,12 @@ public class ToolBeltHandler : MonoBehaviour
 
     public GameObject[][] AllTools = new GameObject[5][];
     public GameObject[] ChessBoardTools;
+    public GameObject[] SinglePieceTools;
 
     public void Start()
     {
         AllTools[0] = ChessBoardTools;
+        AllTools[1] = SinglePieceTools;
     }
 
     public void DropDownBelt(){
@@ -27,7 +29,7 @@ public class ToolBeltHandler : MonoBehaviour
             if (AllTools[i] == null) continue;
             if (AllTools[i][0].activeInHierarchy)
             {
-                StartCoroutine(ToggleBeltHorizontal(i));
+                yield return StartCoroutine(ToggleBeltHorizontal(i));
             }
         }
 
