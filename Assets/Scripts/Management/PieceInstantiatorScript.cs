@@ -7,11 +7,6 @@ public class PieceInstantiatorScript : MonoBehaviour
     public PieceLayout layout;
     private BoardHandlerScript BHS;
 
-    void Start()
-    {
-        InstantiatePieces();
-    }
-
     public void InstantiatePieces()
     {    
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();  

@@ -24,8 +24,12 @@ public class NetworkManager : MonoBehaviour
     private bool waiting = false;
     private bool host = false;
     private BoardHandlerScript BHS;
+    private CursorPickup CP;
     private MenuHandlerScript menuHandler;
-    
+
+    private int turnPosition;
+    private int movesMade;
+
 	public static NetworkManager instance;
 
 	void Awake()
@@ -74,15 +78,49 @@ public class NetworkManager : MonoBehaviour
                 if (GetGameStarted())
                 {
                     waiting = false;
-                    playing = true;
-                    SceneManager.LoadScene(1);
+                    Send("get_turn_pos::" + code);
+                    turnPosition = int.Parse(Receive());
+                    movesMade = 0;
+                    StartCoroutine(LoadBoardScene());
                 }
             }
             else if (playing)
             {
-                Debug.Log("yes");
+                string[] received = GetGame();
+                int[] data = new int[received.Length];
+                for (int i = 0; i < received.Length; i++)
+                {
+                    data[i] = int.Parse(received[i]);
+                }
+                if (turnPosition + 1 % data[3] != data[0])
+                {
+                    if (movesMade != data[1])
+                    {
+                        BHS.MakeMove(FetchLastMove());
+                    }
+                    movesMade = data[1];
+                }
+                if (data[0] == turnPosition)
+                {
+                    CP.PickupUpdate();
+                }
             }
         }
+    }
+
+    IEnumerator LoadBoardScene()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
+        CP = GameObject.Find("Cursor").GetComponent<CursorPickup>();
+        GameObject.Find("PieceInstantiator").GetComponent<PieceInstantiatorScript>().InstantiatePieces();
+        playing = true;
     }
 
     public bool Connect()
@@ -193,10 +231,10 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    public string GetGame()
+    public string[] GetGame()
     {
         Send("get_game::" + code);
-        return Receive();
+        return Receive().Split('~');
     }
 
     public string GetGameInfo()
@@ -211,9 +249,9 @@ public class NetworkManager : MonoBehaviour
         return bool.Parse(Receive());
     }
 
-    public void SendGame(string info)
+    public void SendMove(string info)
     {
-        Send("send_game::" + code + "::" + info);
+        Send("send_move::" + code + "::" + info);
         Receive();
     }
 
@@ -248,10 +286,22 @@ public class NetworkManager : MonoBehaviour
     public bool GetHost()
     {
         Send("get_host::" + code);
-        if (Receive() == "True")
+        if (Receive().ToLower() == "true")
         {
             return true;
         }
         return false;
+    }
+
+    public int[] FetchLastMove()
+    {
+        Send("fetch_move::" + code);
+        string[] data = Receive().Split('~');
+        int[] moveData = new int[data.Length];
+        for (int i = 0; i < data.Length; i++)
+        {
+            moveData[i] = int.Parse(data[i]);
+        }
+        return moveData;
     }
 }

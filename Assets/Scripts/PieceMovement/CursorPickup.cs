@@ -15,7 +15,7 @@ public class CursorPickup : MonoBehaviour
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
     }
 
-    void Update()
+    public void PickupUpdate()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
         transform.position = mousePos;
