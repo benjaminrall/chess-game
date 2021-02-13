@@ -12,7 +12,7 @@ class Game:
         self.active = False
         self.full = False
         self.turn = 0
-        self.counter = 0
+        self.moveCounter = 0
 
     def AddPlayer(self, id):
         self.playerIDs.append(id)
@@ -30,16 +30,19 @@ class Game:
         print(f"Removed player: {id}, now player IDs: {self.playerIDs}")
 
     def Encode(self):
-        return str(self.turn) + "~" + str(self.counter) + "~" + str(self.active) + "~" + str(self.maxPlayers)
+        data = ""
+        data += str(self.active).lower() 
+        data += "~" + str(self.turn) 
+        data += "~" + str(self.moveCounter) 
+        data += "~" + str(len(self.playerIDs)) 
+        data += "~" + str(self.maxPlayers)
+        return data
 
     def Decode(self, msg):
         msg = msg.split("~")
         self.turn = msg[0]
-        self.counter = msg[1]
 
 VERSION = "0.0"
-
-#server = "192.168.1.104"
 
 server = ""
 port = 5555
@@ -95,12 +98,19 @@ def threaded_client(conn, playerID):
                 if msg[1] in games:
                     response = games[msg[1]].code + " " + str(len(games[msg[1]].playerIDs)) + " " + str(games[msg[1]].maxPlayers)
 
+            elif msg[0] == "get_game_started":
+                if msg[1] in games:
+                    if games[msg[1]].active:
+                        response = "true"
+                if response != "true":
+                    response = "false"
+
             elif msg[0] == "get_game_code":
                 if msg[1] in games:
                     response = msg[1]
                     if games[msg[1]].full:
-
                         response = "full"
+
             elif msg[0] == "join_game":
                 if not games[msg[1]].full and not games[msg[1]].active:
                     response = str(games[msg[1]].AddPlayer(playerID)) 
@@ -109,14 +119,14 @@ def threaded_client(conn, playerID):
                 elif games[msg[1]].full:
                     response = "full"
 
-            elif msg[0] == "send_game":
+            elif msg[0] == "make_move":
                 games[msg[1]].Decode(msg[2])
 
             elif msg[0] == "start_game":
                 if not games[msg[1]].active and games[msg[1]].full:
                     games[msg[1]].active = True
                     response = "true"
-                    print(f"started game {msg[1]}")
+                    print(f"Started game {msg[1]}")
             
             elif msg[0] == "leave_game":
                 games[msg[1]].Disconnect(playerID)

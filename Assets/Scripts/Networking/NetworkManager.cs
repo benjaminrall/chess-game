@@ -61,24 +61,26 @@ public class NetworkManager : MonoBehaviour
             {
                 host = true;
             }
-            if (waiting && host)
+            if (waiting)
             {
-                menuHandler.UpdateWaitingRoom(true, GetGameInfo());
-                /*                
-                if (StartGame())
+                if (host)
+                {
+                    menuHandler.UpdateWaitingRoom(true, GetGameInfo());
+                }
+                else
+                {
+                    menuHandler.UpdateWaitingRoom(false, GetGameInfo());
+                }
+                if (GetGameStarted())
                 {
                     waiting = false;
                     playing = true;
-                    Debug.Log("game started");
-                    BHS.networkManager = this;
-                    GetGame();
+                    SceneManager.LoadScene(1);
                 }
-                */
-                GetGame();
             }
-            else if (waiting)
+            else if (playing)
             {
-                menuHandler.UpdateWaitingRoom(false, GetGameInfo());
+                Debug.Log("yes");
             }
         }
     }
@@ -203,9 +205,15 @@ public class NetworkManager : MonoBehaviour
         return Receive();
     }
 
-    public void SendGame()
+    public bool GetGameStarted()
     {
-        Send("send_game::" + code + "::" + BHS.Encode());
+        Send("get_game_started::" + code);
+        return bool.Parse(Receive());
+    }
+
+    public void SendGame(string info)
+    {
+        Send("send_game::" + code + "::" + info);
         Receive();
     }
 
