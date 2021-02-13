@@ -74,6 +74,7 @@ public class NetworkManager : MonoBehaviour
                     GetGame();
                 }
                 */
+                GetGame();
             }
             else if (waiting)
             {
@@ -193,7 +194,7 @@ public class NetworkManager : MonoBehaviour
     public void GetGame()
     {
         Send("get_game::" + code);
-        BHS.Decode(Receive());
+        return Receive();
     }
 
     public string GetGameInfo()

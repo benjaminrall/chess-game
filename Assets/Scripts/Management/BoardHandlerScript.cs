@@ -41,14 +41,6 @@ public class BoardHandlerScript : MonoBehaviour
         }
     }
 
-    public string Encode(){
-        return "";
-    }
-
-    public void Decode(string msg){
-
-    }
-
     public void UpdateAvailableSpaces(bool temp = false, int nx = 0, int ny = 0, bool enPassant = false){
         if (!temp){
             foreach(Transform child in transform)
