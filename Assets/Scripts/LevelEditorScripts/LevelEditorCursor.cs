@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class LevelEditorCursor : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int cursorPosX;
+    public int cursorPosY;
+
+
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        cursorPosX = Mathf.RoundToInt(Input.mousePosition.x);
+        cursorPosY = Mathf.RoundToInt(Input.mousePosition.y);
+
+
     }
 }
