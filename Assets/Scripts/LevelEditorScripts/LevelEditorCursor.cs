@@ -8,17 +8,25 @@ public class LevelEditorCursor : MonoBehaviour
 {
     public struct Tool
     {
-        public string Name;
-        public Button ToolButtonMain;
-        public Button[] ToolButtonChild;
+        public string toolID;
+        public string toolDisplayName;
     }
 
+    //References
+    public CurrentBoardHandler CBH;
+
+    //Useful Shit
     public int cursorPosX;
     public int cursorPosY;
-    public int currentDrawType;
 
-    public CurrentBoardHandler CBH;
-    //public Tool[]
+    public int currentDrawType;
+    public string currentTool;
+    public Text currentToolText;
+    public GameObject currentToolUi;
+
+    //Board Draw
+    public bool isDrawing;
+    public bool isErasing;
 
     void Start()
     {
@@ -31,12 +39,38 @@ public class LevelEditorCursor : MonoBehaviour
         cursorPosY = Mathf.RoundToInt(this.transform.position.z);
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
 
-        if (Input.GetMouseButtonDown(0) && !IsMouseOverUi()) CBH.AddSquare(new Vector2(cursorPosY, cursorPosX), currentDrawType);
-        if (Input.GetMouseButtonDown(1)) CBH.RemoveSquare(new Vector2(cursorPosY, cursorPosX));
+        
+
+        if (currentTool == "Board_Single")
+        {
+            //Draw
+            if (Input.GetMouseButtonDown(0) && !IsMouseOverUi() && !isDrawing) isDrawing = true;
+            else if (Input.GetMouseButtonUp(0) && !IsMouseOverUi() && isDrawing) isDrawing = false;
+            if (isDrawing) CBH.AddSquare(new Vector2(cursorPosY, cursorPosX), currentDrawType); 
+
+            //Erase
+            if (Input.GetMouseButtonDown(1) && !IsMouseOverUi() && !isErasing) isErasing = true;
+            else if (Input.GetMouseButtonUp(1) && !IsMouseOverUi() && isErasing) isErasing = false;
+            if (isErasing) CBH.RemoveSquare(new Vector2(cursorPosY, cursorPosX));
+        }
     }
 
-    private bool IsMouseOverUi()
+    public void PickupNewTool(string tool)
     {
+        string[] temp = tool.Split('-');
+        currentTool = temp[0];
+        currentToolText.text = temp[1];
+        currentToolUi.SetActive(true);
+    }
+
+    public void ClearCurrentTool()
+    {
+        currentTool = "";
+        currentToolText.text = "";
+        currentToolUi.SetActive(false);
+    }
+
+    private bool IsMouseOverUi(){
         return EventSystem.current.IsPointerOverGameObject();
     }
 
