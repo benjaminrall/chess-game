@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class LevelEditorCursor : MonoBehaviour
 {
@@ -30,8 +31,13 @@ public class LevelEditorCursor : MonoBehaviour
         cursorPosY = Mathf.RoundToInt(this.transform.position.z);
         transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
 
-        if (Input.GetMouseButtonDown(0)) CBH.AddSquare(new Vector2(cursorPosY, cursorPosX), currentDrawType);
+        if (Input.GetMouseButtonDown(0) && !IsMouseOverUi()) CBH.AddSquare(new Vector2(cursorPosY, cursorPosX), currentDrawType);
         if (Input.GetMouseButtonDown(1)) CBH.RemoveSquare(new Vector2(cursorPosY, cursorPosX));
+    }
+
+    private bool IsMouseOverUi()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
     }
 
     public void ChangeDrawType(int type)

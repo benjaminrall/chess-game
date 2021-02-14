@@ -46,7 +46,7 @@ public class CurrentBoardHandler : MonoBehaviour
         for (int file = 0; file < 32; file++){
             for(int rank = 0; rank < 32; rank++){
                 if (Cb[rank,file].isActive == false && Cb[rank, file].reference == null) continue;
-                if (Cb[rank, file].isActive == true && Cb[rank, file].reference != null) continue;
+                //if (Cb[rank, file].isActive == true && Cb[rank, file].reference != null) continue;
 
                 if (Cb[rank, file].isActive == true && Cb[rank, file].reference == null)
                 {
@@ -69,10 +69,15 @@ public class CurrentBoardHandler : MonoBehaviour
                     Cb[rank, file].squareType = -1;
                 }
 
-                if (Cb[rank, file].reference.GetComponent<SpriteRenderer>().material != squareTypeMats[Cb[rank, file].squareType])
+                if(Cb[rank, file].squareType == -1)
                 {
-                    Cb[rank, file].reference.GetComponent<SpriteRenderer>().material = squareTypeMats[Cb[rank, file].squareType];
+                    if (Cb[rank, file].squareType == -1)
+                    {
+                        if ((file + rank) % 2 != 0) Cb[rank, file].squareType = 0;
+                        else Cb[rank, file].squareType = 1;
+                    }
                 }
+                if(Cb[rank, file].reference != null) if (Cb[rank, file].reference.GetComponent<SpriteRenderer>().material != squareTypeMats[Cb[rank, file].squareType]) Cb[rank, file].reference.GetComponent<SpriteRenderer>().material = squareTypeMats[Cb[rank, file].squareType];
             }
        }
     }
