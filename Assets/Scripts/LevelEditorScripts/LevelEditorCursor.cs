@@ -39,6 +39,10 @@ public class LevelEditorCursor : MonoBehaviour
     public MaterialDisplayness[] materialPreviews;
     public GameObject[] materialButtons;
 
+    //PiecePlacing
+    public int currentPieceType;
+    public string[] pieceTypeNames;
+
     void Start()
     {
         currentDrawType = -1;
@@ -69,6 +73,11 @@ public class LevelEditorCursor : MonoBehaviour
             if (isErasing) CBH.RemoveSquare(new Vector2(cursorPosY, cursorPosX));
         }
         else currentMaterialUi.SetActive(false);
+
+        if (currentTool == "Piece_Single")
+        {
+
+        }
     }
 
     public void PickupNewTool(string tool)
@@ -79,11 +88,19 @@ public class LevelEditorCursor : MonoBehaviour
         currentToolUi.SetActive(true);
     }
 
+    public void PickupSinglePieceTool(int pieceType)
+    {
+        currentTool = "Piece_Single";
+        currentToolUi.SetActive(true);
+        currentToolText.text = pieceTypeNames[pieceType];
+        currentPieceType = pieceType;
+    }
+
     public void ClearCurrentTool()
     {
         currentTool = "";
         currentToolText.text = "";
-        currentToolUi.SetActive(false);
+        StartCoroutine(CloseCurrentToolUi());
     }
 
     public IEnumerator CloseCurrentToolUi()

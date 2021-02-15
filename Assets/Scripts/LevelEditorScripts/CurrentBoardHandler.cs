@@ -12,6 +12,8 @@ public class CurrentBoardHandler : MonoBehaviour
 
         public bool spawnsPiece;
         public int pieceType;
+        public int pieceDirection;
+        public int pieceColour;
         public GameObject pieceReference;
     }
 
