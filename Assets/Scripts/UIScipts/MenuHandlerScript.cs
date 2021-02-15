@@ -10,7 +10,7 @@ public class MenuHandlerScript : MonoBehaviour
 {
     public GameObject ServerConnectUI;
     public GameObject MenuUI;
-    public GameObject ServerForms;
+    public GameObject MenuPersistentUI;
     public GameObject JoinGameUI;
     public GameObject CreateGameUI;
     public GameObject WaitingRoom;
@@ -44,7 +44,7 @@ public class MenuHandlerScript : MonoBehaviour
     {
         ServerConnectUI.SetActive(true);
         MenuUI.SetActive(false);
-        ServerForms.SetActive(false);
+        MenuPersistentUI.SetActive(false);
         WaitingRoom.SetActive(false);
     }
 
@@ -58,6 +58,7 @@ public class MenuHandlerScript : MonoBehaviour
             if (networkManager.Connect()){
                 ServerConnectUI.SetActive(false);
                 MenuUI.SetActive(true);
+                MenuPersistentUI.SetActive(true);
                 NameDisplay.text = "Name: " + playerName;
                 ConnectedIPDisplay.text = "Connected IP: " + connectedIP;
                 connected = true;
@@ -75,7 +76,7 @@ public class MenuHandlerScript : MonoBehaviour
         connected = false;
         ServerConnectUI.SetActive(true);
         MenuUI.SetActive(false);
-        ServerForms.SetActive(false);
+        MenuPersistentUI.SetActive(false);
         connectedIP = null;
         startupIPField.text = "";
     }
@@ -85,21 +86,23 @@ public class MenuHandlerScript : MonoBehaviour
         if (MenuUI.activeSelf)
         {
             StartCoroutine(yes());
-            //ServerForms.SetActive(true);
         }
     }
 
     IEnumerator yes()
     {
-        LeanTween.moveY(MenuUI, 1600f, 2f).setEase(LeanTweenType.easeInOutExpo);
+        LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), 1050, 2).setEase(LeanTweenType.easeInOutExpo);
         yield return new WaitForSeconds(2.0f);
-        LeanTween.moveY(MenuUI, 540f, 2f).setEase(LeanTweenType.easeInOutExpo);
+        LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), 0, 2).setEase(LeanTweenType.easeInOutExpo);
+        yield return new WaitForSeconds(2.0f);
+        MenuUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
     }
 
     public void SkipIPButton()
     {
         ServerConnectUI.SetActive(false);
         MenuUI.SetActive(true);
+        MenuPersistentUI.SetActive(true);
         NameDisplay.text = "Name: " + playerName;
         ConnectedIPDisplay.text = "Connected IP: " + connectedIP;
         connected = false;
@@ -139,7 +142,6 @@ public class MenuHandlerScript : MonoBehaviour
     {
         CreateGameUI.SetActive(false);
         JoinGameUI.SetActive(false);
-        ServerForms.SetActive(false);
     }
 
     public void CreateGame()
@@ -186,7 +188,7 @@ public class MenuHandlerScript : MonoBehaviour
     {
         ServerConnectUI.SetActive(false);
         MenuUI.SetActive(false);
-        ServerForms.SetActive(false);
+        MenuPersistentUI.SetActive(false);
         WaitingRoom.SetActive(true);
     }
 
@@ -194,7 +196,7 @@ public class MenuHandlerScript : MonoBehaviour
     {
         ServerConnectUI.SetActive(false);
         MenuUI.SetActive(true);
-        ServerForms.SetActive(false);
+        MenuPersistentUI.SetActive(true);
         WaitingRoom.SetActive(false);   
         CreateGameUI.SetActive(false);
         JoinGameUI.SetActive(false);
