@@ -77,6 +77,7 @@ public class MenuHandlerScript : MonoBehaviour
         ServerConnectUI.SetActive(true);
         MenuUI.SetActive(false);
         MenuPersistentUI.SetActive(false);
+        MenuUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
         connectedIP = null;
         startupIPField.text = "";
     }
@@ -85,14 +86,18 @@ public class MenuHandlerScript : MonoBehaviour
     {
         if (MenuUI.activeSelf)
         {
-            StartCoroutine(yes());
+            StartCoroutine(MoveUp());
         }
     }
 
-    IEnumerator yes()
+    IEnumerator MoveUp()
     {
         LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), 1050, 2).setEase(LeanTweenType.easeInOutExpo);
         yield return new WaitForSeconds(2.0f);
+    }
+
+    IEnumerator MoveDown()
+    {
         LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), 0, 2).setEase(LeanTweenType.easeInOutExpo);
         yield return new WaitForSeconds(2.0f);
         MenuUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
@@ -140,8 +145,7 @@ public class MenuHandlerScript : MonoBehaviour
     
     public void BackButtonIP()
     {
-        CreateGameUI.SetActive(false);
-        JoinGameUI.SetActive(false);
+        StartCoroutine(MoveDown());
     }
 
     public void CreateGame()
