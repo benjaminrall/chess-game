@@ -84,6 +84,7 @@ public class MenuHandlerScript : MonoBehaviour
     {
         if (MenuUI.activeSelf && connected)
         {
+            
             ServerForms.SetActive(true);
         }
     }
