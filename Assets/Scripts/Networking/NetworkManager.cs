@@ -169,17 +169,20 @@ public class NetworkManager : MonoBehaviour
     }
 
     public void CloseConnection()
-    {
-        try
+    {   
+        if (connected)
         {
-            socket.Shutdown(SocketShutdown.Both);
-        }
-        finally
-        {
-            socket.Close();
+            try
+            {
+                socket.Shutdown(SocketShutdown.Both);
+            }
+            finally
+            {
+                socket.Close();
+                Debug.Log("Disconnected Successfully");
+            }
         }
         connected = false;
-        Debug.Log("Disconnected Successfully");
     }
 
     public void Send(string msg)

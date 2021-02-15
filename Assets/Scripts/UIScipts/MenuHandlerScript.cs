@@ -38,6 +38,8 @@ public class MenuHandlerScript : MonoBehaviour
 
     private int currentPreset;
 
+    private bool connected;
+
     void Start()
     {
         ServerConnectUI.SetActive(true);
@@ -58,6 +60,7 @@ public class MenuHandlerScript : MonoBehaviour
                 MenuUI.SetActive(true);
                 NameDisplay.text = "Name: " + playerName;
                 ConnectedIPDisplay.text = "Connected IP: " + connectedIP;
+                connected = true;
             }
         }
         else{
@@ -69,6 +72,7 @@ public class MenuHandlerScript : MonoBehaviour
     public void SwitchServer()
     {
         networkManager.CloseConnection();
+        connected = false;
         ServerConnectUI.SetActive(true);
         MenuUI.SetActive(false);
         ServerForms.SetActive(false);
@@ -78,10 +82,19 @@ public class MenuHandlerScript : MonoBehaviour
 
     public void PlayButton()
     {
-        if (MenuUI.activeSelf)
+        if (MenuUI.activeSelf && connected)
         {
             ServerForms.SetActive(true);
         }
+    }
+
+    public void SkipIPButton()
+    {
+        ServerConnectUI.SetActive(false);
+        MenuUI.SetActive(true);
+        NameDisplay.text = "Name: " + playerName;
+        ConnectedIPDisplay.text = "Connected IP: " + connectedIP;
+        connected = false;
     }
 
     public void EditorButton()
