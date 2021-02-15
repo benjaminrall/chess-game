@@ -82,11 +82,18 @@ public class MenuHandlerScript : MonoBehaviour
 
     public void PlayButton()
     {
-        if (MenuUI.activeSelf && connected)
+        if (MenuUI.activeSelf)
         {
-            
-            ServerForms.SetActive(true);
+            StartCoroutine(yes());
+            //ServerForms.SetActive(true);
         }
+    }
+
+    IEnumerator yes()
+    {
+        LeanTween.moveY(MenuUI, 1600f, 2f).setEase(LeanTweenType.easeInOutExpo);
+        yield return new WaitForSeconds(2.0f);
+        LeanTween.moveY(MenuUI, 540f, 2f).setEase(LeanTweenType.easeInOutExpo);
     }
 
     public void SkipIPButton()
@@ -137,14 +144,20 @@ public class MenuHandlerScript : MonoBehaviour
 
     public void CreateGame()
     {
-        networkManager.CreateGame(Presets.transform.GetChild(currentPreset).GetComponent<PresetSettings>().players);
+        if (connected)
+        {
+            networkManager.CreateGame(Presets.transform.GetChild(currentPreset).GetComponent<PresetSettings>().players);
+        }
     }
 
     public void JoinExistingGame()
     {
-        ConnectedCode = CodeInput.text;
-        CodeInput.text = "";
-        networkManager.JoinGame();
+        if (connected)
+        {
+            ConnectedCode = CodeInput.text;
+            CodeInput.text = "";
+            networkManager.JoinGame();
+        }
     }
 
     public void SelectPreset(int index){
