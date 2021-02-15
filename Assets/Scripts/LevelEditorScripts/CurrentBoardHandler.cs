@@ -9,6 +9,10 @@ public class CurrentBoardHandler : MonoBehaviour
         public bool isActive;
         public int squareType;
         public GameObject reference;
+
+        public bool spawnsPiece;
+        public int pieceType;
+        public GameObject pieceReference;
     }
 
     public ChessSquare[,] Cb = new ChessSquare[32, 32];

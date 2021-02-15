@@ -48,9 +48,10 @@ public class LevelEditorCursor : MonoBehaviour
 
     void Update()
     {
-        cursorPosX = Mathf.RoundToInt(this.transform.position.x);
-        cursorPosY = Mathf.RoundToInt(this.transform.position.z);
-        transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+        Vector3 temp = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 5f));
+        cursorPosX = Mathf.RoundToInt(temp.x);
+        cursorPosY = Mathf.RoundToInt(temp.z);
+        transform.position = new Vector3(cursorPosX, 5f, cursorPosY);
 
         if (currentTool == "" && currentToolUi.activeInHierarchy) StartCoroutine(CloseCurrentToolUi());
 
