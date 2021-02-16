@@ -42,6 +42,7 @@ public class LevelEditorCursor : MonoBehaviour
     //PiecePlacing
     public int currentPieceType;
     public string[] pieceTypeNames;
+    public Material piecePreviewMaterial;
 
     void Start()
     {
@@ -76,10 +77,18 @@ public class LevelEditorCursor : MonoBehaviour
 
         if (currentTool == "Piece_Single")
         {
+            if (this.transform.childCount == 0)
+            {
+                GameObject piece = Instantiate(CBH.spawnedPiecePrefabs[currentPieceType].piece, transform.position, Quaternion.Euler(0, 0, 0), this.transform);
+                piece.transform.localScale = new Vector3(CBH.spawnedPiecePrefabs[currentPieceType].scale, 1, CBH.spawnedPiecePrefabs[currentPieceType].scale);
+                piece.transform.GetChild(0).GetComponent<MeshRenderer>().material = piecePreviewMaterial;
+                piece.transform.GetChild(1).GetComponent<MeshRenderer>().material = piecePreviewMaterial;
+                piece.transform.GetChild(2).GetComponent<MeshRenderer>().material = piecePreviewMaterial;
+            }
             if (Input.GetMouseButtonDown(0) && !IsMouseOverUi()) CBH.AddPiece(new Vector2(cursorPosY, cursorPosX), currentPieceType, 0, 0);
 
             if (Input.GetMouseButtonDown(1) && !IsMouseOverUi()) CBH.RemovePiece(new Vector2(cursorPosY, cursorPosX));
-        }
+        }else if (this.transform.childCount > 0) Destroy(this.transform.GetChild(0).gameObject);
     }
 
     public void PickupNewTool(string tool)
@@ -96,6 +105,8 @@ public class LevelEditorCursor : MonoBehaviour
         currentToolUi.SetActive(true);
         currentToolText.text = pieceTypeNames[pieceType];
         currentPieceType = pieceType;
+
+        if (this.transform.childCount > 0) Destroy(this.transform.GetChild(0).gameObject);
     }
 
     public void ClearCurrentTool()

@@ -4625,6 +4625,7 @@ MonoBehaviour:
   - Place Bishop
   - Place Queen
   - Place King
+  piecePreviewMaterial: {fileID: 2100000, guid: 65875927acadd214caea7621c3170c5a, type: 2}
 --- !u!212 &1601516731
 SpriteRenderer:
   m_ObjectHideFlags: 0
