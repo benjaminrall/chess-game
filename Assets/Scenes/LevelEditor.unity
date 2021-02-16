@@ -547,6 +547,26 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b2f68c05db9e9d14594b267be7d6c1d3, type: 2}
   - {fileID: 2100000, guid: 18efeec4f40ca464b8bfda7b4bbf41d3, type: 2}
   - {fileID: 2100000, guid: aab6a2bba4f8d604d8f5cf684aba518b, type: 2}
+  spawnedPiecePrefabs:
+  - piece: {fileID: 919132149155446097, guid: ed73fe8715c34464f849d02bec14845a, type: 3}
+    scale: 0.6
+  - piece: {fileID: 919132149155446097, guid: 719d8e86604c803438a96f1747d4c8c7, type: 3}
+    scale: 0.8
+  - piece: {fileID: 0}
+    scale: 0
+  - piece: {fileID: 0}
+    scale: 0
+  - piece: {fileID: 0}
+    scale: 0
+  - piece: {fileID: 919132149155446097, guid: dae681e9c718fa043a5ad47b2ee7b492, type: 3}
+    scale: 0.8
+  spawnedPieceColours:
+  - Primary: {fileID: 2100000, guid: b0ecae53c9415a445adb10997dc5002d, type: 2}
+    Secondary: {fileID: 2100000, guid: 7c7c476f4b4a34944a5d1a951f840c94, type: 2}
+    Tertiary: {fileID: 2100000, guid: 7c7c476f4b4a34944a5d1a951f840c94, type: 2}
+  - Primary: {fileID: 2100000, guid: 7c7c476f4b4a34944a5d1a951f840c94, type: 2}
+    Secondary: {fileID: 2100000, guid: b0ecae53c9415a445adb10997dc5002d, type: 2}
+    Tertiary: {fileID: 2100000, guid: 7c7c476f4b4a34944a5d1a951f840c94, type: 2}
 --- !u!4 &161168376
 Transform:
   m_ObjectHideFlags: 0

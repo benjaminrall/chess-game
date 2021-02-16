@@ -16,12 +16,28 @@ public class CurrentBoardHandler : MonoBehaviour
         public int pieceColour;
         public GameObject pieceReference;
     }
+    [System.Serializable]
+    public struct PieceGameobject
+    {
+        public GameObject piece;
+        public float scale;
+    }
+    [System.Serializable]
+    public struct PieceMaterials
+    {
+        public Material Primary;
+        public Material Secondary;
+        public Material Tertiary;
+    }
 
     public ChessSquare[,] Cb = new ChessSquare[32, 32];
 
     public Material lightSquare, darkSquare;
     public GameObject squareSprite;
     public Material[] squareTypeMats;
+
+    public PieceGameobject[] spawnedPiecePrefabs;
+    public PieceMaterials[] spawnedPieceColours;
 
     void Start()
     {
@@ -45,6 +61,22 @@ public class CurrentBoardHandler : MonoBehaviour
         Cb[(int)pos.x, (int)pos.y].isActive = false;
         Cb[(int)pos.x, (int)pos.y].squareType = -1;
         RedrawBoard();
+    }
+
+    public void AddPiece(Vector2 pos, int type, int dir, int colour)
+    {
+        if (pos.x <= 0 || pos.x >= 31) return;
+        if (pos.y <= 0 || pos.y >= 31) return;
+
+        Cb[(int)pos.x, (int)pos.y].spawnsPiece = true;
+        Cb[(int)pos.x, (int)pos.y].pieceType = type;
+        Cb[(int)pos.x, (int)pos.y].pieceDirection = dir;
+        Cb[(int)pos.x, (int)pos.y].pieceColour = colour;
+        RedrawBoard();
+    }
+    public void RemovePiece(Vector2 pos)
+    {
+
     }
 
     public void RedrawBoard()
@@ -84,6 +116,13 @@ public class CurrentBoardHandler : MonoBehaviour
                     }
                 }
                 if(Cb[rank, file].reference != null) if (Cb[rank, file].reference.GetComponent<SpriteRenderer>().material != squareTypeMats[Cb[rank, file].squareType]) Cb[rank, file].reference.GetComponent<SpriteRenderer>().material = squareTypeMats[Cb[rank, file].squareType];
+
+                if(Cb[rank, file].spawnsPiece && Cb[rank, file].pieceReference == null)
+                {
+                    Vector2 position = new Vector2(file, rank);
+                    Cb[rank, file].pieceReference = DrawPiece(position, Cb[rank, file].pieceType, Cb[rank, file].pieceColour);
+                    //Debug.Log(Cb[rank, file]);
+                }
             }
        }
     }
@@ -93,5 +132,15 @@ public class CurrentBoardHandler : MonoBehaviour
         GameObject square = Instantiate(squareSprite, new Vector3(pos.x,0,pos.y), Quaternion.Euler(-90, 0, 0), this.transform);
         square.GetComponent<SpriteRenderer>().material = colour;
         return square.gameObject;
+    }
+
+    public GameObject DrawPiece(Vector2 pos, int type, int colour)
+    {
+        GameObject piece = Instantiate(spawnedPiecePrefabs[type].piece, new Vector3(pos.x, 1, pos.y), Quaternion.Euler(0, 0, 0), this.transform);
+        piece.transform.GetChild(0).GetComponent<MeshRenderer>().material = spawnedPieceColours[colour].Primary;
+        piece.transform.GetChild(1).GetComponent<MeshRenderer>().material = spawnedPieceColours[colour].Secondary;
+        piece.transform.GetChild(2).GetComponent<MeshRenderer>().material = spawnedPieceColours[colour].Tertiary;
+        piece.transform.localScale = new Vector3(spawnedPiecePrefabs[type].scale, 1, spawnedPiecePrefabs[type].scale);
+        return piece;
     }
 }

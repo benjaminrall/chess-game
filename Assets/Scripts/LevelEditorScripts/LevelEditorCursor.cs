@@ -76,7 +76,7 @@ public class LevelEditorCursor : MonoBehaviour
 
         if (currentTool == "Piece_Single")
         {
-
+            if (Input.GetMouseButtonDown(0) && !IsMouseOverUi()) CBH.AddPiece(new Vector2(cursorPosY, cursorPosX), currentPieceType, 0, 0);
         }
     }
 
