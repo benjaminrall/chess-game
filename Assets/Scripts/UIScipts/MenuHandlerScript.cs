@@ -39,6 +39,7 @@ public class MenuHandlerScript : MonoBehaviour
     private int currentPreset;
 
     private bool connected;
+    private bool moving;
 
     void Start()
     {
@@ -56,6 +57,7 @@ public class MenuHandlerScript : MonoBehaviour
         }
         if (IPAddress.TryParse(ipText, out connectedIP)){
             if (networkManager.Connect()){
+                MenuUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
                 ServerConnectUI.SetActive(false);
                 MenuUI.SetActive(true);
                 MenuPersistentUI.SetActive(true);
@@ -77,7 +79,6 @@ public class MenuHandlerScript : MonoBehaviour
         ServerConnectUI.SetActive(true);
         MenuUI.SetActive(false);
         MenuPersistentUI.SetActive(false);
-        MenuUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
         connectedIP = null;
         startupIPField.text = "";
     }
@@ -86,30 +87,66 @@ public class MenuHandlerScript : MonoBehaviour
     {
         if (MenuUI.activeSelf)
         {
+            CreateGameUI.SetActive(false);
+            JoinGameUI.SetActive(false);
+            SelectPreset(0);
             StartCoroutine(MoveUp());
+        }
+    }
+
+    public void SettingsButton()
+    {
+        if (MenuUI.activeSelf)
+        {
+            StartCoroutine(MoveDown());
         }
     }
 
     IEnumerator MoveUp()
     {
+        while (moving)
+        {
+            yield return null;
+        }
+        moving = true;
         LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), 1050, 2).setEase(LeanTweenType.easeInOutExpo);
         yield return new WaitForSeconds(2.0f);
+        moving = false;
+    }
+
+    IEnumerator MoveCentre()
+    {
+        while (moving)
+        {
+            yield return null;
+        }
+        moving = true;
+        LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), 0, 2).setEase(LeanTweenType.easeInOutExpo);
+        yield return new WaitForSeconds(2.0f);
+        MenuUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
+        moving = false;
     }
 
     IEnumerator MoveDown()
     {
-        LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), 0, 2).setEase(LeanTweenType.easeInOutExpo);
+        while (moving)
+        {
+            yield return null;
+        }
+        moving = true;
+        LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), -1050, 2).setEase(LeanTweenType.easeInOutExpo);
         yield return new WaitForSeconds(2.0f);
-        MenuUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
+        moving = false;
     }
 
     public void SkipIPButton()
     {
+        MenuUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
         ServerConnectUI.SetActive(false);
         MenuUI.SetActive(true);
         MenuPersistentUI.SetActive(true);
-        NameDisplay.text = "Name: " + playerName;
-        ConnectedIPDisplay.text = "Connected IP: " + connectedIP;
+        NameDisplay.text = "Name: ";
+        ConnectedIPDisplay.text = "Connected IP: ";
         connected = false;
     }
 
@@ -143,9 +180,9 @@ public class MenuHandlerScript : MonoBehaviour
         SelectPreset(0);
     }
     
-    public void BackButtonIP()
+    public void BackButton()
     {
-        StartCoroutine(MoveDown());
+        StartCoroutine(MoveCentre());
     }
 
     public void CreateGame()
