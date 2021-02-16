@@ -67,6 +67,7 @@ public class CurrentBoardHandler : MonoBehaviour
     {
         if (pos.x <= 0 || pos.x >= 31) return;
         if (pos.y <= 0 || pos.y >= 31) return;
+        if (!Cb[(int)pos.x, (int)pos.y].isActive) return;
 
         Cb[(int)pos.x, (int)pos.y].spawnsPiece = true;
         Cb[(int)pos.x, (int)pos.y].pieceType = type;
@@ -76,7 +77,11 @@ public class CurrentBoardHandler : MonoBehaviour
     }
     public void RemovePiece(Vector2 pos)
     {
+        if (pos.x <= 0 || pos.x >= 31) return;
+        if (pos.y <= 0 || pos.y >= 31) return;
 
+        Cb[(int)pos.x, (int)pos.y].spawnsPiece = false;
+        RedrawBoard();
     }
 
     public void RedrawBoard()
@@ -122,6 +127,10 @@ public class CurrentBoardHandler : MonoBehaviour
                     Vector2 position = new Vector2(file, rank);
                     Cb[rank, file].pieceReference = DrawPiece(position, Cb[rank, file].pieceType, Cb[rank, file].pieceColour);
                     //Debug.Log(Cb[rank, file]);
+                }
+                else if(!Cb[rank, file].spawnsPiece && Cb[rank, file].pieceReference != null)
+                {
+                    Destroy(Cb[rank, file].pieceReference);
                 }
             }
        }
