@@ -65,6 +65,8 @@ public class CurrentBoardHandler : MonoBehaviour
 
     public void AddPiece(Vector2 pos, int type, int dir, int colour)
     {
+        Debug.Log("Added Piece");
+        Debug.Log(pos);
         if (pos.x <= 0 || pos.x >= 31) return;
         if (pos.y <= 0 || pos.y >= 31) return;
         if (!Cb[(int)pos.x, (int)pos.y].isActive) return;
@@ -73,6 +75,7 @@ public class CurrentBoardHandler : MonoBehaviour
         Cb[(int)pos.x, (int)pos.y].pieceType = type;
         Cb[(int)pos.x, (int)pos.y].pieceDirection = dir;
         Cb[(int)pos.x, (int)pos.y].pieceColour = colour;
+        
         RedrawBoard();
     }
     public void RemovePiece(Vector2 pos)

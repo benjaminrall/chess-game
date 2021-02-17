@@ -43,6 +43,10 @@ public class LevelEditorCursor : MonoBehaviour
     public int currentPieceType;
     public string[] pieceTypeNames;
     public Material piecePreviewMaterial;
+    public GameObject colourWheel;
+    public bool notFinished;
+    public int colour;
+    public Vector2 storedCoords;
 
     void Start()
     {
@@ -51,7 +55,7 @@ public class LevelEditorCursor : MonoBehaviour
         currentMaterialText.text = materialPreviews[0].displayName;
     }
 
-    void Update()
+    public void Update()
     {
         Vector3 temp = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 5f));
         cursorPosX = Mathf.RoundToInt(temp.x);
@@ -59,6 +63,8 @@ public class LevelEditorCursor : MonoBehaviour
         transform.position = new Vector3(cursorPosX, 5f, cursorPosY);
 
         if (currentTool == "" && currentToolUi.activeInHierarchy) StartCoroutine(CloseCurrentToolUi());
+
+        if (colourWheel.activeInHierarchy) return;
 
         if (currentTool == "Board_Single")
         {
@@ -85,10 +91,27 @@ public class LevelEditorCursor : MonoBehaviour
                 piece.transform.GetChild(1).GetComponent<MeshRenderer>().material = piecePreviewMaterial;
                 piece.transform.GetChild(2).GetComponent<MeshRenderer>().material = piecePreviewMaterial;
             }
-            if (Input.GetMouseButtonDown(0) && !IsMouseOverUi()) CBH.AddPiece(new Vector2(cursorPosY, cursorPosX), currentPieceType, 0, 0);
+            if (Input.GetMouseButtonDown(0) && !IsMouseOverUi())
+            {
+                StartCoroutine(ColourWheel(new Vector2(cursorPosY, cursorPosX)));
+            }
 
             if (Input.GetMouseButtonDown(1) && !IsMouseOverUi()) CBH.RemovePiece(new Vector2(cursorPosY, cursorPosX));
         }else if (this.transform.childCount > 0) Destroy(this.transform.GetChild(0).gameObject);
+    }
+
+    public IEnumerator ColourWheel(Vector2 pos)
+    {
+        colourWheel.SetActive(true);
+
+        while (!notFinished)
+        {
+            yield return new WaitForSeconds(0.01f);
+            continue;
+        }
+        notFinished = false;
+        Debug.Log(colour);
+        CBH.AddPiece(pos, currentPieceType, 0, colour);
     }
 
     public void PickupNewTool(string tool)
