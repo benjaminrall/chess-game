@@ -127,7 +127,56 @@ public class ArrowDraw : MonoBehaviour
             float dx = (x2 - x1);
             float dy = (y2 - y1);
 
-            if (dx > 0 && dy > 0) // Upper Right
+            (float x, float y) diffVector = ((x2 - x1), (y2 - y1));
+            float absDiffVector = (float)Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
+
+            float arrowOffset = 1 - 0.486f / absDiffVector;
+            float lineOffset = 0.3f / absDiffVector;
+
+            (float x, float y) startVector = (x1 + (lineOffset * diffVector.x), y1 + (lineOffset * diffVector.y));
+            (float x, float y) endVector = (x1 + (arrowOffset * diffVector.x), y1 + (arrowOffset * diffVector.y));
+
+            if (Mathf.Abs(dx) == 1 && Mathf.Abs(dy) == 2)
+            {
+                bearing = 90;
+                if (dx < 0) bearing = 270;
+                temp.arrowHead = Instantiate(arrowHead, new Vector3(x2, arrowHeight, y2), Quaternion.Euler(90, bearing, 0));
+                temp.arrowHead.transform.SetParent(temp.arrowGameObject.transform);
+
+                startVector = (x1, y1 + (lineOffset * diffVector.y));
+                endVector = (x1, y1 + dy);
+
+                drawnArrows.Add(temp);
+                Lr.startWidth = arrowWidth + 0.088f;
+                Lr.endWidth = arrowWidth + 0.088f;
+                Lr.positionCount = 3;
+                Lr.numCapVertices = 1;
+                Lr.SetPosition(0, new Vector3(startVector.x, arrowHeight, y1 + (0.2f * dy)));
+                Lr.SetPosition(1, new Vector3(endVector.x, arrowHeight, endVector.y));
+                Lr.SetPosition(2, new Vector3(x2 - (0.59f * dx), arrowHeight, y2));
+                return;
+            }
+            else if (Mathf.Abs(dx) == 2 && Mathf.Abs(dy) == 1)
+            {
+                bearing = 0;
+                if (dy < 0) bearing = 180;
+                temp.arrowHead = Instantiate(arrowHead, new Vector3(x2, arrowHeight, y2), Quaternion.Euler(90, bearing, 0));
+                temp.arrowHead.transform.SetParent(temp.arrowGameObject.transform);
+
+                startVector = (x1 + (lineOffset * diffVector.x), y1);
+                endVector = (x1 + dx, y1);
+                
+                drawnArrows.Add(temp);
+                Lr.startWidth = arrowWidth + 0.088f;
+                Lr.endWidth = arrowWidth + 0.088f;
+                Lr.positionCount = 3;
+                Lr.numCapVertices = 1;
+                Lr.SetPosition(0, new Vector3(x1 + (0.2f * dx), arrowHeight, startVector.y));
+                Lr.SetPosition(1, new Vector3(endVector.x, arrowHeight, endVector.y));
+                Lr.SetPosition(2, new Vector3(x2, arrowHeight, y2 - (0.59f * dy)));
+                return;
+            }
+            else if (dx > 0 && dy > 0) // Upper Right
             {
                 dx = Mathf.Abs(dx);
                 dy = Mathf.Abs(dy);
@@ -177,23 +226,13 @@ public class ArrowDraw : MonoBehaviour
                     bearing = 270;
                 }
             }
-            temp.arrowHead = Instantiate(arrowHead, new Vector3(x2, arrowHeight + 0.01f, y2), Quaternion.Euler(90, bearing, 0));
+            temp.arrowHead = Instantiate(arrowHead, new Vector3(x2, arrowHeight, y2), Quaternion.Euler(90, bearing, 0));
             temp.arrowHead.transform.SetParent(temp.arrowGameObject.transform);
-
-            
-
-            (float x, float y) startVector = ((x2 - x1), (y2 - y1));
-            float absStartVector = (float)Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
-
-            float arrowOffset = 1 - 0.2f / absStartVector;
-
-            (float x, float y) endVector = (x1 + (arrowOffset * startVector.x), y1 + (arrowOffset * startVector.y));
 
             drawnArrows.Add(temp);
             Lr.startWidth = arrowWidth;
             Lr.endWidth = arrowWidth;
-            Lr.startWidth = arrowWidth;
-            Lr.SetPosition(0, new Vector3(x1, arrowHeight, y1));
+            Lr.SetPosition(0, new Vector3(startVector.x, arrowHeight, startVector.y));
             Lr.SetPosition(1, new Vector3(endVector.x, arrowHeight, endVector.y));           
         }
     }
