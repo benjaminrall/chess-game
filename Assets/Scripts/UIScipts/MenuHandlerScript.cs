@@ -109,7 +109,7 @@ public class MenuHandlerScript : MonoBehaviour
             yield return null;
         }
         moving = true;
-        LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), 1050, 2).setEase(LeanTweenType.easeInOutExpo);
+        LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), 1440, 2).setEase(LeanTweenType.easeInOutExpo);
         yield return new WaitForSeconds(2.0f);
         moving = false;
     }
@@ -134,7 +134,7 @@ public class MenuHandlerScript : MonoBehaviour
             yield return null;
         }
         moving = true;
-        LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), -1050, 2).setEase(LeanTweenType.easeInOutExpo);
+        LeanTween.moveY(MenuUI.GetComponent<RectTransform>(), -1440, 2).setEase(LeanTweenType.easeInOutExpo);
         yield return new WaitForSeconds(2.0f);
         moving = false;
     }
