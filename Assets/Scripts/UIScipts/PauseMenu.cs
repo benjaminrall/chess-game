@@ -28,7 +28,7 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         //Debug.Log(Application.persistentDataPath);
-        AS = GameObject.Find("AudioPlayer").GetComponent<AudioSource>();
+        AS = GameObject.Find("AudioManager").GetComponent<AudioSource>();
 
         string destination = Application.persistentDataPath + "/settings.dat";
         if (!File.Exists(destination)) WriteDefaultSettings();
@@ -41,6 +41,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            FindObjectOfType<AudioManager>().Play("DropPiece");
             if (pauseMenuActive){
                 ResetUI();
                 WriteSettings();
