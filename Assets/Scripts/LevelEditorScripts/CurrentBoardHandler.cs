@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class CurrentBoardHandler : MonoBehaviour
 {
@@ -29,6 +30,17 @@ public class CurrentBoardHandler : MonoBehaviour
         public Material Secondary;
         public Material Tertiary;
     }
+    [System.Serializable]
+    public struct BoardSquareSaved
+    {
+        public Vector2 pos;
+        public int type;
+
+        public bool spawnsPiece;
+        public int pieceType;
+        public int pieceDirection;
+        public int pieceColour;
+    }
 
     public ChessSquare[,] Cb = new ChessSquare[32, 32];
 
@@ -39,6 +51,7 @@ public class CurrentBoardHandler : MonoBehaviour
     public PieceGameobject[] spawnedPiecePrefabs;
     public PieceMaterials[] spawnedPieceColours;
 
+    public BoardSquareSaved temp;
     void Start()
     {
 
@@ -60,6 +73,9 @@ public class CurrentBoardHandler : MonoBehaviour
 
         Cb[(int)pos.x, (int)pos.y].isActive = false;
         Cb[(int)pos.x, (int)pos.y].squareType = -1;
+
+        Destroy(Cb[(int)pos.x, (int)pos.y].pieceReference);
+        Cb[(int)pos.x, (int)pos.y].spawnsPiece = false;
         RedrawBoard();
     }
 
@@ -154,5 +170,42 @@ public class CurrentBoardHandler : MonoBehaviour
         piece.transform.GetChild(2).GetComponent<MeshRenderer>().material = spawnedPieceColours[colour].Tertiary;
         piece.transform.localScale = new Vector3(spawnedPiecePrefabs[type].scale, 1, spawnedPiecePrefabs[type].scale);
         return piece;
+    }
+
+    public void SaveBoardLayout()
+    {
+        List<BoardSquareSaved> validPositions = new List<BoardSquareSaved>();
+        for (int file = 0; file < 32; file++)
+        {
+            for (int rank = 0; rank < 32; rank++)
+            {
+                if (Cb[rank, file].isActive)
+                {
+                    temp.pos = new Vector2(rank, file);
+                    temp.type = Cb[rank, file].squareType;
+
+                    if (Cb[rank, file].spawnsPiece)
+                    {
+                        temp.spawnsPiece = true;
+                        temp.pieceType = Cb[rank, file].pieceType;
+                        temp.pieceDirection = Cb[rank, file].pieceDirection;
+                        temp.pieceColour = Cb[rank, file].pieceColour;
+                    }
+                    validPositions.Add(temp);
+                }
+            }
+        }
+        using (StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Boards/Board.txt"))
+        {
+            bool first = false;
+            sw.Write("{");
+            foreach (BoardSquareSaved bss in validPositions) {
+                if (!first){
+                }else sw.Write(",");
+                sw.Write("{"+ bss.pos + "," + bss.type + "," + bss.spawnsPiece + "," + bss.pieceType + "," + bss.pieceDirection + "," + bss.pieceColour + "}");
+            }
+            sw.Write("}");
+            sw.Close();
+        }
     }
 }

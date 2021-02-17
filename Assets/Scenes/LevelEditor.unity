@@ -599,6 +599,13 @@ MonoBehaviour:
   - Primary: {fileID: 2100000, guid: 7c7c476f4b4a34944a5d1a951f840c94, type: 2}
     Secondary: {fileID: 2100000, guid: b0ecae53c9415a445adb10997dc5002d, type: 2}
     Tertiary: {fileID: 2100000, guid: 7c7c476f4b4a34944a5d1a951f840c94, type: 2}
+  temp:
+    pos: {x: 0, y: 0}
+    type: 0
+    spawnsPiece: 0
+    pieceType: 0
+    pieceDirection: 0
+    pieceColour: 0
 --- !u!4 &161168376
 Transform:
   m_ObjectHideFlags: 0
@@ -1850,19 +1857,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 840371363}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1877401077}
-        m_TargetAssemblyTypeName: ToolBeltHandler, Assembly-CSharp
-        m_MethodName: DropDownBelt
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &840371363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1983,9 +1978,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1877401077}
-        m_TargetAssemblyTypeName: ToolBeltHandler, Assembly-CSharp
-        m_MethodName: DropDownBelt
+      - m_Target: {fileID: 161168375}
+        m_TargetAssemblyTypeName: CurrentBoardHandler, Assembly-CSharp
+        m_MethodName: SaveBoardLayout
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4449,19 +4444,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1453154656}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1877401077}
-        m_TargetAssemblyTypeName: ToolBeltHandler, Assembly-CSharp
-        m_MethodName: DropDownBelt
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1453154656
 MonoBehaviour:
   m_ObjectHideFlags: 0
