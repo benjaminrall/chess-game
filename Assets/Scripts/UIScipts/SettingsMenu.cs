@@ -1,4 +1,4 @@
-﻿using UnityEngine.Audio;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
@@ -16,31 +16,37 @@ public class SettingsMenu : MonoBehaviour
 
     private void Start() 
     {
-        resolutions = Screen.resolutions;
-        resolutionDropdown.ClearOptions();
-
-        List<string> options = new List<string>();
-
-        int currentResolutionIndex = 0;
-        for (int i = 0; i < resolutions.Length; i++)
+        if (resolutionDropdown != null)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height + " @" + resolutions[i].refreshRate + "Hz";
-            if (!options.Contains(option))
+            resolutions = Screen.resolutions;
+            resolutionDropdown.ClearOptions();
+
+            List<string> options = new List<string>();
+
+            int currentResolutionIndex = 0;
+            for (int i = 0; i < resolutions.Length; i++)
             {
-                options.Add(option);
+                string option = resolutions[i].width + " x " + resolutions[i].height + " @" + resolutions[i].refreshRate + "Hz";
+                if (!options.Contains(option))
+                {
+                    options.Add(option);
+                }
+
+                if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+                {
+                    currentResolutionIndex = i;
+                }
             }
 
-            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
-            {
-                currentResolutionIndex = i;
-            }
+            resolutionDropdown.AddOptions(options);
+            resolutionDropdown.value = currentResolutionIndex;
+            resolutionDropdown.RefreshShownValue();
         }
 
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
-        resolutionDropdown.RefreshShownValue();
-
-        fullscreenToggle.isOn = Screen.fullScreen;
+        if (fullscreenToggle != null)
+        {
+            fullscreenToggle.isOn = Screen.fullScreen;
+        }
     }
 
     public void SetMasterVolume(float volume)
