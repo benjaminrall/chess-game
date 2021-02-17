@@ -60,7 +60,7 @@ public class PieceDrag : MonoBehaviour
                 }
             }
             StartCoroutine(CheckAll(BHS.turn));
-            audioPlayer.DropPiece();
+            // audioPlayer.DropPiece();
             string move = oldX.ToString() + "~" + oldY.ToString() + "~" + attemptedX.ToString() + "~" + attemptedY.ToString();
             networkManager.SendMove(move);
         }
@@ -104,7 +104,7 @@ public class PieceDrag : MonoBehaviour
         //StartCoroutine(CheckAll(BHS.turn, true));
         BHS.turn = (BHS.turn + 1) % BHS.players;
 
-        audioPlayer.DropPiece();
+        // audioPlayer.DropPiece();
         BHS.ShowIndicators(false, new List<(int x, int y)>());
         
         Destroy(this.gameObject);

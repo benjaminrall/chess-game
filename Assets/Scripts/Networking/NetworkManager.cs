@@ -123,6 +123,18 @@ public class NetworkManager : MonoBehaviour
         playing = true;
     }
 
+    IEnumerator LoadMainMenu()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+
+    }
+
     public bool Connect()
     {
         if (!connected)
@@ -273,17 +285,37 @@ public class NetworkManager : MonoBehaviour
 
     public void LeaveGame()
     {
-        Send("leave_game::" + code);
-        if (Receive() == "true")
+        switch(SceneManager.GetActiveScene().buildIndex)
         {
-            Debug.Log("Left game");
+            case 0:
+                Send("leave_game::" + code);
+                if (Receive() == "true")
+                {
+                    Debug.Log("Left game");
+                }
+                else
+                {
+                    Debug.Log("Leaving game failed");
+                }
+                waiting = false;
+                menuHandler.LeaveWaitingRoom();
+                break;
+            case 1:
+                StartCoroutine(LoadMainMenu());
+                if (connected)
+                {
+                    Send("leave_game::" + code);
+                    if (Receive() == "true")
+                    {
+                        Debug.Log("Left game");
+                    }
+                    else
+                    {
+                        Debug.Log("Leaving game failed");
+                    }
+                }
+                break;
         }
-        else
-        {
-            Debug.Log("Leaving game failed");
-        }
-        waiting = false;
-        menuHandler.LeaveWaitingRoom();
     }
 
     public bool GetHost()
