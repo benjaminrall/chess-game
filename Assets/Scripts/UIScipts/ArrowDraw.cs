@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ArrowDraw : MonoBehaviour
 {
@@ -117,6 +118,7 @@ public class ArrowDraw : MonoBehaviour
             temp.x2 = x2;
             temp.y1 = y1;
             temp.y2 = y2;
+
             temp.arrowGameObject = Instantiate(lineDrawer, new Vector3(this.transform.position.x, arrowHeight, this.transform.position.z), Quaternion.identity);
             temp.arrowGameObject.transform.SetParent(this.transform);
             LineRenderer Lr = temp.arrowGameObject.GetComponent<LineRenderer>();
@@ -129,7 +131,7 @@ public class ArrowDraw : MonoBehaviour
             {
                 dx = Mathf.Abs(dx);
                 dy = Mathf.Abs(dy);
-                bearing = Mathf.Atan((dy / dx)); //Upper Right
+                bearing = Mathf.Atan(dy / dx); //Upper Right
                 bearing = 90 - bearing * Mathf.Rad2Deg;
             }
             else if (dx > 0 && dy < 0) // Lower Right
@@ -178,12 +180,21 @@ public class ArrowDraw : MonoBehaviour
             temp.arrowHead = Instantiate(arrowHead, new Vector3(x2, arrowHeight + 0.01f, y2), Quaternion.Euler(90, bearing, 0));
             temp.arrowHead.transform.SetParent(temp.arrowGameObject.transform);
 
+            
+
+            (float x, float y) startVector = ((x2 - x1), (y2 - y1));
+            float absStartVector = (float)Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
+
+            float arrowOffset = 1 - 0.2f / absStartVector;
+
+            (float x, float y) endVector = (x1 + (arrowOffset * startVector.x), y1 + (arrowOffset * startVector.y));
+
             drawnArrows.Add(temp);
             Lr.startWidth = arrowWidth;
             Lr.endWidth = arrowWidth;
             Lr.startWidth = arrowWidth;
             Lr.SetPosition(0, new Vector3(x1, arrowHeight, y1));
-            Lr.SetPosition(1, new Vector3(x2, arrowHeight, y2));           
+            Lr.SetPosition(1, new Vector3(endVector.x, arrowHeight, endVector.y));           
         }
     }
 }
