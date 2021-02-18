@@ -200,7 +200,7 @@ public class CurrentBoardHandler : MonoBehaviour
         if (!System.IO.Directory.Exists(Application.persistentDataPath + "/Boards")){
             System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/Boards");
         }
-        using (StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Boards/Board.txt"))
+        using (StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Boards/Board.chess"))
         {
             bool first = false;
             sw.Write("{");
@@ -242,5 +242,39 @@ public class CurrentBoardHandler : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    public void LoadBoardLayout()
+    {
+        string line;
+        bool first = false;
+
+        string firstLine = "";
+        
+        List<PieceColour> PieceColours = new List<PieceColour>();
+        List<(int x, int y, int type)> validPositions = new List<(int x, int y, int type)>();
+
+        using (StreamReader reader = new StreamReader(Application.persistentDataPath + "/Boards/Board.chess"))
+        {
+            
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (!first)
+                {
+                    firstLine = line;
+                    first = true;
+                    continue;
+                }
+
+                //PieceColour temp = line;
+
+            }
+            
+        }
+
+        Debug.Log(firstLine);
+
+
     }
 }
