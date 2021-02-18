@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class GameUIHandler : MonoBehaviour
 {
-
-
     public GameObject pauseMenuUI;
     private bool pauseMenuActive = false;
+
+    public GameObject endGameUI;
+    private bool endGameUIActive = false;
 
     void Start() 
     {
