@@ -30,17 +30,6 @@ public class CurrentBoardHandler : MonoBehaviour
         public Material Secondary;
         public Material Tertiary;
     }
-    [System.Serializable]
-    public struct BoardSquareSaved
-    {
-        public Vector2 pos;
-        public int type;
-
-        public bool spawnsPiece;
-        public int pieceType;
-        public int pieceDirection;
-        public int pieceColour;
-    }
 
     public ChessSquare[,] Cb = new ChessSquare[32, 32];
 
@@ -51,7 +40,6 @@ public class CurrentBoardHandler : MonoBehaviour
     public PieceGameobject[] spawnedPiecePrefabs;
     public PieceMaterials[] spawnedPieceColours;
 
-    public BoardSquareSaved temp;
     void Start()
     {
 
@@ -59,8 +47,8 @@ public class CurrentBoardHandler : MonoBehaviour
 
     public void AddSquare(Vector2 pos, int type)
     {
-        if (pos.x <= 0 || pos.x >= 31) return;
-        if (pos.y <= 0 || pos.y >= 31) return;
+        if (pos.x < 0 || pos.x > 31) return;
+        if (pos.y < 0 || pos.y > 31) return;
 
         Cb[(int)pos.x, (int)pos.y].isActive = true;
         Cb[(int)pos.x, (int)pos.y].squareType = type;
@@ -68,8 +56,8 @@ public class CurrentBoardHandler : MonoBehaviour
     }
     public void RemoveSquare(Vector2 pos)
     {
-        if (pos.x <= 0 || pos.x >= 31) return;
-        if (pos.y <= 0 || pos.y >= 31) return;
+        if (pos.x < 0 || pos.x > 31) return;
+        if (pos.y < 0 || pos.y > 31) return;
 
         Cb[(int)pos.x, (int)pos.y].isActive = false;
         Cb[(int)pos.x, (int)pos.y].squareType = -1;
@@ -81,10 +69,10 @@ public class CurrentBoardHandler : MonoBehaviour
 
     public void AddPiece(Vector2 pos, int type, int dir, int colour)
     {
-        Debug.Log("Added Piece");
-        Debug.Log(pos);
-        if (pos.x <= 0 || pos.x >= 31) return;
-        if (pos.y <= 0 || pos.y >= 31) return;
+        //Debug.Log("Added Piece");
+        //Debug.Log(pos);
+        if (pos.x < 0 || pos.x > 31) return;
+        if (pos.y < 0 || pos.y > 31) return;
         if (!Cb[(int)pos.x, (int)pos.y].isActive) return;
 
         Cb[(int)pos.x, (int)pos.y].spawnsPiece = true;
@@ -96,8 +84,8 @@ public class CurrentBoardHandler : MonoBehaviour
     }
     public void RemovePiece(Vector2 pos)
     {
-        if (pos.x <= 0 || pos.x >= 31) return;
-        if (pos.y <= 0 || pos.y >= 31) return;
+        if (pos.x < 0 || pos.x > 31) return;
+        if (pos.y < 0 || pos.y > 31) return;
 
         Cb[(int)pos.x, (int)pos.y].spawnsPiece = false;
         RedrawBoard();
@@ -172,40 +160,87 @@ public class CurrentBoardHandler : MonoBehaviour
         return piece;
     }
 
+    public struct PieceColour
+    {
+        public int colour;
+        public int direction;
+        public List<(int x, int y, int id)> pieces;
+    }
+
     public void SaveBoardLayout()
     {
-        List<BoardSquareSaved> validPositions = new List<BoardSquareSaved>();
+        List<(int x, int y, int type)> validPositions = new List<(int x, int y, int type)>();
+        List<PieceColour> PieceColours = new List<PieceColour>();
+
         for (int file = 0; file < 32; file++)
         {
             for (int rank = 0; rank < 32; rank++)
             {
                 if (Cb[rank, file].isActive)
                 {
-                    temp.pos = new Vector2(rank, file);
-                    temp.type = Cb[rank, file].squareType;
+                    validPositions.Add((file, rank, Cb[rank, file].squareType));
+                }
+                 
+                if (!Cb[rank, file].spawnsPiece) continue;
 
-                    if (Cb[rank, file].spawnsPiece)
-                    {
-                        temp.spawnsPiece = true;
-                        temp.pieceType = Cb[rank, file].pieceType;
-                        temp.pieceDirection = Cb[rank, file].pieceDirection;
-                        temp.pieceColour = Cb[rank, file].pieceColour;
-                    }
-                    validPositions.Add(temp);
+                int colour = CheckIfColourListExists(PieceColours, Cb[rank, file].pieceColour);
+                if (colour == -1){
+                    List<(int x, int y, int id)> tempPieces = new List<(int x, int y, int type)>();
+                    tempPieces.Add((file, rank, Cb[rank, file].pieceType));
+                    PieceColour temp;
+                    temp.colour = Cb[rank, file].pieceColour;
+                    temp.direction = Cb[rank, file].pieceDirection;
+                    temp.pieces = tempPieces;
+                    PieceColours.Add(temp);
+                }else{
+                    PieceColours[colour].pieces.Add((file, rank, Cb[rank, file].pieceType));
                 }
             }
+        }
+        if (!System.IO.Directory.Exists(Application.persistentDataPath + "/Boards")){
+            System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/Boards");
         }
         using (StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Boards/Board.txt"))
         {
             bool first = false;
             sw.Write("{");
-            foreach (BoardSquareSaved bss in validPositions) {
+            foreach ((int x, int y, int type) bss in validPositions) {
                 if (!first){
+                    first = true;
                 }else sw.Write(",");
-                sw.Write("{"+ bss.pos + "," + bss.type + "," + bss.spawnsPiece + "," + bss.pieceType + "," + bss.pieceDirection + "," + bss.pieceColour + "}");
+                sw.Write("{("+ bss.x + "," + bss.y + ")," + bss.type + "}");
+            }
+            sw.Write("}");
+            
+            foreach (PieceColour pc in PieceColours) {
+                sw.Write("\r\n");
+                first = false;
+                for (int i = 0; pc.pieces.Count > i; i++)
+                {
+                    if (!first)
+                    {
+                        first = true;
+                        sw.Write(pc.colour + "," + pc.direction + ":{");
+                    }
+                    else sw.Write(",");
+
+                    sw.Write("{(" + pc.pieces[i].x + "," + pc.pieces[i].y + ")," + pc.pieces[i].id + "}");
+                }
             }
             sw.Write("}");
             sw.Close();
         }
+    }
+
+    public int CheckIfColourListExists(List<PieceColour> list, int colour)
+    {
+        for (int i = 0; (list.Count) > i; i++)
+        {
+            if (list[i].colour == colour)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 }
