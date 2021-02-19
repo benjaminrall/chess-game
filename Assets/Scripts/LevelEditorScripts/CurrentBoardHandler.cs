@@ -203,14 +203,12 @@ public class CurrentBoardHandler : MonoBehaviour
         using (StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Boards/Board.chess"))
         {
             bool first = false;
-            sw.Write("{");
             foreach ((int x, int y, int type) bss in validPositions) {
                 if (!first){
                     first = true;
-                }else sw.Write(",");
+                }else sw.Write("|");
                 sw.Write("{("+ bss.x + "," + bss.y + ")," + bss.type + "}");
             }
-            sw.Write("}");
             
             foreach (PieceColour pc in PieceColours) {
                 sw.Write("\r\n");
@@ -220,9 +218,9 @@ public class CurrentBoardHandler : MonoBehaviour
                     if (!first)
                     {
                         first = true;
-                        sw.Write(pc.colour + "," + pc.direction + ":{");
+                        sw.Write("{" + pc.colour + "," + pc.direction + "}:");
                     }
-                    else sw.Write(",");
+                    else sw.Write("|");
 
                     sw.Write("{(" + pc.pieces[i].x + "," + pc.pieces[i].y + ")," + pc.pieces[i].id + "}");
                 }
@@ -273,8 +271,13 @@ public class CurrentBoardHandler : MonoBehaviour
             
         }
 
-        Debug.Log(firstLine);
+        string[] temp = firstLine.Split('|');
 
-
+        for (int i = 0; (temp.Length) > i; i++)
+        {
+            string tempPos = temp[i].Split('(', ')')[1];
+            //Debug.Log(temp[i].Split(',', '}')[2]);
+            validPositions.Add((System.Int32.Parse(tempPos.Split(',')[0]), System.Int32.Parse(tempPos.Split(',')[1]), System.Int32.Parse(temp[i].Split(',', '}')[2])));
+        }
     }
 }
