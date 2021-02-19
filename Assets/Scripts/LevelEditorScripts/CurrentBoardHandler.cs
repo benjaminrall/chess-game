@@ -271,13 +271,26 @@ public class CurrentBoardHandler : MonoBehaviour
             
         }
 
+        for (int file = 0; file < 32; file++)
+        {
+            for (int rank = 0; rank < 32; rank++)
+            {
+                Cb[rank, file].isActive = false;
+            }
+        }
+
         string[] temp = firstLine.Split('|');
 
         for (int i = 0; (temp.Length) > i; i++)
         {
             string tempPos = temp[i].Split('(', ')')[1];
-            //Debug.Log(temp[i].Split(',', '}')[2]);
+            
             validPositions.Add((System.Int32.Parse(tempPos.Split(',')[0]), System.Int32.Parse(tempPos.Split(',')[1]), System.Int32.Parse(temp[i].Split(',', '}')[2])));
+
+            Cb[validPositions[i].y, validPositions[i].x].isActive = true;
+            Cb[validPositions[i].y, validPositions[i].x].squareType = validPositions[i].type;
         }
+
+        RedrawBoard();
     }
 }
