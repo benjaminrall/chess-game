@@ -47,6 +47,7 @@ public class LevelEditorCursor : MonoBehaviour
     public bool notFinished;
     public int colour;
     public Vector2 storedCoords;
+    public bool skipWheel;
 
     void Start()
     {
@@ -62,8 +63,14 @@ public class LevelEditorCursor : MonoBehaviour
         cursorPosY = Mathf.RoundToInt(temp.z);
         transform.position = new Vector3(cursorPosX, 5f, cursorPosY);
 
+        
         if (currentTool == "" && currentToolUi.activeInHierarchy) StartCoroutine(CloseCurrentToolUi());
 
+        if (Input.GetKeyDown(KeyCode.Escape) && colourWheel.activeInHierarchy)
+        {
+            colourWheel.SetActive(false);
+            skipWheel = true;
+        }
         if (colourWheel.activeInHierarchy) return;
 
         if (currentTool == "Board_Single")
@@ -107,11 +114,19 @@ public class LevelEditorCursor : MonoBehaviour
         while (!notFinished)
         {
             yield return new WaitForSeconds(0.01f);
+            if (skipWheel)
+            {
+                skipWheel = false;
+                notFinished = false;
+                colourWheel.SetActive(false);
+                yield return null;
+            }
             continue;
         }
         notFinished = false;
-        Debug.Log(colour);
+        //Debug.Log(colour);
         CBH.AddPiece(pos, currentPieceType, 0, colour);
+        yield return null;
     }
 
     public void PickupNewTool(string tool)

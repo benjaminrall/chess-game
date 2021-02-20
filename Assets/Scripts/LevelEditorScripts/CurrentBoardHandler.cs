@@ -200,17 +200,15 @@ public class CurrentBoardHandler : MonoBehaviour
         if (!System.IO.Directory.Exists(Application.persistentDataPath + "/Boards")){
             System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/Boards");
         }
-        using (StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Boards/Board.txt"))
+        using (StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Boards/Board.chess"))
         {
             bool first = false;
-            sw.Write("{");
             foreach ((int x, int y, int type) bss in validPositions) {
                 if (!first){
                     first = true;
-                }else sw.Write(",");
+                }else sw.Write("|");
                 sw.Write("{("+ bss.x + "," + bss.y + ")," + bss.type + "}");
             }
-            sw.Write("}");
             
             foreach (PieceColour pc in PieceColours) {
                 sw.Write("\r\n");
@@ -220,9 +218,9 @@ public class CurrentBoardHandler : MonoBehaviour
                     if (!first)
                     {
                         first = true;
-                        sw.Write(pc.colour + "," + pc.direction + ":{");
+                        sw.Write(pc.colour + "," + pc.direction + ":");
                     }
-                    else sw.Write(",");
+                    else sw.Write("|");
 
                     sw.Write("{(" + pc.pieces[i].x + "," + pc.pieces[i].y + ")," + pc.pieces[i].id + "}");
                 }
@@ -242,5 +240,90 @@ public class CurrentBoardHandler : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    public void LoadBoardLayout()
+    {
+        string line;
+        bool first = false;
+
+        string firstLine = "";
+
+        List<string> pcTemp = new List<string>();
+
+        List<PieceColour> PieceColours = new List<PieceColour>();
+        List<(int x, int y, int type)> validPositions = new List<(int x, int y, int type)>();
+
+        using (StreamReader reader = new StreamReader(Application.persistentDataPath + "/Boards/Board.chess"))
+        {
+            int i = 0;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (!first)
+                {
+                    firstLine = line;
+                    first = true;
+                    continue;
+                }
+                pcTemp.Add(line);
+                //Debug.Log(pcTemp[i]);
+                i++;
+            }
+            
+        }
+
+        for (int file = 0; file < 32; file++)
+        {
+            for (int rank = 0; rank < 32; rank++)
+            {
+                Cb[rank, file].isActive = false;
+                Cb[rank, file].spawnsPiece = false;
+            }
+        }
+
+        string[] temp = firstLine.Split('|');
+
+        for (int i = 0; (temp.Length) > i; i++)
+        {
+            string tempPos = temp[i].Split('(', ')')[1];
+            
+            validPositions.Add((System.Int32.Parse(tempPos.Split(',')[0]), System.Int32.Parse(tempPos.Split(',')[1]), System.Int32.Parse(temp[i].Split(',', '}')[2])));
+
+            Cb[validPositions[i].y, validPositions[i].x].isActive = true;
+            Cb[validPositions[i].y, validPositions[i].x].squareType = validPositions[i].type;
+        }
+
+        for (int i = 0; (pcTemp.Count) > i; i++)
+        {
+            string[] tempColourDirection = pcTemp[i].Split(':')[0].Split(',');
+            string[] tempPieces = pcTemp[i].Split(':')[1].Split('|');
+
+            for (int i2 = 0; tempPieces.Length > i2; i2++)
+            {
+                string tempPos = tempPieces[i2].Split('(', ')')[1];
+                List<(int x, int y, int type)> tempPiecesPieces = new List<(int x, int y, int type)>();
+
+                tempPiecesPieces.Add((System.Int32.Parse(tempPos.Split(',')[0]), System.Int32.Parse(tempPos.Split(',')[1]), System.Int32.Parse(temp[i].Split(',', '}')[2])));
+                Debug.Log(System.Int32.Parse(temp[i].Split(',', '}')[2]));
+                PieceColour temppiecepiecepiece;
+                temppiecepiecepiece.colour = System.Int32.Parse(tempColourDirection[0]);
+                temppiecepiecepiece.direction = System.Int32.Parse(tempColourDirection[1]);
+                temppiecepiecepiece.pieces = tempPiecesPieces;
+                PieceColours.Add(temppiecepiecepiece);
+            }
+        }
+
+        foreach (PieceColour pc in PieceColours)
+        {
+            foreach ((int x, int y, int type) piece in pc.pieces)
+            {
+                Cb[piece.y, piece.x].spawnsPiece = true;
+                Cb[piece.y, piece.x].pieceColour = pc.colour;
+                //Debug.Log(pc.colour + " : " + piece.type + " : " + pc.direction);
+                Cb[piece.y, piece.x].pieceType = piece.type;
+                Cb[piece.y, piece.x].pieceDirection = pc.direction;
+            }
+        }
+        RedrawBoard();
     }
 }
