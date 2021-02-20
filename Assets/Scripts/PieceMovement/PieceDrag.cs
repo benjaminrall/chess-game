@@ -18,7 +18,7 @@ public class PieceDrag : MonoBehaviour
     void Start()
     {
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
-        audioPlayer = GameObject.Find("AudioPlayer").GetComponent<AudioManager>();
+        audioPlayer = GameObject.Find("AudioManager").GetComponent<AudioManager>();
         networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         piece = gameObject.GetComponent<Piece>();
 
@@ -60,7 +60,7 @@ public class PieceDrag : MonoBehaviour
                 }
             }
             StartCoroutine(CheckAll(BHS.turn));
-            // audioPlayer.DropPiece();
+            FindObjectOfType<AudioManager>().Play("DropPiece");
             string move = oldX.ToString() + "~" + oldY.ToString() + "~" + attemptedX.ToString() + "~" + attemptedY.ToString();
             networkManager.SendMove(move);
         }
@@ -101,10 +101,10 @@ public class PieceDrag : MonoBehaviour
         newPiece.GetComponent<Piece>().pieceX = attemptedX;
         newPiece.GetComponent<Piece>().pieceY = attemptedY;
         newPiece.GetComponent<Piece>().Setup();
-        //StartCoroutine(CheckAll(BHS.turn, true));
+        StartCoroutine(CheckAll(BHS.turn, true));
         BHS.turn = (BHS.turn + 1) % BHS.players;
 
-        // audioPlayer.DropPiece();
+        FindObjectOfType<AudioManager>().Play("DropPiece");
         BHS.ShowIndicators(false, new List<(int x, int y)>());
         
         Destroy(this.gameObject);

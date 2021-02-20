@@ -10,6 +10,7 @@ public class PieceInstantiatorScript : MonoBehaviour
     public void InstantiatePieces()
     {    
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();  
+        BHS.Setup();
         for (int i = 0; i < layout.LayoutsPieces1.Length; i++)
         {
             GameObject piece = Instantiate(layout.LayoutsPieces1[i].Piece, new Vector3(layout.LayoutsPieces1[i].Location.x, 1, layout.LayoutsPieces1[i].Location.y), layout.LayoutsPieces1[i].Piece.transform.rotation);
@@ -43,7 +44,7 @@ public class PieceInstantiatorScript : MonoBehaviour
             }
             piece.GetComponent<Piece>().Setup();
         }
-        BHS.Setup();
+
         BHS.UpdateAvailableSpaces();
     }
 }

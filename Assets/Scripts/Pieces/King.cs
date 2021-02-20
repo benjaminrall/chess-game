@@ -21,7 +21,7 @@ public class King : Piece
         SetDirections();
         base.Setup();
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
-        UI = GameObject.Find("UIHandler");
+        UI = GameObject.Find("GameUIHandler");
     }
 
     void Update()

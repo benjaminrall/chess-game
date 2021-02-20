@@ -23,6 +23,7 @@ public class NetworkManager : MonoBehaviour
     private bool playing = false;
     private bool waiting = false;
     private bool host = false;
+    private bool solo = false;
     private BoardHandlerScript BHS;
     private CursorPickup CP;
     private MenuHandlerScript menuHandler;
@@ -106,9 +107,13 @@ public class NetworkManager : MonoBehaviour
                 }
             }
         }
+        if (solo)
+        {
+            CP.PickupUpdate();
+        }
     }
 
-    IEnumerator LoadBoardScene()
+    IEnumerator LoadBoardScene(bool s = false)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
 
@@ -120,6 +125,7 @@ public class NetworkManager : MonoBehaviour
         BHS = GameObject.Find("BoardHandler").GetComponent<BoardHandlerScript>();
         CP = GameObject.Find("Cursor").GetComponent<CursorPickup>();
         GameObject.Find("PieceInstantiator").GetComponent<PieceInstantiatorScript>().InstantiatePieces();
+        solo = s;
         playing = true;
     }
 
@@ -131,8 +137,6 @@ public class NetworkManager : MonoBehaviour
         {
             yield return null;
         }
-
-
     }
 
     public bool Connect()
@@ -266,8 +270,11 @@ public class NetworkManager : MonoBehaviour
 
     public void SendMove(string info)
     {
-        Send("send_move::" + code + "::" + info);
-        Receive();
+        if (!solo)
+        {
+            Send("send_move::" + code + "::" + info);
+            Receive();
+        }
     }
 
     public void StartGame()
@@ -338,5 +345,10 @@ public class NetworkManager : MonoBehaviour
             moveData[i] = int.Parse(data[i]);
         }
         return moveData;
+    }
+
+    public void ActivateSoloMode()
+    {
+        StartCoroutine(LoadBoardScene(true));
     }
 }
