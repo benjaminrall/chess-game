@@ -225,7 +225,6 @@ public class CurrentBoardHandler : MonoBehaviour
                     sw.Write("{(" + pc.pieces[i].x + "," + pc.pieces[i].y + ")," + pc.pieces[i].id + "}");
                 }
             }
-            sw.Write("}");
             sw.Close();
         }
     }
@@ -269,7 +268,7 @@ public class CurrentBoardHandler : MonoBehaviour
                 //Debug.Log(pcTemp[i]);
                 i++;
             }
-            
+            reader.Close();
         }
 
         for (int file = 0; file < 32; file++)
@@ -303,8 +302,8 @@ public class CurrentBoardHandler : MonoBehaviour
                 string tempPos = tempPieces[i2].Split('(', ')')[1];
                 List<(int x, int y, int type)> tempPiecesPieces = new List<(int x, int y, int type)>();
 
-                tempPiecesPieces.Add((System.Int32.Parse(tempPos.Split(',')[0]), System.Int32.Parse(tempPos.Split(',')[1]), System.Int32.Parse(temp[i].Split(',', '}')[2])));
-                Debug.Log(System.Int32.Parse(temp[i].Split(',', '}')[2]));
+                tempPiecesPieces.Add((System.Int32.Parse(tempPos.Split(',')[0]), System.Int32.Parse(tempPos.Split(',')[1]), System.Int32.Parse(tempPieces[i2].Split(',', '}')[2])));
+                Debug.Log(System.Int32.Parse(tempPieces[i2].Split(',', '}')[2]));
                 PieceColour temppiecepiecepiece;
                 temppiecepiecepiece.colour = System.Int32.Parse(tempColourDirection[0]);
                 temppiecepiecepiece.direction = System.Int32.Parse(tempColourDirection[1]);
