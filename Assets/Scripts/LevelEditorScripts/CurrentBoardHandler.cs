@@ -75,11 +75,17 @@ public class CurrentBoardHandler : MonoBehaviour
         if (pos.y < 0 || pos.y > 31) return;
         if (!Cb[(int)pos.x, (int)pos.y].isActive) return;
 
+        if (Cb[(int)pos.x, (int)pos.y].pieceReference != null)
+        {
+            Destroy(Cb[(int)pos.x, (int)pos.y].pieceReference);
+            Cb[(int)pos.x, (int)pos.y].pieceReference = null;
+        }
+
         Cb[(int)pos.x, (int)pos.y].spawnsPiece = true;
         Cb[(int)pos.x, (int)pos.y].pieceType = type;
         Cb[(int)pos.x, (int)pos.y].pieceDirection = dir;
         Cb[(int)pos.x, (int)pos.y].pieceColour = colour;
-        
+
         RedrawBoard();
     }
     public void RemovePiece(Vector2 pos)
@@ -139,6 +145,7 @@ public class CurrentBoardHandler : MonoBehaviour
                 {
                     Destroy(Cb[rank, file].pieceReference);
                 }
+                
             }
        }
     }
@@ -303,7 +310,7 @@ public class CurrentBoardHandler : MonoBehaviour
                 List<(int x, int y, int type)> tempPiecesPieces = new List<(int x, int y, int type)>();
 
                 tempPiecesPieces.Add((System.Int32.Parse(tempPos.Split(',')[0]), System.Int32.Parse(tempPos.Split(',')[1]), System.Int32.Parse(tempPieces[i2].Split(',', '}')[2])));
-                Debug.Log(System.Int32.Parse(tempPieces[i2].Split(',', '}')[2]));
+                //Debug.Log(System.Int32.Parse(tempPieces[i2].Split(',', '}')[2]));
                 PieceColour temppiecepiecepiece;
                 temppiecepiecepiece.colour = System.Int32.Parse(tempColourDirection[0]);
                 temppiecepiecepiece.direction = System.Int32.Parse(tempColourDirection[1]);
