@@ -325,7 +325,6 @@ public class CurrentBoardHandler : MonoBehaviour
             {
                 Cb[piece.y, piece.x].spawnsPiece = true;
                 Cb[piece.y, piece.x].pieceColour = pc.colour;
-                //Debug.Log(pc.colour + " : " + piece.type + " : " + pc.direction);
                 Cb[piece.y, piece.x].pieceType = piece.type;
                 Cb[piece.y, piece.x].pieceDirection = pc.direction;
             }
